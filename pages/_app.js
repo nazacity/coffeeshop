@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ApolloProvider } from '@apollo/react-hooks';
 import apolloClient from '../apollo/apolloClient';
+import fetch from 'isomorphic-unfetch';
 
 // Framer-motion
 import { AnimatePresence } from 'framer-motion';
@@ -27,8 +28,9 @@ import NProgress from 'nprogress';
 import TopNavbar from '../components/layouts/TopNavbar';
 import cookie from 'cookie';
 import { SET_USER } from '../redux/types';
+import axios from 'axios';
 
-Router.events.on('routeChangeStart', (url) => {
+Router.events.on('routeChangeStart', url => {
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -55,14 +57,14 @@ Router.events.on('routeChangeError', () => NProgress.done());
 //       products {
 //         id
 //         name
-//         imageUrl
+//         pictureUrl
 //         price
 //       }
 //       carts {
 //         id
 //         product {
 //           name
-//           imageUrl
+//           pictureUrl
 //           price
 //         }
 //       }
@@ -126,11 +128,11 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
   //       });
   //   }
   // }, [router]);
-
+  console.log(user);
   useEffect(() => {
     store.dispatch({
       type: SET_USER,
-      payload: user ? user.user : null,
+      payload: user ? user : null
     });
   }, [user]);
 
@@ -200,12 +202,12 @@ const QUERY_USER = {
   query{
     user{
       id
-      lineId
       firstName
       lastName
       email
       phone
       pictureUrl
+      state
       address{
         id
         subdetail
@@ -216,23 +218,18 @@ const QUERY_USER = {
       }
       products{
         id
-                name
-          imageUrl
-          price
+        name
+        description
+        pictureUrl
+        createdAt
       }
       carts{
         id
-        product{
-          name
-          imageUrl
-          price
-        }
       }
-      state
       createdAt
     }
   }
-  `,
+  `
 };
 
 MyApp.getInitialProps = async ({ ctx, router }) => {
@@ -246,7 +243,7 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
 
   const accessToken = cookies && cookies.accessToken;
   if (!accessToken) {
-    if (router.pathname === '/user') {
+    if (router.pathname === '/user' || router.pathname === '/carts') {
       ctx.res.writeHead(302, { Location: '/signin' });
       ctx.res.end();
       return null;
@@ -261,22 +258,29 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
     }
   }
 
+  store.dispatch({ type: 'SET_USERLOADING', payload: true });
   const response = await fetch(
     'https://us-central1-coffeecafesho.cloudfunctions.net/graphql',
     {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${accessToken}` || '',
+        authorization: `${accessToken}` || ''
       },
-      body: JSON.stringify(QUERY_USER),
+      body: JSON.stringify(QUERY_USER)
     }
   );
+  // store.dispatch({ type: 'SET_USERLOADING', payload: true });
+  // const response = await axios.post(
+  //   'https://us-central1-coffeecafesho.cloudfunctions.net/firestore/signinwithaccesstoken',
+  //   { accessToken }
+  // );
   if (response.ok) {
+    store.dispatch({ type: 'SET_USERLOADING', payload: false });
     const result = await response.json();
-    return { user: result.data };
+    return { user: result.data.user };
   } else {
-    if (router.pathname === '/cart' || router.pathname === '/manageproduct') {
+    if (router.pathname === '/user' || router.pathname === '/carts') {
       ctx.res.writeHead(302, { Location: '/signin' });
       ctx.res.end();
       return null;

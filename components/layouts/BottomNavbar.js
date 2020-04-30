@@ -21,33 +21,33 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
     width: '100%',
-    bottom: 0,
+    bottom: 0
   },
   bottomnavroot: {
     padding: '6px 0px 8px',
     color: theme.common.color.white,
-    boxShadow: '0px 0px 5px 3px rgba(169,120,67,0.5);',
+    boxShadow: '0px 0px 5px 3px rgba(169,120,67,0.5);'
   },
   bottomnavbox: {
-    backgroundColor: theme.common.color.navColor,
+    backgroundColor: theme.common.color.navColor
   },
   userlogo: {
     width: '30px',
-    height: '30px',
+    height: '30px'
   },
   top: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.primary.dark
   },
   bottom: {
     color: theme.palette.primary.light,
     animationDuration: '550ms',
     position: 'absolute',
-    left: 0,
-  },
+    left: 0
+  }
 }));
 
 const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
@@ -58,23 +58,23 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
       name: 'Home',
       link: '/',
       selectedIndex: 0,
-      icon: <HomeIcon />,
+      icon: <HomeIcon />
     },
     {
       name: 'Product',
       link: '/product',
       selectedIndex: 1,
-      icon: <LocalCafeIcon />,
+      icon: <LocalCafeIcon />
     },
     {
       name: 'Cart',
       link: '/cart',
       selectedIndex: 2,
-      icon: <ShoppingCartIcon />,
+      icon: <ShoppingCartIcon />
     },
     {
-      name: user?.lineId ? 'User' : 'Sign In',
-      link: userLoading ? '' : user?.lineId ? '/user' : '/signin',
+      name: user?.state !== 'guess' ? 'User' : 'Sign In',
+      link: userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin',
       selectedIndex: 3,
       icon: userLoading ? (
         <div style={{ position: 'relative' }}>
@@ -101,8 +101,8 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
         />
       ) : (
         <AccountCircleIcon />
-      ),
-    },
+      )
+    }
   ];
 
   const handleChange = (event, activeIndex) => {
@@ -110,7 +110,7 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
   };
 
   const checkRoute = () => {
-    menuOptions.forEach((menu) => {
+    menuOptions.forEach(menu => {
       switch (window.location.pathname) {
         case `${menu.link}`:
           if (menuIndex !== menu.selectedIndex) {
@@ -129,7 +129,7 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
       animate={{ opacity: 1, y: '0%' }}
       transition={{
         duration: 1.2,
-        ease: [0.43, 0.13, 0.23, 0.96],
+        ease: [0.43, 0.13, 0.23, 0.96]
       }}
       className={classes.root}
       onAnimationStart={checkRoute}
@@ -140,7 +140,7 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
         onChange={handleChange}
         className={classes.bottomnavbox}
       >
-        {menuOptions.map((menu) => (
+        {menuOptions.map(menu => (
           <BottomNavigationAction
             component={Link}
             href={menu.link}
@@ -150,7 +150,7 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
             icon={menu.icon}
             classes={{
               root: classes.bottomnavroot,
-              selected: classes.selected,
+              selected: classes.selected
             }}
           />
         ))}
@@ -159,14 +159,14 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   menuIndex: state.layout.menuIndex,
   userLoading: state.layout.userLoading,
-  user: state.user,
+  user: state.user
 });
 
 const mapActionToProps = {
-  setMenuIndex,
+  setMenuIndex
 };
 
 export default connect(mapStateToProps, mapActionToProps)(BottomNavbar);

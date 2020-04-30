@@ -9,6 +9,7 @@ import withApollo from 'next-with-apollo';
 import cookie from 'cookie';
 
 const uri = 'https://us-central1-coffeecafesho.cloudfunctions.net/graphql';
+//const uri = 'http://localhost:5000/coffeecafesho/us-central1/graphql';
 
 const httpLink = createHttpLink({ uri, fetch });
 
@@ -29,8 +30,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: accessToken ? accessToken : '',
-    },
+      authorization: accessToken ? accessToken : ''
+    }
   };
 });
 
@@ -38,16 +39,16 @@ export default withApollo(
   ({ initialState }) => {
     return new ApolloClient({
       link: authLink.concat(httpLink),
-      cache: new InMemoryCache().restore(initialState || {}),
+      cache: new InMemoryCache().restore(initialState || {})
     });
-  },
-  {
-    render: ({ Page, props }) => {
-      return (
-        <ApolloProvider client={props.apollo}>
-          <Page {...props} />
-        </ApolloProvider>
-      );
-    },
   }
+  // {
+  //   render: ({ Page, props }) => {
+  //     return (
+  //       <ApolloProvider client={props.apollo}>
+  //         <Page {...props} />
+  //       </ApolloProvider>
+  //     );
+  //   }
+  // }
 );

@@ -34,7 +34,6 @@ const MUTATION_SIGNINWITHACCESSTOKEN = gql`
   mutation MUTATION_SIGNINWITHACCESSTOKEN($accessToken: String) {
     signinWithAccessToken(accessToken: $accessToken) {
       id
-      lineId
       firstName
       lastName
       email
@@ -51,14 +50,14 @@ const MUTATION_SIGNINWITHACCESSTOKEN = gql`
       products {
         id
         name
-        imageUrl
+        pictureUrl
         price
       }
       carts {
         id
         product {
           name
-          imageUrl
+          pictureUrl
           price
         }
       }
@@ -75,61 +74,79 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
       id: 1,
       imageUrl: './images/homepage/home1.jpg',
       title: 'พื้นที่',
-      subtitle: 'บรรยากาศสวยงาม',
+      subtitle: 'บรรยากาศสวยงาม'
     },
     {
       id: 2,
       imageUrl: './images/homepage/home2.jpg',
       title: 'เมนู',
-      subtitle: 'อาหารเลิศรส',
+      subtitle: 'อาหารเลิศรส'
     },
     {
       id: 3,
       imageUrl: './images/homepage/home3.jpg',
       title: 'กาแฟ',
-      subtitle: 'เครื่องดื่มกาแฟที่ไม่เหมือนใคร',
-    },
+      subtitle: 'เครื่องดื่มกาแฟที่ไม่เหมือนใคร'
+    }
   ];
 
   const [signinWithAccessToken, { loading, error }] = useMutation(
     MUTATION_SIGNINWITHACCESSTOKEN,
     {
-      onCompleted: (data) => {
+      onCompleted: data => {
+        console.log(data.signinWithAccessToken);
         setUser(data.signinWithAccessToken);
         setUserLoading(false);
-      },
+      }
     }
   );
 
   const router = useRouter();
   useEffect(() => {
     if (router.query.code) {
+      // axios
+      //   .post(
+      //     'https://api.line.me/oauth2/v2.1/token',
+      //     queryString.stringify({
+      //       grant_type: 'authorization_code',
+      //       code: router.query.code,
+      //       redirect_uri: 'https://coffeecafe.now.sh',
+      //       client_id: '1654152621',
+      //       client_secret: '088830d18fdc146db3e7cb7f249fca9f'
+      //     }),
+      //     {
+      //       headers: {
+      //         'Content-Type': 'application/x-www-form-urlencoded'
+      //       }
+      //     }
+      //   )
       axios
         .post(
           'https://api.line.me/oauth2/v2.1/token',
           queryString.stringify({
             grant_type: 'authorization_code',
             code: router.query.code,
-            redirect_uri: 'https://coffeecafe.now.sh',
-            client_id: '1654152621',
-            client_secret: '088830d18fdc146db3e7cb7f249fca9f',
+            redirect_uri: 'http://localhost:3000',
+            client_id: '1654159386',
+            client_secret: '4f7d57c4e61ea3f71574739a08023ebf'
           }),
           {
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           Cookies.set('accessToken', res.data.access_token);
+          console.log(res.data.access_token);
           setUserLoading(true);
           signinWithAccessToken({
             variables: {
-              accessToken: res.data.access_token,
-            },
+              accessToken: res.data.access_token
+            }
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     }
@@ -144,8 +161,8 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
       setUserLoading(true);
       signinWithAccessToken({
         variables: {
-          accessToken,
-        },
+          accessToken
+        }
       });
     }
   };
@@ -171,13 +188,13 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
+const mapStateToProps = state => ({
+  user: state.user
 });
 
 const mapActionToProps = {
   setUser,
-  setUserLoading,
+  setUserLoading
 };
 
 export default connect(mapStateToProps, mapActionToProps)(HomePage);

@@ -12,7 +12,7 @@ let INITIAL_STATE = {
   products: [],
   carts: [],
   state: 'guess',
-  createdAt: '',
+  createdAt: ''
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -21,7 +21,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       if (action.payload === null) {
         return state;
       }
-      return (state = action.payload);
+      return action.payload;
     default:
       return state;
   }
