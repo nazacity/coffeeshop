@@ -6,7 +6,6 @@ import { setUser } from '../redux/actions/userActions';
 import { setUserLoading } from '../redux/actions/layoutActions';
 
 // Next
-import Link from '../src/Link';
 import { useRouter } from 'next/router';
 
 // Apollo
@@ -94,7 +93,6 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
     MUTATION_SIGNINWITHACCESSTOKEN,
     {
       onCompleted: data => {
-        console.log(data.signinWithAccessToken);
         setUser(data.signinWithAccessToken);
         setUserLoading(false);
       }
@@ -138,7 +136,6 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
         )
         .then(res => {
           Cookies.set('accessToken', res.data.access_token);
-          console.log(res.data.access_token);
           setUserLoading(true);
           signinWithAccessToken({
             variables: {

@@ -28,51 +28,12 @@ import NProgress from 'nprogress';
 import TopNavbar from '../components/layouts/TopNavbar';
 import cookie from 'cookie';
 import { SET_USER } from '../redux/types';
-import axios from 'axios';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
-
-// const MUTATION_SIGNINWITHACCESSTOKEN = gql`
-//   mutation MUTATION_SIGNINWITHACCESSTOKEN($accessToken: String) {
-//     signinWithAccessToken(accessToken: $accessToken) {
-//       id
-//       lineId
-//       firstName
-//       lastName
-//       email
-//       phone
-//       pictureUrl
-//       address {
-//         id
-//         subdetail
-//         district
-//         city
-//         province
-//         zip
-//       }
-//       products {
-//         id
-//         name
-//         pictureUrl
-//         price
-//       }
-//       carts {
-//         id
-//         product {
-//           name
-//           pictureUrl
-//           price
-//         }
-//       }
-//       state
-//       createdAt
-//     }
-//   }
-// `;
 
 const MyApp = ({ Component, pageProps, apollo, user }) => {
   useEffect(() => {
@@ -83,72 +44,14 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
     }
   }, []);
 
-  // const [signinWithAccessToken, { loading, error }] = useMutation(
-  //   MUTATION_SIGNINWITHACCESSTOKEN,
-  //   {
-  //     onCompleted: (data) => {
-  //       console.log('data', data);
-  //       store.dispatch({
-  //         type: SET_USER,
-  //         payload: data,
-  //       });
-  //     },
-  //   }
-  // );
-
   const router = useRouter();
-  // useEffect(() => {
-  //   if (router.query.code) {
-  //     axios
-  //       .post(
-  //         'https://api.line.me/oauth2/v2.1/token',
-  //         queryString.stringify({
-  //           grant_type: 'authorization_code',
-  //           code: router.query.code,
-  //           redirect_uri: 'http://localhost:3000',
-  //           client_id: '1654152621',
-  //           client_secret: '088830d18fdc146db3e7cb7f249fca9f',
-  //         }),
-  //         {
-  //           headers: {
-  //             'Content-Type': 'application/x-www-form-urlencoded',
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         Cookies.set('accessToken', res.data.access_token);
-  //         // signinWithAccessToken({
-  //         //   variables: {
-  //         //     ...accessToken,
-  //         //   },
-  //         // });
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [router]);
-  console.log(user);
+
   useEffect(() => {
     store.dispatch({
       type: SET_USER,
       payload: user ? user : null
     });
   }, [user]);
-
-  // const handleLiff = async () => {
-  //   let accessToken;
-  //   await liff.init({ liffId: '1654152621-wnWBO620' });
-  //   accessToken = await liff.getAccessToken();
-  //   if (accessToken) {
-  //     Cookies.set('accessToken', accessToken);
-  //     signinWithAccessToken({
-  //       variables: {
-  //         ...accessToken,
-  //       },
-  //     });
-  //   }
-  // };
 
   return (
     <React.Fragment>
@@ -174,10 +77,6 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
           rel="stylesheet"
         ></link>
       </Head>
-      {/* <Script
-        url="https://static.line-scdn.net/liff/edge/2.1/sdk.js"
-        onLoad={() => handleLiff()}
-      /> */}
       <ApolloProvider client={apollo}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
@@ -258,34 +157,30 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
     }
   }
 
-  store.dispatch({ type: 'SET_USERLOADING', payload: true });
-  const response = await fetch(
-    'https://us-central1-coffeecafesho.cloudfunctions.net/graphql',
-    {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `${accessToken}` || ''
-      },
-      body: JSON.stringify(QUERY_USER)
-    }
-  );
-  // store.dispatch({ type: 'SET_USERLOADING', payload: true });
-  // const response = await axios.post(
-  //   'https://us-central1-coffeecafesho.cloudfunctions.net/firestore/signinwithaccesstoken',
-  //   { accessToken }
-  // );
-  if (response.ok) {
-    store.dispatch({ type: 'SET_USERLOADING', payload: false });
-    const result = await response.json();
-    return { user: result.data.user };
-  } else {
-    if (router.pathname === '/user' || router.pathname === '/carts') {
-      ctx.res.writeHead(302, { Location: '/signin' });
-      ctx.res.end();
+  if (accessToken) {
+    const response = await fetch(
+      'https://us-central1-coffeecafesho.cloudfunctions.net/graphql',
+      {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `${accessToken}` || ''
+        },
+        body: JSON.stringify(QUERY_USER)
+      }
+    );
+    if (response.ok) {
+      store.dispatch({ type: 'SET_USERLOADING', payload: false });
+      const result = await response.json();
+      return { user: result.data.user };
+    } else {
+      if (router.pathname === '/user' || router.pathname === '/carts') {
+        ctx.res.writeHead(302, { Location: '/signin' });
+        ctx.res.end();
+        return null;
+      }
       return null;
     }
-    return null;
   }
 };
 

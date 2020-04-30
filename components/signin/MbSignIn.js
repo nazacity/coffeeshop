@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
   loginbutton: {
     backgroundColor: '#00C300',
     border: 'none',
-    marginTop: '30px',
     textTransform: 'none',
     '&:hover': {
       backgroundColor: '#00E000'
@@ -57,7 +56,7 @@ const MbSignIn = () => {
         animate={{ opacity: 1, y: '0%' }}
         exit={{ opacity: 0, y: '-20%' }}
         transition={{ duration: 0.6, ease: 'easeInOut' }}
-        style={{ marginTop: '10%' }}
+        style={{ marginTop: '10%', marginBottom: '30px' }}
         className="nav-logo"
       >
         <Avatar
