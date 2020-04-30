@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MbHero = () => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <>

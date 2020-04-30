@@ -27,6 +27,9 @@ import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.common.color.navColor,
+  },
   list: {
     width: 250,
   },

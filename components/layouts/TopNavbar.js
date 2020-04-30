@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  navbar: {
+    backgroundColor: theme.common.color.navColor,
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -57,7 +60,7 @@ const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
         ease: [0.43, 0.13, 0.23, 0.96],
       }}
     >
-      <AppBar position="static" color="primary">
+      <AppBar position="static" classes={{ root: classes.navbar }}>
         <Toolbar>
           <IconButton
             edge="start"
