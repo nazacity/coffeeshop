@@ -3,6 +3,9 @@ import React from 'react';
 // Framer-motion
 import { motion } from 'framer-motion';
 
+// Components
+import MbRegister from './register/MbRegister';
+
 const MbUser = () => {
   return (
     <motion.div
@@ -11,10 +14,11 @@ const MbUser = () => {
       exit={{ opacity: 0 }}
       transition={{
         duration: 1.2,
-        ease: 'easeInOut',
+        ease: 'easeInOut'
       }}
+      style={{ padding: '20px' }}
     >
-      <h1>Mobile User page</h1>
+      <MbRegister />
     </motion.div>
   );
 };
