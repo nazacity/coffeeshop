@@ -38,8 +38,10 @@ const useStyles = makeStyles((theme) => ({
 const MbSignIn = () => {
   const classes = useStyles();
 
+  // const client_id = '1654159386';
+  // const redirect = 'http%3A%2F%2Flocalhost%3A3000';
   const client_id = process.env.LINE_CLIENT_KEY;
-  const redirect = process.env.LINE_REDIRECT_URI;
+  const redirect = process.env.LINE_REDIRECT_LINK;
   const scope = 'openid%20profile%20email';
   const state = 'coffeecafe';
   const lineloginlink = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=${state}&scope=${scope}`;

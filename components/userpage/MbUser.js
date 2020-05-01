@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 
 // Components
 import MbRegister from './register/MbRegister';
+import MbUserDetail from './detail/MbUserDetail';
 
 const MbUser = ({ user }) => {
   return (
@@ -20,7 +21,7 @@ const MbUser = ({ user }) => {
         ease: 'easeInOut',
       }}
     >
-      {user?.state === 'client0' ? <MbRegister /> : <h1>MB USER PAGE</h1>}
+      {user?.state === 'client0' ? <MbRegister /> : <MbUserDetail />}
     </motion.div>
   );
 };

@@ -66,7 +66,7 @@ const MbProducts = ({ beverageObject, foodObject, sweetObject }) => {
                     style={{
                       height: '200px',
                       width: '200px',
-                      backgroundImage: `url(${object.imageUrl})`,
+                      backgroundImage: `url(${object.pictureUrl})`,
                       backgroundSize: 'cover',
                     }}
                     variants={fadeInUp}
@@ -125,7 +125,7 @@ const MbProducts = ({ beverageObject, foodObject, sweetObject }) => {
                     style={{
                       height: '200px',
                       width: '200px',
-                      backgroundImage: `url(${object.imageUrl})`,
+                      backgroundImage: `url(${object.pictureUrl})`,
                       backgroundSize: 'cover',
                     }}
                     variants={fadeInUp}
@@ -184,7 +184,7 @@ const MbProducts = ({ beverageObject, foodObject, sweetObject }) => {
                     style={{
                       height: '200px',
                       width: '200px',
-                      backgroundImage: `url(${object.imageUrl})`,
+                      backgroundImage: `url(${object.pictureUrl})`,
                       backgroundSize: 'cover',
                     }}
                     variants={fadeInUp}

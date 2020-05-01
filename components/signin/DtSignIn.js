@@ -12,34 +12,34 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   logo: {
     width: '300px',
     height: '300px',
     margin: 'auto',
-    border: '10px solid #764d24'
+    border: '10px solid #764d24',
   },
   loginbutton: {
     backgroundColor: '#00C300',
     border: 'none',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor: '#00E000'
+      backgroundColor: '#00E000',
     },
     '&:focus': {
-      backgroundColor: '#00B300'
-    }
+      backgroundColor: '#00B300',
+    },
   },
   loginsubdetail: {
-    fontSize: '24px'
-  }
+    fontSize: '24px',
+  },
 }));
 
 const DtSignIn = () => {
   const classes = useStyles();
 
-  const client_id = '1654152621';
-  const redirect = 'https%3A%2F%2Fcoffeecafe.now.sh';
+  const client_id = process.env.LINE_CLIENT_KEY;
+  const redirect = process.env.LINE_REDIRECT_LINK;
   const scope = 'openid%20profile%20email';
   const state = 'coffeecafe';
   const lineloginlink = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=${state}&scope=${scope}`;

@@ -10,7 +10,7 @@ import MbUser from '../../components/userpage/MbUser';
 
 const UserPage = () => {
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth={false} style={{ padding: '0' }}>
       <Hidden smDown>
         <DtUser />
       </Hidden>
