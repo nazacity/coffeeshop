@@ -100,31 +100,15 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
   const router = useRouter();
   useEffect(() => {
     if (router.query.code) {
-      // axios
-      //   .post(
-      //     'https://api.line.me/oauth2/v2.1/token',
-      //     queryString.stringify({
-      //       grant_type: 'authorization_code',
-      //       code: router.query.code,
-      //       redirect_uri: 'https://coffeecafe.now.sh',
-      //       client_id: '1654152621',
-      //       client_secret: '088830d18fdc146db3e7cb7f249fca9f',
-      //     }),
-      //     {
-      //       headers: {
-      //         'Content-Type': 'application/x-www-form-urlencoded',
-      //       },
-      //     }
-      //   )
       axios
         .post(
           'https://api.line.me/oauth2/v2.1/token',
           queryString.stringify({
             grant_type: 'authorization_code',
             code: router.query.code,
-            redirect_uri: 'http://localhost:3000',
-            client_id: '1654159386',
-            client_secret: '4f7d57c4e61ea3f71574739a08023ebf',
+            redirect_uri: process.env.LINE_REDIRECT_URI,
+            client_id: process.env.LINE_CLIENT_KEY,
+            client_secret: process.env.LINE_SECRET_KEY,
           }),
           {
             headers: {

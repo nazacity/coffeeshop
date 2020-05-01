@@ -16,6 +16,7 @@
     "caniuse-lite": "^1.0.30001048",
     "clsx": "latest",
     "cookie": "^0.4.1",
+    "dotenv": "^8.2.0",
     "framer-motion": "^1.10.3",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",

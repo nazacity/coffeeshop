@@ -8,8 +8,7 @@ import withApollo from 'next-with-apollo';
 
 import cookie from 'cookie';
 
-// const uri = 'https://us-central1-coffeecafesho.cloudfunctions.net/graphql';
-const uri = 'http://localhost:5000/coffeecafesho/us-central1/graphql';
+const uri = process.env.APOLLO_URL;
 
 const httpLink = createHttpLink({ uri, fetch });
 
