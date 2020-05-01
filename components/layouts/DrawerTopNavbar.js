@@ -7,7 +7,7 @@ import Link from '../../src/Link';
 import { connect } from 'react-redux';
 import {
   setDrawerTopNavbar,
-  setMenuIndex
+  setMenuIndex,
 } from '../../redux/actions/layoutActions';
 
 import clsx from 'clsx';
@@ -26,25 +26,25 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.common.color.navColor
+    backgroundColor: theme.common.color.navColor,
   },
   list: {
-    width: 250
+    width: 250,
   },
   fullList: {
-    width: 'auto'
+    width: 'auto',
   },
   top: {
-    color: theme.palette.primary.dark
+    color: theme.palette.primary.dark,
   },
   bottom: {
     color: theme.palette.primary.light,
     animationDuration: '550ms',
     position: 'absolute',
-    left: 0
-  }
+    left: 0,
+  },
 }));
 
 const DrawerTopNavbar = ({
@@ -53,7 +53,7 @@ const DrawerTopNavbar = ({
   setMenuIndex,
   menuIndex,
   user,
-  userLoading
+  userLoading,
 }) => {
   const classes = useStyles();
 
@@ -62,22 +62,28 @@ const DrawerTopNavbar = ({
       name: 'Home',
       link: '/',
       selectedIndex: 0,
-      icon: <HomeIcon />
+      icon: <HomeIcon />,
     },
     {
       name: 'Product',
       link: '/product',
       selectedIndex: 1,
-      icon: <LocalCafeIcon />
+      icon: <LocalCafeIcon />,
     },
     {
       name: 'Cart',
       link: '/cart',
       selectedIndex: 2,
-      icon: <ShoppingCartIcon />
+      icon: <ShoppingCartIcon />,
     },
     {
-      name: user?.state !== 'guess' ? 'User' : 'Sign In',
+      name: userLoading
+        ? 'loading'
+        : user?.state !== 'guess'
+        ? user?.firstName !== ''
+          ? user.firstName.toUpperCase()
+          : 'User'
+        : 'Sign In',
       link: userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin',
       selectedIndex: 3,
       icon: userLoading ? (
@@ -105,12 +111,12 @@ const DrawerTopNavbar = ({
         />
       ) : (
         <AccountCircleIcon />
-      )
-    }
+      ),
+    },
   ];
 
   useEffect(() => {
-    menuOptions.forEach(menu => {
+    menuOptions.forEach((menu) => {
       switch (window.location.pathname) {
         case `${menu.link}`:
           if (menuIndex !== menu.selectedIndex) {
@@ -152,16 +158,16 @@ const DrawerTopNavbar = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   drawerTopNavbarOpen: state.layout.drawerTopNavbarOpen,
   menuIndex: state.layout.menuIndex,
   userLoading: state.layout.userLoading,
-  user: state.user
+  user: state.user,
 });
 
 const mapActionToProps = {
   setDrawerTopNavbar,
-  setMenuIndex
+  setMenuIndex,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(DrawerTopNavbar);

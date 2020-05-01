@@ -30,8 +30,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: accessToken ? accessToken : ''
-    }
+      authorization: accessToken ? accessToken : '',
+    },
   };
 });
 
@@ -39,7 +39,7 @@ export default withApollo(
   ({ initialState }) => {
     return new ApolloClient({
       link: authLink.concat(httpLink),
-      cache: new InMemoryCache().restore(initialState || {})
+      cache: new InMemoryCache().restore(initialState || {}),
     });
   }
   // {

@@ -108,12 +108,12 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
       //       code: router.query.code,
       //       redirect_uri: 'https://coffeecafe.now.sh',
       //       client_id: '1654152621',
-      //       client_secret: '088830d18fdc146db3e7cb7f249fca9f'
+      //       client_secret: '088830d18fdc146db3e7cb7f249fca9f',
       //     }),
       //     {
       //       headers: {
-      //         'Content-Type': 'application/x-www-form-urlencoded'
-      //       }
+      //         'Content-Type': 'application/x-www-form-urlencoded',
+      //       },
       //     }
       //   )
       axios

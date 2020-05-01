@@ -47,7 +47,6 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(user);
     store.dispatch({
       type: SET_USER,
       payload: user ? user : null,
@@ -159,7 +158,7 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
   }
 
   const uri = 'http://localhost:5000/coffeecafesho/us-central1/graphql';
-  //const uri = 'https://us-central1-coffeecafesho.cloudfunctions.net/graphql';
+  // const uri = 'https://us-central1-coffeecafesho.cloudfunctions.net/graphql';
   if (accessToken) {
     const response = await fetch(uri, {
       method: 'post',

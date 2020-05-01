@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 // Redux
 import { connect } from 'react-redux';
 import { setUser } from '../../../redux/actions/userActions';
+import { setMenuIndex } from '../../../redux/actions/layoutActions';
 
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
@@ -99,7 +100,7 @@ const MUTATION_REGISTER = gql`
   }
 `;
 
-const MbRegister = ({ setUser, user }) => {
+const MbRegister = ({ setUser, user, setMenuIndex }) => {
   const theme = useTheme();
   const classes = useStyles();
   const { control, handleSubmit, reset, errors } = useForm();
@@ -109,12 +110,12 @@ const MbRegister = ({ setUser, user }) => {
   const handleDialogClose = () => {
     setOpenDialog(false);
     Router.push('/');
+    setMenuIndex(0);
     setUser(userData);
   };
 
   const [resiter, { loading, error }] = useMutation(MUTATION_REGISTER, {
     onCompleted: (data) => {
-      //setUser(data.register);
       setUserData(data.register);
       reset(defaultValues);
       setOpenDialog(true);
@@ -122,11 +123,12 @@ const MbRegister = ({ setUser, user }) => {
   });
 
   const onSubmit = (data) => {
+    console.log(data.firstName.toLowerCase());
     resiter({
       variables: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
+        firstName: data.firstName.toLowerCase(),
+        lastName: data.lastName.toLowerCase(),
+        email: data.email.toLowerCase(),
         phone: data.phone,
         state: 'client1',
       },
@@ -358,6 +360,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionToProps = {
   setUser,
+  setMenuIndex,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(MbRegister);

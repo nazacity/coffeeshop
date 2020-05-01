@@ -12,27 +12,27 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   logo: {
     width: '150px',
     height: '150px',
     margin: 'auto',
-    border: '5px solid #764d24'
+    border: '5px solid #764d24',
   },
   loginbutton: {
     backgroundColor: '#00C300',
     border: 'none',
     textTransform: 'none',
     '&:hover': {
-      backgroundColor: '#00E000'
+      backgroundColor: '#00E000',
     },
     '&:focus': {
-      backgroundColor: '#00B300'
-    }
+      backgroundColor: '#00B300',
+    },
   },
   loginsubdetail: {
-    fontSize: '16px'
-  }
+    fontSize: '16px',
+  },
 }));
 
 const MbSignIn = () => {
