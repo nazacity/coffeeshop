@@ -180,6 +180,7 @@ const MbUserDetail = ({ user }) => {
             <h3 style={{ margin: 'auto' }}>จำนวน</h3>
             <h3 style={{ margin: 'auto' }}>ราคา</h3>
           </div>
+          <Divider style={{ width: '60%', margin: '20px auto' }} />
           {ORDER_HISTORY_DATA.map((orderHistory) => (
             <div key={orderHistory.id}>
               <div style={{ margin: 'auto' }}>
@@ -209,6 +210,7 @@ const MbUserDetail = ({ user }) => {
                   </p>
                 </div>
               ))}
+              <Divider style={{ width: '60%', margin: '20px auto' }} />
             </div>
           ))}
         </div>

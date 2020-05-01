@@ -1,9 +1,16 @@
 import React from 'react';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Framer-motion
 import { motion } from 'framer-motion';
 
-const DtUser = () => {
+// Components
+import DtRegister from './register/DtRegister';
+import DtUserDetail from './detail/DtUserDetail';
+
+const DtUser = ({ user }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -14,9 +21,13 @@ const DtUser = () => {
         ease: 'easeInOut',
       }}
     >
-      <h1>Desktop user page</h1>
+      {user?.state === 'client0' ? <DtRegister /> : <DtUserDetail />}
     </motion.div>
   );
 };
 
-export default DtUser;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(DtUser);
