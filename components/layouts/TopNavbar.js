@@ -24,28 +24,28 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // components
 import DrawerTopNavbar from './DrawerTopNavbar';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   navbar: {
-    backgroundColor: theme.common.color.navColor
+    backgroundColor: theme.common.color.navColor,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   top: {
-    color: theme.palette.secondary.dark
+    color: theme.palette.primary.dark,
   },
   bottom: {
-    color: theme.palette.secondary.light,
+    color: theme.palette.primary.light,
     animationDuration: '550ms',
     position: 'absolute',
-    left: 0
-  }
+    left: 0,
+  },
 }));
 
 const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
@@ -57,7 +57,7 @@ const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
       animate={{ opacity: 1, y: '0%' }}
       transition={{
         duration: 2,
-        ease: [0.43, 0.13, 0.23, 0.96]
+        ease: [0.43, 0.13, 0.23, 0.96],
       }}
     >
       <AppBar position="static" classes={{ root: classes.navbar }}>
@@ -121,13 +121,13 @@ const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userLoading: state.layout.userLoading,
-  user: state.user
+  user: state.user,
 });
 
 const mapActionToProps = {
-  setDrawerTopNavbar
+  setDrawerTopNavbar,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TopNavbar);

@@ -12,7 +12,6 @@ import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/react-hooks';
 
 // MUI
-import { useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -67,35 +66,34 @@ const MUTATION_SIGNINWITHACCESSTOKEN = gql`
 `;
 
 const HomePage = ({ setUser, user, setUserLoading }) => {
-  const theme = useTheme();
   const promoteObject = [
     {
       id: 1,
       imageUrl: './images/homepage/home1.jpg',
       title: 'พื้นที่',
-      subtitle: 'บรรยากาศสวยงาม'
+      subtitle: 'บรรยากาศสวยงาม',
     },
     {
       id: 2,
       imageUrl: './images/homepage/home2.jpg',
       title: 'เมนู',
-      subtitle: 'อาหารเลิศรส'
+      subtitle: 'อาหารเลิศรส',
     },
     {
       id: 3,
       imageUrl: './images/homepage/home3.jpg',
       title: 'กาแฟ',
-      subtitle: 'เครื่องดื่มกาแฟที่ไม่เหมือนใคร'
-    }
+      subtitle: 'เครื่องดื่มกาแฟที่ไม่เหมือนใคร',
+    },
   ];
 
   const [signinWithAccessToken, { loading, error }] = useMutation(
     MUTATION_SIGNINWITHACCESSTOKEN,
     {
-      onCompleted: data => {
+      onCompleted: (data) => {
         setUser(data.signinWithAccessToken);
         setUserLoading(false);
-      }
+      },
     }
   );
 
@@ -126,24 +124,24 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
             code: router.query.code,
             redirect_uri: 'http://localhost:3000',
             client_id: '1654159386',
-            client_secret: '4f7d57c4e61ea3f71574739a08023ebf'
+            client_secret: '4f7d57c4e61ea3f71574739a08023ebf',
           }),
           {
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           Cookies.set('accessToken', res.data.access_token);
           setUserLoading(true);
           signinWithAccessToken({
             variables: {
-              accessToken: res.data.access_token
-            }
+              accessToken: res.data.access_token,
+            },
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -158,8 +156,8 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
       setUserLoading(true);
       signinWithAccessToken({
         variables: {
-          accessToken
-        }
+          accessToken,
+        },
       });
     }
   };
@@ -185,13 +183,13 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user
+const mapStateToProps = (state) => ({
+  user: state.user,
 });
 
 const mapActionToProps = {
   setUser,
-  setUserLoading
+  setUserLoading,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(HomePage);
