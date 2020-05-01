@@ -22,6 +22,9 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
+// Other
+import moment from 'moment';
+
 const useStyles = makeStyles((theme) => ({
   userlogo: {
     margin: 'auto 10px',
@@ -64,7 +67,7 @@ const ORDER_HISTORY_DATA = [
   },
   {
     id: '2',
-    createdAt: { _seconds: 1588226407, _nanoseconds: 510000000 },
+    createdAt: { _seconds: 1588526407, _nanoseconds: 510000000 },
     orderList: [
       {
         price: 150,
@@ -179,7 +182,11 @@ const MbUserDetail = ({ user }) => {
           </div>
           {ORDER_HISTORY_DATA.map((orderHistory) => (
             <div key={orderHistory.id}>
-              <div style={{ margin: 'auto' }}>10/1/63</div>
+              <div style={{ margin: 'auto' }}>
+                {moment
+                  .unix(orderHistory.createdAt._seconds)
+                  .format('DD/MM/YYYY')}
+              </div>
               {orderHistory.orderList.map((order) => (
                 <div
                   style={{
