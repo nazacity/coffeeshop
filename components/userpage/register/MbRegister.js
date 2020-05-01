@@ -161,7 +161,7 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          borderRadius: '5px',
+          marginBottom: '10px',
         }}
       >
         <Typography
@@ -172,184 +172,191 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
           REGISTER
         </Typography>
       </div>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          as={TextField}
-          name="firstName"
-          control={control}
-          defaultValue=""
-          label="FIRST NAME"
-          variant="outlined"
-          rules={{
-            required: 'First Name is required',
-          }}
-          error={errors.firstName && true}
-          helperText={errors.firstName?.message}
-          fullWidth
-          size="small"
-          classes={{ root: classes.TextFieldRoot }}
-          disabled={loading}
-        />
-        <Controller
-          as={TextField}
-          name="lastName"
-          control={control}
-          defaultValue=""
-          label="LAST NAME"
-          variant="outlined"
-          rules={{
-            required: 'Last Name is required',
-          }}
-          error={errors.lastName && true}
-          helperText={errors.lastName?.message}
-          fullWidth
-          size="small"
-          classes={{ root: classes.TextFieldRoot }}
-          disabled={loading}
-        />
-        <Controller
-          as={TextField}
-          name="email"
-          control={control}
-          defaultValue=""
-          label="EMAIL"
-          variant="outlined"
-          rules={{
-            required: 'Email is required',
-            pattern: {
-              value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-              message: 'Please fill valid email',
-            },
-          }}
-          error={errors.email && true}
-          helperText={errors.email?.message}
-          fullWidth
-          size="small"
-          classes={{ root: classes.TextFieldRoot }}
-          disabled={loading}
-        />
-        <Controller
-          as={TextField}
-          name="phone"
-          control={control}
-          defaultValue=""
-          label="PHONE NUMBER"
-          variant="outlined"
-          rules={{
-            required: 'Phone Number is required',
-            minLength: { value: 10, message: 'Please fill valid phone number' },
-            maxLength: { value: 10, message: 'Please fill valid phone number' },
-          }}
-          error={errors.phone && true}
-          helperText={errors.phone?.message}
-          fullWidth
-          size="small"
-          classes={{ root: classes.TextFieldRoot }}
-          disabled={loading}
-        />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '30px',
-            marginBottom: '50px',
-          }}
-        >
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ marginRight: '2em' }}
-            disabled={loading}
-            classes={{ root: classes.buttonRoot, disabled: classes.disabled }}
-          >
-            Confirm
-            {loading && (
-              <div style={{ position: 'absolute', display: 'flex' }}>
-                <CircularProgress
-                  variant="determinate"
-                  value={100}
-                  className={classes.top}
-                  size={24}
-                  thickness={4}
-                />
-                <CircularProgress
-                  variant="indeterminate"
-                  disableShrink
-                  className={classes.bottom}
-                  size={24}
-                  thickness={4}
-                />
-              </div>
-            )}
-          </Button>
-          <Button
-            type="button"
-            onClick={() => {
-              reset(defaultValues);
-            }}
+      <div style={{ margin: 'auto', width: '90%', marginBottom: '100px' }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            as={TextField}
+            name="firstName"
+            control={control}
+            defaultValue=""
+            label="FIRST NAME"
             variant="outlined"
-            color="primary"
+            rules={{
+              required: 'First Name is required',
+            }}
+            error={errors.firstName && true}
+            helperText={errors.firstName?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
+            name="lastName"
+            control={control}
+            defaultValue=""
+            label="LAST NAME"
+            variant="outlined"
+            rules={{
+              required: 'Last Name is required',
+            }}
+            error={errors.lastName && true}
+            helperText={errors.lastName?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
+            name="email"
+            control={control}
+            defaultValue=""
+            label="EMAIL"
+            variant="outlined"
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                message: 'Please fill valid email',
+              },
+            }}
+            error={errors.email && true}
+            helperText={errors.email?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
+            name="phone"
+            control={control}
+            defaultValue=""
+            label="PHONE NUMBER"
+            variant="outlined"
+            rules={{
+              required: 'Phone Number is required',
+              minLength: {
+                value: 10,
+                message: 'Please fill valid phone number',
+              },
+              maxLength: {
+                value: 10,
+                message: 'Please fill valid phone number',
+              },
+            }}
+            error={errors.phone && true}
+            helperText={errors.phone?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '30px',
+              marginBottom: '50px',
+            }}
           >
-            Cancel
-          </Button>
-        </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            duration: 1,
-            ease: 'easeInOut',
-          }}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ marginRight: '2em' }}
+              disabled={loading}
+              classes={{ root: classes.buttonRoot, disabled: classes.disabled }}
+            >
+              Confirm
+              {loading && (
+                <div style={{ position: 'absolute', display: 'flex' }}>
+                  <CircularProgress
+                    variant="determinate"
+                    value={100}
+                    className={classes.top}
+                    size={24}
+                    thickness={4}
+                  />
+                  <CircularProgress
+                    variant="indeterminate"
+                    disableShrink
+                    className={classes.bottom}
+                    size={24}
+                    thickness={4}
+                  />
+                </div>
+              )}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                reset(defaultValues);
+              }}
+              variant="outlined"
+              color="primary"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: 1,
+          ease: 'easeInOut',
+        }}
+      >
+        <Dialog
+          open={openDialog}
+          onClose={handleDialogClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
-          <Dialog
-            open={openDialog}
-            onClose={handleDialogClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 1,
+              ease: 'easeInOut',
+            }}
           >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                duration: 1,
-                ease: 'easeInOut',
+            <DialogActions
+              style={{
+                displa: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <DialogActions
-                style={{
-                  displa: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
+              <Avatar
+                alt="user logo"
+                src={user?.pictureUrl}
+                className={classes.userlogo}
+              />
+              <div style={{ margin: '10px auto', overflow: 'hidden' }}>
+                <Typography variant="h5" align="center" color="primary">
+                  THANK YOU FOR REGISTER
+                </Typography>
+              </div>
+              <Button
+                type="button"
+                variant="outlined"
+                color="primary"
+                onClick={handleDialogClose}
               >
-                <Avatar
-                  alt="user logo"
-                  src={user?.pictureUrl}
-                  className={classes.userlogo}
-                />
-                <div style={{ margin: '10px auto', overflow: 'hidden' }}>
-                  <Typography variant="h5" align="center" color="primary">
-                    THANK YOU FOR REGISTER
-                  </Typography>
-                </div>
-                <Button
-                  type="button"
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleDialogClose}
-                >
-                  RETURN
-                </Button>
-              </DialogActions>
-            </motion.div>
-          </Dialog>
-        </motion.div>
-      </form>
+                RETURN
+              </Button>
+            </DialogActions>
+          </motion.div>
+        </Dialog>
+      </motion.div>
     </>
   );
 };

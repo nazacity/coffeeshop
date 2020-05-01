@@ -21,7 +21,7 @@ const MbUser = ({ user }) => {
         ease: 'easeInOut',
       }}
     >
-      {user?.state === 'client0' ? <MbRegister /> : <MbUserDetail />}
+      {user?.state === 'client0' ? <MbRegister /> : <MbRegister />}
     </motion.div>
   );
 };
