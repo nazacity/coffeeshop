@@ -1,5 +1,30 @@
 import gql from 'graphql-tag';
 
+export const QUERY_USER = gql`
+  query QUERY_USER {
+    user {
+      id
+      lineId
+      firstName
+      lastName
+      email
+      phone
+      pictureUrl
+      state
+      carts {
+        id
+        product {
+          id
+          name
+          pictureUrl
+          price
+        }
+        quantity
+      }
+    }
+  }
+`;
+
 export const QUERY_CATALOGS = gql`
   query QUERY_CATALOGS {
     catalogs {

@@ -28,6 +28,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
+import Badge from '@material-ui/core/Badge';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 // components
 import DrawerTopNavbar from './DrawerTopNavbar';
@@ -56,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     left: 0,
   },
+  badge: {
+    backgroundColor: 'red',
+  },
 }));
 
 const TopNavbar = () => {
@@ -64,6 +69,11 @@ const TopNavbar = () => {
   const userLoading = useSelector((state) => state.layout.userLoading);
   const action = useDispatch();
   const route = useRouter();
+
+  const cartQuantity = (carts) => {
+    const quantity = carts.reduce((sum, cart) => sum + cart.quantity, 0);
+    return quantity;
+  };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -106,22 +116,38 @@ const TopNavbar = () => {
             <Link href="/" className={classes.title}>
               <Typography variant="h6">Coffee Shop</Typography>
             </Link>
-
             <div>
+              {user?.state !== 'guess' && (
+                <Link href="/cart" style={{ marginRight: '2em' }}>
+                  <IconButton>
+                    <Badge
+                      badgeContent={cartQuantity(user.carts)}
+                      max={9}
+                      color="primary"
+                      classes={{ colorPrimary: classes.badge }}
+                    >
+                      <ShoppingCartIcon style={{ color: '#fff' }} />
+                    </Badge>
+                  </IconButton>
+                </Link>
+              )}
+
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
                 onClick={
-                  user.state === 'guess'
+                  user.state === 'guess' && userLoading === false
                     ? () => {
                         route.push('/signin');
                       }
-                    : user.state === 'client0'
+                    : user.state === 'client0' && userLoading === false
                     ? () => {
                         route.push('/user');
                       }
+                    : userLoading === true
+                    ? () => {}
                     : handleMenu
                 }
               >
@@ -185,7 +211,7 @@ const TopNavbar = () => {
           <MenuItem>
             <ListItemIcon>
               <Icon
-                className="fas fa-list-ul"
+                className="fas fa-smile-wink"
                 color="primary"
                 fontSize="small"
               />

@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 // Components
 import MotionSlider from './motionslider';
@@ -39,8 +40,18 @@ const fadeInUp = {
   },
 };
 
-const MbProducts = ({ catalog }) => {
+const MbProducts = ({ catalog, addToCart }) => {
   const classes = useStyles();
+
+  const handleAddToCart = async (id) => {
+    await addToCart({
+      variables: {
+        id: id,
+        quantity: 1,
+      },
+    });
+  };
+
   return (
     <>
       <div>
@@ -54,21 +65,21 @@ const MbProducts = ({ catalog }) => {
             </Typography>
             <MotionSlider padding={30} gap={30}>
               {catalog.data.map((object, i) => (
-                <Link
-                  href={`/product/[productId]`}
-                  as={`/product/${object.id}`}
-                  key={object.name}
+                <motion.div
+                  style={{
+                    border: '2px solid',
+                    borderColor: '#2b715d',
+                    borderRadius: '5px',
+                    overflow: 'hidden',
+                  }}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  key={object.id}
                 >
-                  <motion.div
-                    style={{
-                      border: '2px solid',
-                      borderColor: '#2b715d',
-                      borderRadius: '5px',
-                      overflow: 'hidden',
-                    }}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
+                  <Link
+                    href={`/product/[productId]`}
+                    as={`/product/${object.id}`}
                   >
                     <motion.div
                       style={{
@@ -84,38 +95,45 @@ const MbProducts = ({ catalog }) => {
                         delay: 0.4 * i,
                       }}
                     ></motion.div>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{
-                        opacity: 0,
-                        transition: {
-                          duration: 0.6,
-                        },
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        ease: 'easeIn',
-                        delay: 0.2 * i + 0.8,
-                      }}
-                    >
-                      <Typography
-                        align="center"
-                        variant="body1"
-                        color="primary"
-                      >
-                        {object.name}
-                      </Typography>
-                      <Typography
-                        align="center"
-                        variant="body1"
-                        color="primary"
-                      >
-                        {object.price} บาท
-                      </Typography>
-                    </motion.div>
+                  </Link>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{
+                      opacity: 0,
+                      transition: {
+                        duration: 0.6,
+                      },
+                    }}
+                    transition={{
+                      duration: 1.2,
+                      ease: 'easeIn',
+                      delay: 0.2 * i + 0.8,
+                    }}
+                  >
+                    <Typography align="center" variant="body1" color="primary">
+                      {object.name}
+                    </Typography>
+                    <Typography align="center" variant="body1" color="primary">
+                      {object.price} บาท
+                    </Typography>
                   </motion.div>
-                </Link>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      margin: '20px',
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => handleAddToCart(object.id)}
+                    >
+                      เพิ่มลงตะกร้า
+                    </Button>
+                  </div>
+                </motion.div>
               ))}
             </MotionSlider>
           </motion.div>

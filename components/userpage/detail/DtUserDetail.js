@@ -204,7 +204,7 @@ const DtUserDetail = ({ user }) => {
                       src={order.pictureUrl}
                       style={{ margin: 'auto' }}
                     />
-                    <p style={{ marginLeft: '1rem' }}>{order.name}</p>
+                    <p style={{ marginRight: '1rem' }}>{order.name}</p>
                     <p style={{ margin: 'auto' }}>{order.quantity}</p>
                     <p style={{ margin: 'auto' }}>
                       {order.price * order.quantity}

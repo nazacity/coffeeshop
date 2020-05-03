@@ -29,6 +29,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     left: 0,
   },
+  badge: {
+    backgroundColor: 'red',
+  },
 }));
 
 const BottomNavbar = () => {
@@ -66,6 +70,11 @@ const BottomNavbar = () => {
   const menuIndex = useSelector((state) => state.layout.menuIndex);
   const action = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const cartQuantity = (carts) => {
+    const quantity = carts.reduce((sum, cart) => sum + cart.quantity, 0);
+    return quantity;
+  };
 
   const userIcon = useRef();
 
@@ -97,45 +106,16 @@ const BottomNavbar = () => {
       name: 'Cart',
       link: '/cart',
       selectedIndex: 2,
-      icon: <ShoppingCartIcon />,
+      icon: (
+        <Badge
+          badgeContent={cartQuantity(user.carts)}
+          color="primary"
+          classes={{ colorPrimary: classes.badge }}
+        >
+          <ShoppingCartIcon />,
+        </Badge>
+      ),
     },
-    // {
-    //   name: userLoading
-    //     ? 'loading'
-    //     : user?.state !== 'guess'
-    //     ? user?.firstName !== ''
-    //       ? user.firstName.toUpperCase()
-    //       : 'User'
-    //     : 'Sign In',
-    //   link: userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin',
-    //   selectedIndex: 3,
-    //   icon: userLoading ? (
-    //     <div style={{ position: 'relative' }}>
-    //       <CircularProgress
-    //         variant="determinate"
-    //         value={100}
-    //         className={classes.top}
-    //         size={24}
-    //         thickness={4}
-    //       />
-    //       <CircularProgress
-    //         variant="indeterminate"
-    //         disableShrink
-    //         className={classes.bottom}
-    //         size={24}
-    //         thickness={4}
-    //       />
-    //     </div>
-    //   ) : user.state !== 'guess' ? (
-    //     <Avatar
-    //       alt="line logo"
-    //       src={user.pictureUrl}
-    //       className={classes.userlogo}
-    //     />
-    //   ) : (
-    //     <AccountCircleIcon />
-    //   ),
-    // },
   ];
 
   const handleChange = (event, activeIndex) => {
@@ -205,8 +185,6 @@ const BottomNavbar = () => {
           ))}
 
           <BottomNavigationAction
-            // component={Link}
-            // href={userLoading ? '' : user?.state !== 'guess' ? '' : '/signin'}
             label={
               userLoading
                 ? 'loading'
@@ -242,11 +220,11 @@ const BottomNavbar = () => {
                   className={classes.userlogo}
                   ref={userIcon}
                   onClick={
-                    user.state === 'guess'
+                    user.state === 'guess' && userLoading === false
                       ? () => {
                           route.push('/signin');
                         }
-                      : user.state === 'client0'
+                      : user.state === 'client0' && userLoading === false
                       ? () => {
                           route.push('/user');
                         }
@@ -262,14 +240,16 @@ const BottomNavbar = () => {
               selected: classes.selected,
             }}
             onClick={
-              user.state === 'guess'
+              user.state === 'guess' && userLoading === false
                 ? () => {
                     route.push('/signin');
                   }
-                : user.state === 'client0'
+                : user.state === 'client0' && userLoading === false
                 ? () => {
                     route.push('/user');
                   }
+                : userLoading === true
+                ? () => {}
                 : handleUserNavbarClick
             }
           />
@@ -302,7 +282,7 @@ const BottomNavbar = () => {
           <MenuItem>
             <ListItemIcon>
               <Icon
-                className="fas fa-list-ul"
+                className="fas fa-smile-wink"
                 color="primary"
                 fontSize="small"
               />

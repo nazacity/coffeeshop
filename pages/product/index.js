@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import { getData } from '../../db';
 
+// Apollo
+import { useMutation } from '@apollo/react-hooks';
+import { MUTATION_ADDTOCART } from '../../apollo/mutation';
+import { QUERY_USER } from '../../apollo/query';
+
 // Redux
 import { useDispatch } from 'react-redux';
-import { connect } from 'react-redux';
 import { setProducts } from '../../redux/actions/productActions';
+import { updateUserCart } from '../../redux/actions/userActions';
 
 // Apollo
 import { useQuery } from '@apollo/react-hooks';
@@ -20,6 +25,11 @@ import MbProducts from '../../components/productpage/MbProduct';
 
 const ProductPage = ({ products, catalog }) => {
   const action = useDispatch();
+  const [addToCart, { loading, error }] = useMutation(MUTATION_ADDTOCART, {
+    onCompleted: (data) => {
+      action(updateUserCart(data.addToCart));
+    },
+  });
   useEffect(() => {
     action(setProducts(products));
   }, [products]);
@@ -27,10 +37,10 @@ const ProductPage = ({ products, catalog }) => {
   return (
     <Container maxWidth={false}>
       <Hidden smDown>
-        <DtProducts catalog={catalog} />
+        <DtProducts catalog={catalog} addToCart={addToCart} />
       </Hidden>
       <Hidden mdUp>
-        <MbProducts catalog={catalog} />
+        <MbProducts catalog={catalog} addToCart={addToCart} />
       </Hidden>
     </Container>
   );

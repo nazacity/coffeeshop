@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 // Redux
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions/userActions';
 import { setUserLoading } from '../redux/actions/layoutActions';
 
@@ -29,7 +29,9 @@ import queryString from 'query-string';
 
 import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 
-const HomePage = ({ setUser, user, setUserLoading }) => {
+const HomePage = () => {
+  const user = useSelector((state) => state.user);
+  const action = useDispatch();
   const promoteObject = [
     {
       id: 1,
@@ -55,8 +57,8 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
     MUTATION_SIGNINWITHACCESSTOKEN,
     {
       onCompleted: (data) => {
-        setUser(data.signinWithAccessToken);
-        setUserLoading(false);
+        action(setUser(data.signinWithAccessToken));
+        action(setUserLoading(false));
       },
     }
   );
@@ -82,7 +84,7 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
         )
         .then((res) => {
           Cookies.set('accessToken', res.data.access_token);
-          setUserLoading(true);
+          action(setUserLoading(true));
           signinWithAccessToken({
             variables: {
               accessToken: res.data.access_token,
@@ -101,7 +103,7 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
     accessToken = await liff.getAccessToken();
     if (accessToken) {
       Cookies.set('accessToken', accessToken);
-      setUserLoading(true);
+      action(setUserLoading(true));
       signinWithAccessToken({
         variables: {
           accessToken,
@@ -131,13 +133,4 @@ const HomePage = ({ setUser, user, setUserLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-const mapActionToProps = {
-  setUser,
-  setUserLoading,
-};
-
-export default connect(mapStateToProps, mapActionToProps)(HomePage);
+export default HomePage;

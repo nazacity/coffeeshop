@@ -4,7 +4,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Redux
-import { connect } from 'react-redux';
+import { useSeletor } from 'react-redux';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -86,9 +86,10 @@ const ORDER_HISTORY_DATA = [
   },
 ];
 
-const MbUserDetail = ({ user }) => {
+const MbUserDetail = () => {
   const theme = useTheme();
   const classes = useStyles();
+  const user = useSeletor((state) => state.user);
 
   return (
     <>
@@ -203,7 +204,7 @@ const MbUserDetail = ({ user }) => {
                     src={order.pictureUrl}
                     style={{ margin: 'auto' }}
                   />
-                  <p style={{ marginLeft: '1rem' }}>{order.name}</p>
+                  <p style={{ marginRight: '1rem' }}>{order.name}</p>
                   <p style={{ margin: 'auto' }}>{order.quantity}</p>
                   <p style={{ margin: 'auto' }}>
                     {order.price * order.quantity}
@@ -219,8 +220,4 @@ const MbUserDetail = ({ user }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps)(MbUserDetail);
+export default MbUserDetail;

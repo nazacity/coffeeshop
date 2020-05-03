@@ -1,9 +1,48 @@
 import React from 'react';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Framer-motion
 import { motion } from 'framer-motion';
 
+// MUI
+import { makeStyles } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Divider from '@material-ui/core/Divider';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
+const useStyles = makeStyles((theme) => ({
+  userlogo: {
+    margin: 'auto 10px',
+    height: '150px',
+    width: '150px',
+    border: '5px solid',
+    borderColor: theme.common.color.navColor,
+  },
+  root: {
+    width: '100%',
+    marginBottom: '100px',
+    color: theme.palette.secondary.main,
+  },
+}));
+
 const DtCart = () => {
+  const theme = useTheme();
+  const classes = useStyles();
+  const user = useSelector((state) => state.user);
+
+  const calculateAmount = (carts) => {
+    const amount = carts.reduce(
+      (sum, cart) => sum + cart.quantity * cart.product.price,
+      0
+    );
+    return amount * 100;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -13,8 +52,98 @@ const DtCart = () => {
         duration: 1.2,
         ease: 'easeInOut',
       }}
+      className={classes.root}
     >
-      <h1>Desktop cart page</h1>
+      <div style={{ margin: '30px auto' }}>
+        <Typography variant="h2" align="center">
+          <ListItemIcon>
+            <ShoppingCartIcon style={{ fontSize: '50px' }} color="secondary" />
+          </ListItemIcon>
+          CART ITEM
+        </Typography>
+      </div>
+      <div style={{ maxWidth: '1280px', margin: 'auto', width: '80%' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr 1fr 1fr',
+            width: '100%',
+          }}
+        >
+          <h3 style={{ margin: 'auto' }}></h3>
+          <h3 style={{ margin: 'auto' }}>รายการ</h3>
+          <h3 style={{ margin: 'auto' }}>จำนวน</h3>
+          <h3 style={{ margin: 'auto' }}>ราคา</h3>
+        </div>
+        <Divider style={{ width: '60%', margin: '20px auto' }} />
+        {user.carts.map((cartItem) => (
+          <div key={cartItem.id}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                width: '100%',
+                color: theme.palette.secondary.main,
+              }}
+              key={cartItem.product.id}
+            >
+              <Avatar
+                alt={cartItem.product.name}
+                src={cartItem.product.pictureUrl}
+                style={{ margin: 'auto' }}
+              />
+              <p style={{ marginRight: '1rem' }}>{cartItem.product.name}</p>
+              <p style={{ margin: 'auto' }}>{cartItem.quantity}</p>
+              <p style={{ margin: 'auto' }}>
+                {cartItem.product.price * cartItem.quantity}
+              </p>
+            </div>
+            <Divider style={{ width: '60%', margin: '20px auto' }} />
+          </div>
+        ))}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr 1fr 1fr',
+            width: '100%',
+          }}
+        >
+          <h3 style={{ margin: 'auto' }}></h3>
+          <h3 style={{ marginRight: 'auto' }}>รวม</h3>
+          <h3 style={{ marginLeft: 'auto' }}>
+            {calculateAmount(user.carts) / 100}
+          </h3>
+          <h4 style={{ margin: 'auto' }}>บาท</h4>
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr 1fr 1fr',
+            width: '100%',
+          }}
+        >
+          <h4 style={{ margin: 'auto' }}></h4>
+          <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
+          <h4 style={{ marginLeft: 'auto' }}>
+            {((calculateAmount(user.carts) / 100) * 0.07).toFixed(2)}
+          </h4>
+          <h4 style={{ margin: 'auto' }}>บาท</h4>
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr 1fr 1fr',
+            width: '100%',
+          }}
+        >
+          <h3 style={{ margin: 'auto' }}></h3>
+          <h3 style={{ marginRight: 'auto' }}>สุทธิ</h3>
+          <h3 style={{ marginLeft: 'auto' }}>
+            {((calculateAmount(user.carts) / 100) * 1.07).toFixed(2)}
+          </h3>
+          <h4 style={{ margin: 'auto' }}>บาท</h4>
+        </div>
+      </div>
     </motion.div>
   );
 };
