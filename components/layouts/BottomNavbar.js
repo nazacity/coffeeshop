@@ -5,10 +5,11 @@ import { motion } from 'framer-motion';
 
 // Next
 import Link from '../../src/Link';
+import { useRouter } from 'next/router';
 
 // Redux
-import { connect } from 'react-redux';
 import { setMenuIndex } from '../../redux/actions/layoutActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,9 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
+const BottomNavbar = () => {
   const classes = useStyles();
-
+  const user = useSelector((state) => state.user);
+  const userLoading = useSelector((state) => state.layout.userLoading);
+  const menuIndex = useSelector((state) => state.layout.menuIndex);
+  const action = useDispatch();
   const menuOptions = [
     {
       name: 'Home',
@@ -112,16 +116,21 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
   ];
 
   const handleChange = (event, activeIndex) => {
-    setMenuIndex(activeIndex);
+    action(setMenuIndex(activeIndex));
   };
+
+  const route = useRouter();
 
   const checkRoute = () => {
     menuOptions.forEach((menu) => {
-      switch (window.location.pathname) {
+      switch (route.pathname) {
         case `${menu.link}`:
           if (menuIndex !== menu.selectedIndex) {
-            setMenuIndex(menu.selectedIndex);
+            action(setMenuIndex(menu.selectedIndex));
           }
+          break;
+        case `/product/[productId]`:
+          action(setMenuIndex(1));
           break;
         default:
           break;
@@ -165,14 +174,4 @@ const BottomNavbar = ({ setMenuIndex, menuIndex, user, userLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  menuIndex: state.layout.menuIndex,
-  userLoading: state.layout.userLoading,
-  user: state.user,
-});
-
-const mapActionToProps = {
-  setMenuIndex,
-};
-
-export default connect(mapStateToProps, mapActionToProps)(BottomNavbar);
+export default BottomNavbar;

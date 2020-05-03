@@ -1,145 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '@material-ui/core/Container';
+import { getData } from '../../db';
+
+// Redux
+import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { setProducts } from '../../redux/actions/productActions';
+
+// Apollo
+import { useQuery } from '@apollo/react-hooks';
+//import { QUERY_CATALOGS } from '../../apollo/query';
 
 // Components
 import DtProducts from '../../components/productpage/DtProducts';
 
 // MUI
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import MbProducts from '../../components/productpage/MbProduct';
 
-const ProductPage = () => {
-  const beverageObject = [
-    {
-      id: 1,
-      price: 120,
-      name: 'อเมริกาโน่ร้อน',
-      pictureUrl: './images/product/drink/1.png',
-    },
-    {
-      id: 2,
-      price: 140,
-      name: 'เอสเพสโซ่ร้อน',
-      pictureUrl: './images/product/drink/2.png',
-    },
-    {
-      id: 3,
-      price: 150,
-      name: 'ลาเต้เย็น',
-      pictureUrl: './images/product/drink/3.png',
-    },
-    {
-      id: 4,
-      price: 150,
-      name: 'มัทชะลาเต้เย็น',
-      pictureUrl: './images/product/drink/4.png',
-    },
-    {
-      id: 5,
-      price: '130',
-      name: 'อิตาเลียนโซดา ผลไม้รวม',
-      pictureUrl: './images/product/drink/5.png',
-    },
-    {
-      id: 6,
-      price: '130',
-      name: 'อิตลาเลียนโซดา บลูฮาวาย',
-      pictureUrl: './images/product/drink/6.png',
-    },
-  ];
-
-  const foodObject = [
-    {
-      id: 1,
-      price: 120,
-      name: 'เบอร์เกอร์เนื้อ',
-      pictureUrl: './images/product/food/1.png',
-    },
-    {
-      id: 2,
-      price: 140,
-      name: 'เบอร์เกอร์ชีทเนื้อ',
-      pictureUrl: './images/product/food/2.png',
-    },
-    {
-      id: 3,
-      price: 150,
-      name: 'แซนวิท',
-      pictureUrl: './images/product/food/3.png',
-    },
-    {
-      id: 4,
-      price: 150,
-      name: 'แซนวิท',
-      pictureUrl: './images/product/food/4.png',
-    },
-    {
-      id: 5,
-      price: '130',
-      name: 'พายแซนวิท',
-      pictureUrl: './images/product/food/5.png',
-    },
-    {
-      id: 6,
-      price: '130',
-      name: 'สเต็กปลา',
-      pictureUrl: './images/product/food/6.png',
-    },
-    {
-      id: 7,
-      price: '130',
-      name: 'สเต็กไก่',
-      pictureUrl: './images/product/food/7.png',
-    },
-  ];
-
-  const sweetObject = [
-    {
-      id: 1,
-      price: 150,
-      name: 'เค้กช๊อตโก้',
-      pictureUrl: './images/product/sweet/1.png',
-    },
-    {
-      id: 2,
-      price: 150,
-      name: 'เค้กช๊อตโรส',
-      pictureUrl: './images/product/sweet/2.png',
-    },
-    {
-      id: 3,
-      price: 150,
-      name: 'บิงซูสตอเบอร์รี่',
-      pictureUrl: './images/product/sweet/3.png',
-    },
-    {
-      id: 4,
-      price: 150,
-      name: 'บิงซูมะม่วง',
-      pictureUrl: './images/product/sweet/4.png',
-    },
-  ];
+const ProductPage = ({ products, catalog }) => {
+  const action = useDispatch();
+  useEffect(() => {
+    action(setProducts(products));
+  }, [products]);
 
   return (
     <Container maxWidth={false}>
       <Hidden smDown>
-        <DtProducts
-          beverageObject={beverageObject}
-          foodObject={foodObject}
-          sweetObject={sweetObject}
-        />
+        <DtProducts catalog={catalog} />
       </Hidden>
       <Hidden mdUp>
-        <MbProducts
-          beverageObject={beverageObject}
-          foodObject={foodObject}
-          sweetObject={sweetObject}
-        />
+        <MbProducts catalog={catalog} />
       </Hidden>
     </Container>
   );
+};
+
+const QUERY_PRODUCTS = {
+  query: `
+  query{
+    products{
+      id
+      name
+      description
+      price
+      pictureUrl
+      catalog
+    }
+  }
+  `,
+};
+
+const QUERY_CATALOGS = {
+  query: `
+  query{
+    catalogs {
+      name
+    }
+  }
+  `,
+};
+
+export const getStaticProps = async () => {
+  const resultProducts = await getData(QUERY_PRODUCTS);
+  const resultCatalogs = await getData(QUERY_CATALOGS);
+  let products = resultProducts.data.products;
+  let catalogs = resultCatalogs.data.catalogs;
+
+  let result = [];
+  catalogs.map((catalog, i) => {
+    result.push({
+      name: catalog.name,
+      data: products.filter((product) => product.catalog === catalog.name),
+    });
+  });
+  return { props: { products, catalog: result } };
 };
 
 export default ProductPage;

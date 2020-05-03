@@ -1,8 +1,37 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion, useAnimation } from 'framer-motion';
 import useDimensions from 'react-use-dimensions';
-import useWindowSize from '@rehooks/window-size';
+//import useWindowSize from '@rehooks/window-size';
+
+// Hook
+function useWindowSize() {
+  const isClient = typeof window === 'object';
+
+  function getSize() {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined,
+    };
+  }
+
+  const [windowSize, setWindowSize] = useState(getSize);
+
+  useEffect(() => {
+    if (!isClient) {
+      return false;
+    }
+
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  return windowSize;
+}
 
 import { Context } from './Context';
 
@@ -29,7 +58,7 @@ const Track = ({
   style,
 }) => {
   const [trackRef, trackDimensions] = useDimensions({ liveMeasure: false });
-  // const windowDimensions = useWindowSize();
+  const windowDimensions = useWindowSize();
   const controls = useAnimation();
 
   const { state, dispatch } = useContext(Context);
@@ -69,8 +98,7 @@ const Track = ({
         ? closestPosition
         : Math.max(
             closestPosition,
-            // windowDimensions.innerWidth -
-            0 -
+            windowDimensions.width -
               trackDimensions.width -
               // TODO: real track wrapper left/right offsets that should be live!
               (trackDimensions.x + trackDimensions.x)
@@ -95,8 +123,7 @@ const Track = ({
       dragConstraints={{
         left: allowSlideToLast
           ? lastItem + gap - trackDimensions.width
-          : // : windowDimensions.innerWidth -
-            0 -
+          : windowDimensions.width -
             trackDimensions.width -
             // TODO: real track wrapper left/right offsets that should be live!
             (trackDimensions.x + trackDimensions.x),

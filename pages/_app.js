@@ -106,24 +106,6 @@ const QUERY_USER = {
       email
       phone
       pictureUrl
-      address{
-        id
-        subdetail
-        district
-        city
-        province
-        zip
-      }
-      products{
-        id
-        name
-        description
-        pictureUrl
-        createdAt
-      }
-      carts{
-        id
-      }
       state
       createdAt
     }
@@ -157,7 +139,6 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
     }
   }
 
-  // const uri = 'http://localhost:5000/coffeecafesho/us-central1/graphql';
   const uri = process.env.APOLLO_URL;
   if (accessToken) {
     const response = await fetch(uri, {

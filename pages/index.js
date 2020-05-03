@@ -26,44 +26,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Script from 'react-load-script';
 import queryString from 'query-string';
-import gql from 'graphql-tag';
 
-const MUTATION_SIGNINWITHACCESSTOKEN = gql`
-  mutation MUTATION_SIGNINWITHACCESSTOKEN($accessToken: String) {
-    signinWithAccessToken(accessToken: $accessToken) {
-      id
-      firstName
-      lastName
-      email
-      phone
-      pictureUrl
-      address {
-        id
-        subdetail
-        district
-        city
-        province
-        zip
-      }
-      products {
-        id
-        name
-        pictureUrl
-        price
-      }
-      carts {
-        id
-        product {
-          name
-          pictureUrl
-          price
-        }
-      }
-      state
-      createdAt
-    }
-  }
-`;
+import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 
 const HomePage = ({ setUser, user, setUserLoading }) => {
   const promoteObject = [

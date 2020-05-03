@@ -7,7 +7,7 @@ import Link from '../../src/Link';
 import { motion } from 'framer-motion';
 
 // Redux
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setDrawerTopNavbar } from '../../redux/actions/layoutActions';
 
 // Mui
@@ -48,8 +48,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
+const TopNavbar = () => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user);
+  const userLoading = useSelector((state) => state.layout.userLoading);
+  const action = useDispatch();
 
   return (
     <motion.div
@@ -67,7 +70,7 @@ const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-            onClick={setDrawerTopNavbar}
+            onClick={() => action(setDrawerTopNavbar())}
           >
             <MenuIcon />
           </IconButton>
@@ -121,13 +124,4 @@ const TopNavbar = ({ setDrawerTopNavbar, user, userLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  userLoading: state.layout.userLoading,
-  user: state.user,
-});
-
-const mapActionToProps = {
-  setDrawerTopNavbar,
-};
-
-export default connect(mapStateToProps, mapActionToProps)(TopNavbar);
+export default TopNavbar;

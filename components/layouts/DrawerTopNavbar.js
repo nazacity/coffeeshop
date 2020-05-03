@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 
 // Next
 import Link from '../../src/Link';
+import { useRouter } from 'next/router';
 
 // Redux
-import { connect } from 'react-redux';
 import {
   setDrawerTopNavbar,
   setMenuIndex,
 } from '../../redux/actions/layoutActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,15 +48,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DrawerTopNavbar = ({
-  drawerTopNavbarOpen,
-  setDrawerTopNavbar,
-  setMenuIndex,
-  menuIndex,
-  user,
-  userLoading,
-}) => {
+const DrawerTopNavbar = () => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user);
+  const userLoading = useSelector((state) => state.layout.userLoading);
+  const menuIndex = useSelector((state) => state.layout.menuIndex);
+  const drawerTopNavbarOpen = useSelector(
+    (state) => state.layout.drawerTopNavbarOpen
+  );
+  const action = useDispatch();
 
   const menuOptions = [
     {
@@ -115,13 +116,18 @@ const DrawerTopNavbar = ({
     },
   ];
 
+  const route = useRouter();
+
   useEffect(() => {
     menuOptions.forEach((menu) => {
-      switch (window.location.pathname) {
+      switch (route.pathname) {
         case `${menu.link}`:
           if (menuIndex !== menu.selectedIndex) {
-            setMenuIndex(menu.selectedIndex);
+            action(setMenuIndex(menu.selectedIndex));
           }
+          break;
+        case `/product/[productId]`:
+          action(setMenuIndex(1));
           break;
         default:
           break;
@@ -133,7 +139,7 @@ const DrawerTopNavbar = ({
     <Drawer
       anchor="top"
       open={drawerTopNavbarOpen}
-      onClose={setDrawerTopNavbar}
+      onClose={() => action(setDrawerTopNavbar())}
     >
       <List>
         {menuOptions.map((menu, index) => (
@@ -144,8 +150,8 @@ const DrawerTopNavbar = ({
             href={menu.link}
             selected={menuIndex === menu.selectedIndex}
             onClick={() => {
-              setDrawerTopNavbar();
-              setMenuIndex(index);
+              action(setDrawerTopNavbar());
+              action(setMenuIndex(index));
             }}
           >
             <ListItemIcon>{menu.icon}</ListItemIcon>
@@ -158,16 +164,4 @@ const DrawerTopNavbar = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  drawerTopNavbarOpen: state.layout.drawerTopNavbarOpen,
-  menuIndex: state.layout.menuIndex,
-  userLoading: state.layout.userLoading,
-  user: state.user,
-});
-
-const mapActionToProps = {
-  setDrawerTopNavbar,
-  setMenuIndex,
-};
-
-export default connect(mapStateToProps, mapActionToProps)(DrawerTopNavbar);
+export default DrawerTopNavbar;
