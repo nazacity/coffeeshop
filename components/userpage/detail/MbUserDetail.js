@@ -4,7 +4,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Redux
-import { useSeletor } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -89,7 +89,7 @@ const ORDER_HISTORY_DATA = [
 const MbUserDetail = () => {
   const theme = useTheme();
   const classes = useStyles();
-  const user = useSeletor((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   return (
     <>

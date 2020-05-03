@@ -60,6 +60,7 @@ const QUERY_PRODUCTS = {
 export const getStaticPaths = async () => {
   const result = await getData(QUERY_PRODUCTS);
   const data = result.data.products;
+
   const paths = data.map((product) => ({
     params: { productId: product.id },
   }));
@@ -72,8 +73,8 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const result = await getData(QUERY_PRODUCTS);
   const data = result.data.products;
-  const product = data.find((data) => data.id == params.productId);
 
+  const product = data.find((data) => data.id == params.productId);
   return {
     props: { product, products: data },
   };

@@ -78,73 +78,91 @@ const MbCart = () => {
           <h3 style={{ margin: 'auto' }}>ราคา</h3>
         </div>
         <Divider style={{ width: '60%', margin: '20px auto' }} />
-        {user.carts.map((cartItem) => (
-          <div key={cartItem.id}>
+        {user.carts.length === 0 ? (
+          <div style={{ padding: '0 10px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr ',
+                width: '100%',
+              }}
+            >
+              <h5 style={{ margin: 'auto' }}>ไม่มีร้านการสินค้า</h5>
+            </div>
+          </div>
+        ) : (
+          user.carts.map((cartItem) => (
+            <div key={cartItem.id}>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                  width: '100%',
+                  color: theme.palette.secondary.main,
+                }}
+                key={cartItem.product.id}
+              >
+                <Avatar
+                  alt={cartItem.product.name}
+                  src={cartItem.product.pictureUrl}
+                  style={{ margin: 'auto' }}
+                />
+                <p style={{ marginRight: '1rem' }}>{cartItem.product.name}</p>
+                <p style={{ margin: 'auto' }}>{cartItem.quantity}</p>
+                <p style={{ margin: 'auto' }}>
+                  {cartItem.product.price * cartItem.quantity}
+                </p>
+              </div>
+              <Divider style={{ width: '60%', margin: '20px auto' }} />
+            </div>
+          ))
+        )}
+        {user.carts.length > 0 && (
+          <div>
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 2fr 1fr 1fr',
                 width: '100%',
-                color: theme.palette.secondary.main,
               }}
-              key={cartItem.product.id}
             >
-              <Avatar
-                alt={cartItem.product.name}
-                src={cartItem.product.pictureUrl}
-                style={{ margin: 'auto' }}
-              />
-              <p style={{ marginRight: '1rem' }}>{cartItem.product.name}</p>
-              <p style={{ margin: 'auto' }}>{cartItem.quantity}</p>
-              <p style={{ margin: 'auto' }}>
-                {cartItem.product.price * cartItem.quantity}
-              </p>
+              <h3 style={{ margin: 'auto' }}></h3>
+              <h3 style={{ marginRight: 'auto' }}>รวม</h3>
+              <h3 style={{ marginLeft: 'auto' }}>
+                {calculateAmount(user.carts) / 100}
+              </h3>
+              <h4 style={{ margin: 'auto' }}>บาท</h4>
             </div>
-            <Divider style={{ width: '60%', margin: '20px auto' }} />
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                width: '100%',
+              }}
+            >
+              <h4 style={{ margin: 'auto' }}></h4>
+              <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
+              <h4 style={{ marginLeft: 'auto' }}>
+                {((calculateAmount(user.carts) / 100) * 0.07).toFixed(2)}
+              </h4>
+              <h4 style={{ margin: 'auto' }}>บาท</h4>
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                width: '100%',
+              }}
+            >
+              <h3 style={{ margin: 'auto' }}></h3>
+              <h3 style={{ marginRight: 'auto' }}>สุทธิ</h3>
+              <h3 style={{ marginLeft: 'auto' }}>
+                {((calculateAmount(user.carts) / 100) * 1.07).toFixed(2)}
+              </h3>
+              <h4 style={{ margin: 'auto' }}>บาท</h4>
+            </div>
           </div>
-        ))}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 2fr 1fr 1fr',
-            width: '100%',
-          }}
-        >
-          <h3 style={{ margin: 'auto' }}></h3>
-          <h3 style={{ marginRight: 'auto' }}>รวม</h3>
-          <h3 style={{ marginLeft: 'auto' }}>
-            {calculateAmount(user.carts) / 100}
-          </h3>
-          <h4 style={{ margin: 'auto' }}>บาท</h4>
-        </div>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 2fr 1fr 1fr',
-            width: '100%',
-          }}
-        >
-          <h4 style={{ margin: 'auto' }}></h4>
-          <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
-          <h4 style={{ marginLeft: 'auto' }}>
-            {((calculateAmount(user.carts) / 100) * 0.07).toFixed(2)}
-          </h4>
-          <h4 style={{ margin: 'auto' }}>บาท</h4>
-        </div>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 2fr 1fr 1fr',
-            width: '100%',
-          }}
-        >
-          <h3 style={{ margin: 'auto' }}></h3>
-          <h3 style={{ marginRight: 'auto' }}>สุทธิ</h3>
-          <h3 style={{ marginLeft: 'auto' }}>
-            {((calculateAmount(user.carts) / 100) * 1.07).toFixed(2)}
-          </h3>
-          <h4 style={{ margin: 'auto' }}>บาท</h4>
-        </div>
+        )}
       </div>
     </motion.div>
   );
