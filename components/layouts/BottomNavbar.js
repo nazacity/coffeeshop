@@ -213,7 +213,7 @@ const BottomNavbar = () => {
                 : user?.state !== 'guess'
                 ? user?.firstName !== ''
                   ? user.firstName.toUpperCase()
-                  : 'User'
+                  : 'REGISTER'
                 : 'Sign In'
             }
             value={3}

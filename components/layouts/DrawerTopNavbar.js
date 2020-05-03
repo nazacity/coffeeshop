@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     left: 0,
   },
+  userlogo: {
+    width: '30px',
+    height: '30px',
+  },
 }));
 
 const DrawerTopNavbar = () => {
@@ -82,8 +86,8 @@ const DrawerTopNavbar = () => {
         ? 'loading'
         : user?.state !== 'guess'
         ? user?.firstName !== ''
-          ? user.firstName.toUpperCase()
-          : 'User'
+          ? 'USER INFORMATION'
+          : 'REGISTER'
         : 'Sign In',
       link: userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin',
       selectedIndex: 3,
