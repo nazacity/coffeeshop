@@ -129,6 +129,9 @@ const DrawerTopNavbar = () => {
         case `/product/[productId]`:
           action(setMenuIndex(1));
           break;
+        case `/signin`:
+          action(setMenuIndex(3));
+          break;
         default:
           break;
       }
