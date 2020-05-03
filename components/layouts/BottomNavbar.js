@@ -241,7 +241,17 @@ const BottomNavbar = () => {
                   src={user.pictureUrl}
                   className={classes.userlogo}
                   ref={userIcon}
-                  onClick={handleMenu}
+                  onClick={
+                    user.state === 'guess'
+                      ? () => {
+                          route.push('/signin');
+                        }
+                      : user.state === 'client0'
+                      ? () => {
+                          route.push('/user');
+                        }
+                      : handleMenu
+                  }
                 />
               ) : (
                 <AccountCircleIcon />
@@ -252,11 +262,15 @@ const BottomNavbar = () => {
               selected: classes.selected,
             }}
             onClick={
-              user.state !== 'guess'
-                ? handleUserNavbarClick
-                : () => {
+              user.state === 'guess'
+                ? () => {
                     route.push('/signin');
                   }
+                : user.state === 'client0'
+                ? () => {
+                    route.push('/user');
+                  }
+                : handleUserNavbarClick
             }
           />
         </BottomNavigation>

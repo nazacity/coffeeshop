@@ -114,11 +114,15 @@ const TopNavbar = () => {
                 aria-haspopup="true"
                 color="inherit"
                 onClick={
-                  user?.state !== 'guess'
-                    ? handleMenu
-                    : () => {
+                  user.state === 'guess'
+                    ? () => {
                         route.push('/signin');
                       }
+                    : user.state === 'client0'
+                    ? () => {
+                        route.push('/user');
+                      }
+                    : handleMenu
                 }
               >
                 {userLoading ? (
