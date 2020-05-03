@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 // Redux
 import { setMenuIndex } from '../../redux/actions/layoutActions';
 import { useSelector, useDispatch } from 'react-redux';
+import { userSignOut } from '../../redux/actions/userActions';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -204,10 +205,8 @@ const BottomNavbar = () => {
           ))}
 
           <BottomNavigationAction
-            // component={Link}
-            // href={
-            //   userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin'
-            // }
+            component={Link}
+            href={userLoading ? '' : user?.state !== 'guess' ? '' : '/signin'}
             label={
               userLoading
                 ? 'loading'
@@ -252,7 +251,7 @@ const BottomNavbar = () => {
               root: classes.bottomnavroot,
               selected: classes.selected,
             }}
-            onClick={handleUserNavbarClick}
+            onClick={user.state !== 'guess' && handleUserNavbarClick}
           />
         </BottomNavigation>
         <Menu
@@ -289,11 +288,16 @@ const BottomNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              ORDER HISTORY
+              PROMOTION
             </Typography>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              action(userSignOut());
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <Icon
                 className="fas fa-sign-out-alt"

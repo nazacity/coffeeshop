@@ -39,7 +39,7 @@ const DtHero = () => {
       <motion.div
         style={{
           height: '50vh',
-          width: '100vw',
+          width: '100%',
           position: 'absolute',
           overflow: 'hidden',
           zIndex: -1,

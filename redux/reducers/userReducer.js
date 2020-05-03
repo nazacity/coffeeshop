@@ -1,4 +1,4 @@
-import { SET_USER } from '../types';
+import { SET_USER, SET_USER_SIGNOUT } from '../types';
 
 let INITIAL_STATE = {
   id: 'guess',
@@ -21,6 +21,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
         return state;
       }
       return { ...state, ...action.payload };
+    case SET_USER_SIGNOUT:
+      return { ...INITIAL_STATE };
     default:
       return state;
   }

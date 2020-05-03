@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { setDrawerTopNavbar } from '../../redux/actions/layoutActions';
+import { userSignOut } from '../../redux/actions/userActions';
 
 // Mui
 import { makeStyles } from '@material-ui/core/styles';
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: theme.common.color.white,
   },
   top: {
     color: theme.palette.primary.dark,
@@ -98,9 +100,9 @@ const TopNavbar = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Coffee Shop
-            </Typography>
+            <Link href="/" className={classes.title}>
+              <Typography variant="h6">Coffee Shop</Typography>
+            </Link>
 
             <div>
               <IconButton
@@ -108,11 +110,11 @@ const TopNavbar = () => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
-                // component={Link}
-                // href={
-                //   userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin'
-                // }
-                onClick={handleMenu}
+                component={Link}
+                href={
+                  userLoading ? '' : user?.state !== 'guess' ? '' : '/signin'
+                }
+                onClick={user?.state !== 'guess' && handleMenu}
               >
                 {userLoading ? (
                   <div style={{ position: 'relative' }}>
@@ -180,11 +182,16 @@ const TopNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              ORDER HISTORY
+              PROMOTION
             </Typography>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              action(userSignOut());
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <Icon
                 className="fas fa-sign-out-alt"

@@ -45,7 +45,13 @@ const DtPromote = ({ promoteObject }) => {
           alignItems: 'center',
         }}
       >
-        <div style={{ display: 'flex' }}>
+        <div
+          style={{
+            display: 'flex',
+            maxWidth: '1000px',
+            margin: 'auto',
+          }}
+        >
           <motion.img
             src="./images/homepage/home1.png"
             alt="coffee cafe"
@@ -71,6 +77,8 @@ const DtPromote = ({ promoteObject }) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              maxWidth: '800px',
+              width: '80%',
             }}
             initial={{ opacity: 0, y: '20%' }}
             animate={{ opacity: 1, y: '0%' }}
