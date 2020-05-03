@@ -3,6 +3,7 @@ import React from 'react';
 // Next
 import Link from '../../src/Link';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -30,6 +31,7 @@ import Divider from '@material-ui/core/Divider';
 
 // components
 import DrawerTopNavbar from './DrawerTopNavbar';
+import { route } from 'next/dist/next-server/server/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +63,7 @@ const TopNavbar = () => {
   const user = useSelector((state) => state.user);
   const userLoading = useSelector((state) => state.layout.userLoading);
   const action = useDispatch();
+  const route = useRouter();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -110,11 +113,13 @@ const TopNavbar = () => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
-                component={Link}
-                href={
-                  userLoading ? '' : user?.state !== 'guess' ? '' : '/signin'
+                onClick={
+                  user?.state !== 'guess'
+                    ? handleMenu
+                    : () => {
+                        route.push('/signin');
+                      }
                 }
-                onClick={user?.state !== 'guess' && handleMenu}
               >
                 {userLoading ? (
                   <div style={{ position: 'relative' }}>

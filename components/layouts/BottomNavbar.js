@@ -205,8 +205,8 @@ const BottomNavbar = () => {
           ))}
 
           <BottomNavigationAction
-            component={Link}
-            href={userLoading ? '' : user?.state !== 'guess' ? '' : '/signin'}
+            // component={Link}
+            // href={userLoading ? '' : user?.state !== 'guess' ? '' : '/signin'}
             label={
               userLoading
                 ? 'loading'
@@ -251,7 +251,13 @@ const BottomNavbar = () => {
               root: classes.bottomnavroot,
               selected: classes.selected,
             }}
-            onClick={user.state !== 'guess' && handleUserNavbarClick}
+            onClick={
+              user.state !== 'guess'
+                ? handleUserNavbarClick
+                : () => {
+                    route.push('/signin');
+                  }
+            }
           />
         </BottomNavigation>
         <Menu
