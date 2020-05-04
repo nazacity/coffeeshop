@@ -43,7 +43,6 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
-
   const router = useRouter();
 
   useEffect(() => {

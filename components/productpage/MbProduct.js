@@ -1,7 +1,11 @@
 import React from 'react';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Next
 import Link from '../../src/Link';
+import route from 'next/router';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -42,6 +46,7 @@ const fadeInUp = {
 
 const MbProducts = ({ catalog, addToCart }) => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user);
 
   const handleAddToCart = async (id) => {
     await addToCart({
@@ -128,7 +133,13 @@ const MbProducts = ({ catalog, addToCart }) => {
                     <Button
                       variant="outlined"
                       color="secondary"
-                      onClick={() => handleAddToCart(object.id)}
+                      onClick={() => {
+                        if (user.state === 'guess') {
+                          route.push('/signin');
+                        } else {
+                          handleAddToCart(object.id);
+                        }
+                      }}
                     >
                       เพิ่มลงตะกร้า
                     </Button>

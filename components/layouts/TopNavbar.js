@@ -30,6 +30,7 @@ import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
 import Badge from '@material-ui/core/Badge';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 
 // components
 import DrawerTopNavbar from './DrawerTopNavbar';
@@ -117,12 +118,16 @@ const TopNavbar = () => {
               <Typography variant="h6">Coffee Shop</Typography>
             </Link>
             <div>
+              <Link href="/product" style={{ marginRight: '2em' }}>
+                <IconButton>
+                  <LocalCafeIcon style={{ color: '#fff' }} />
+                </IconButton>
+              </Link>
               {user?.state !== 'guess' && (
                 <Link href="/cart" style={{ marginRight: '2em' }}>
                   <IconButton>
                     <Badge
                       badgeContent={cartQuantity(user.carts)}
-                      max={9}
                       color="primary"
                       classes={{ colorPrimary: classes.badge }}
                     >
@@ -131,7 +136,6 @@ const TopNavbar = () => {
                   </IconButton>
                 </Link>
               )}
-
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
