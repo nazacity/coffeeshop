@@ -1,4 +1,9 @@
-import { SET_USER, SET_USER_SIGNOUT, SET_USER_CART } from '../types';
+import {
+  SET_USER,
+  SET_USER_SIGNOUT,
+  SET_USER_CART,
+  DELETE_USER_CART,
+} from '../types';
 
 let INITIAL_STATE = {
   id: 'guess',
@@ -32,6 +37,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
         return { ...state };
       }
       return { ...state, carts: [...state.carts, action.payload] };
+    case DELETE_USER_CART:
+      let carts = state.carts.filter(
+        (cartItem) => cartItem.id !== action.payload
+      );
+      console.log('reducer id run', action.payload);
+      console.log('reducer run', carts);
+      return { ...state, carts };
     default:
       return state;
   }

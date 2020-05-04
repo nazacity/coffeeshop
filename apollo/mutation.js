@@ -41,3 +41,11 @@ export const MUTATION_ADDTOCART = gql`
     }
   }
 `;
+
+export const MUTATION_DELETECART = gql`
+  mutation MUTATION_DELETECART($id: ID!) {
+    deleteCart(id: $id) {
+      id
+    }
+  }
+`;

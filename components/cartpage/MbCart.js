@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -16,6 +16,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
+// Components
+import SwipeableListItem from './SwipeableList/SwipeableListItem';
+import SwipeableList from './SwipeableList/SwipeableList';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -78,6 +82,7 @@ const MbCart = () => {
           <h3 style={{ margin: 'auto' }}>ราคา</h3>
         </div>
         <Divider style={{ width: '60%', margin: '20px auto' }} />
+
         {user.carts.length === 0 ? (
           <div style={{ padding: '0 10px' }}>
             <div
@@ -91,31 +96,32 @@ const MbCart = () => {
             </div>
           </div>
         ) : (
-          user.carts.map((cartItem) => (
-            <div key={cartItem.id}>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 2fr 1fr 1fr',
-                  width: '100%',
-                  color: theme.palette.secondary.main,
-                }}
-                key={cartItem.product.id}
-              >
-                <Avatar
-                  alt={cartItem.product.name}
-                  src={cartItem.product.pictureUrl}
-                  style={{ margin: 'auto' }}
-                />
-                <p style={{ marginRight: '1rem' }}>{cartItem.product.name}</p>
-                <p style={{ margin: 'auto' }}>{cartItem.quantity}</p>
-                <p style={{ margin: 'auto' }}>
-                  {cartItem.product.price * cartItem.quantity}
-                </p>
-              </div>
-              <Divider style={{ width: '60%', margin: '20px auto' }} />
-            </div>
-          ))
+          <SwipeableList>
+            {user.carts.map((cartItem) => (
+              <SwipeableListItem key={cartItem.id} cartItemId={cartItem.id}>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                    width: '100%',
+                    color: theme.palette.secondary.main,
+                  }}
+                  key={cartItem.product.id}
+                >
+                  <Avatar
+                    alt={cartItem.product.name}
+                    src={cartItem.product.pictureUrl}
+                    style={{ margin: 'auto' }}
+                  />
+                  <p style={{ marginRight: '1rem' }}>{cartItem.product.name}</p>
+                  <p style={{ margin: 'auto' }}>{cartItem.quantity}</p>
+                  <p style={{ margin: 'auto' }}>
+                    {cartItem.product.price * cartItem.quantity}
+                  </p>
+                </div>
+              </SwipeableListItem>
+            ))}
+          </SwipeableList>
         )}
         {user.carts.length > 0 && (
           <div>
