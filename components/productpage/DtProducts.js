@@ -1,22 +1,15 @@
 import React from 'react';
 
-// Redux
-import { useSelector } from 'react-redux';
-
-// Next
-import Link from '../../src/Link';
-import route from 'next/router';
-
 // Framer-motion
 import { motion } from 'framer-motion';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 // Components
 import MotionSlider from './motionslider';
+import ProductMenuItem from './ProductMenuItem';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -25,37 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const fadeInUp = {
-  initial: {
-    y: 60,
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-  },
-  exit: {
-    y: -60,
-    opacity: 0,
-    transition: {
-      duration: 1.2,
-      ease: 'easeInOut',
-    },
-  },
-};
-
 const DtProducts = ({ catalog, addToCart }) => {
   const classes = useStyles();
-  const user = useSelector((state) => state.user);
-
-  const handleAddToCart = async (id) => {
-    await addToCart({
-      variables: {
-        id: id,
-        quantity: 1,
-      },
-    });
-  };
 
   return (
     <>
@@ -70,81 +34,7 @@ const DtProducts = ({ catalog, addToCart }) => {
             </Typography>
             <MotionSlider padding={30} gap={30}>
               {catalog.data.map((object, i) => (
-                <motion.div
-                  style={{
-                    border: '2px solid',
-                    borderColor: '#2b715d',
-                    borderRadius: '5px',
-                    overflow: 'hidden',
-                  }}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                >
-                  <Link
-                    href={`/product/[productId]`}
-                    as={`/product/${object.id}`}
-                    key={object.name}
-                  >
-                    <motion.div
-                      style={{
-                        height: '200px',
-                        width: '200px',
-                        backgroundImage: `url(${object.pictureUrl})`,
-                        backgroundSize: 'cover',
-                      }}
-                      variants={fadeInUp}
-                      transition={{
-                        duration: 0.9,
-                        ease: 'easeInOut',
-                        delay: 0.4 * i,
-                      }}
-                    ></motion.div>
-                  </Link>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{
-                      opacity: 0,
-                      transition: {
-                        duration: 0.6,
-                      },
-                    }}
-                    transition={{
-                      duration: 1.2,
-                      ease: 'easeIn',
-                      delay: 0.2 * i + 0.8,
-                    }}
-                  >
-                    <Typography align="center" variant="body1" color="primary">
-                      {object.name}
-                    </Typography>
-                    <Typography align="center" variant="body1" color="primary">
-                      {object.price} บาท
-                    </Typography>
-                  </motion.div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      margin: '20px',
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => {
-                        if (user.state === 'guess') {
-                          route.push('/signin');
-                        } else {
-                          handleAddToCart(object.id);
-                        }
-                      }}
-                    >
-                      เพิ่มลงตะกร้า
-                    </Button>
-                  </div>
-                </motion.div>
+                <ProductMenuItem object={object} i={i} key={object.id} />
               ))}
             </MotionSlider>
           </motion.div>

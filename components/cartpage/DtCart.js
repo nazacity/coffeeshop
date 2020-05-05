@@ -5,8 +5,6 @@ import Head from 'next/head';
 
 // Redux
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { deleteUserCart } from '../../redux/actions/userActions';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -14,25 +12,14 @@ import { motion } from 'framer-motion';
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Divider from '@material-ui/core/Divider';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 
-// Apollo
-import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_DELETECART } from '../../apollo/mutation';
-
 // Components
-// import SwipeableListItem from './SwipeableList/SwipeableListItem';
-// import SwipeableList from './SwipeableList/SwipeableList';
-import {
-  SwipeableList,
-  SwipeableListItem,
-  ActionAnimations,
-} from '@sandstreamdev/react-swipeable-list';
+import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
+import CartItemList from './CartItemList';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -61,28 +48,6 @@ const DtCart = () => {
       0
     );
     return amount * 100;
-  };
-
-  const action = useDispatch();
-  const [deleteCart, { loading, error }] = useMutation(MUTATION_DELETECART, {
-    onCompleted: (data) => {
-      console.log(data.deleteCart.id);
-      action(deleteUserCart(data.deleteCart.id));
-      //route.reload();
-    },
-  });
-
-  const handleDelete = async (cartItemId) => {
-    console.log(cartItemId);
-    try {
-      await deleteCart({
-        variables: {
-          id: cartItemId,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -115,7 +80,7 @@ const DtCart = () => {
             CART ITEM
           </Typography>
           <Typography variant="h5" align="center">
-            เลื่อนสินค้าไปทางขวาเพื่อลบ
+            เลื่อนสินค้าไปทางซ้ายเพื่อลบ
           </Typography>
         </div>
 
@@ -155,76 +120,13 @@ const DtCart = () => {
               }}
               threshold={0.2}
             >
-              {user.carts.map((cartItem, i) => (
-                <SwipeableListItem
-                  swipeLeft={{
-                    content: (
-                      <div
-                        style={{
-                          backgroundColor: '#c21414',
-                          width: '80%',
-                          marginRight: '5%',
-                          display: 'flex',
-                          justifyContent: 'flex-end',
-                        }}
-                      >
-                        <ListItemIcon>
-                          <DeleteIcon style={{ color: '#fff' }} />
-                        </ListItemIcon>
-                      </div>
-                    ),
-                    action: () => handleDelete(cartItem.id),
-                    actionAnimation: ActionAnimations.REMOVE,
-                  }}
+              {user.carts.map((cartItem, index) => (
+                <CartItemList
                   key={cartItem.id}
-                  cartItemId={cartItem.id}
-                  style={{
-                    position: 'relative',
-                    transition: 'max-height 0.5s ease',
-                    maxHeight: '1000px',
-                    transformOrigin: 'top',
-                    width: '100%',
-                  }}
-                >
-                  <motion.div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 2fr 1fr 1fr',
-                      width: '100%',
-                      color: theme.palette.secondary.main,
-                    }}
-                    key={cartItem.product.id}
-                    initial={{ x: '-30%', opacity: 0 }}
-                    animate={{ x: '0%', opacity: 1 }}
-                    exit={{
-                      x: '30%',
-                      opacity: 0,
-                      transition: {
-                        duration: 1,
-                        ease: 'easeIn',
-                        delay: (user.carts.length - i) * 0.2,
-                      },
-                    }}
-                    transition={{
-                      duration: 1,
-                      ease: 'easeOut',
-                      delay: 0.2 * i,
-                    }}
-                  >
-                    <Avatar
-                      alt={cartItem.product.name}
-                      src={cartItem.product.pictureUrl}
-                      style={{ margin: 'auto' }}
-                    />
-                    <p style={{ marginRight: '1rem' }}>
-                      {cartItem.product.name}
-                    </p>
-                    <p style={{ margin: 'auto' }}>{cartItem.quantity}</p>
-                    <p style={{ margin: 'auto' }}>
-                      {cartItem.product.price * cartItem.quantity}
-                    </p>
-                  </motion.div>
-                </SwipeableListItem>
+                  cartItem={cartItem}
+                  index={index}
+                  userCartsLength={user.carts.length}
+                />
               ))}
             </SwipeableList>
           )}

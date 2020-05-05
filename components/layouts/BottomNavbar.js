@@ -112,7 +112,7 @@ const BottomNavbar = () => {
           color="primary"
           classes={{ colorPrimary: classes.badge }}
         >
-          <ShoppingCartIcon />,
+          <ShoppingCartIcon />
         </Badge>
       ),
     },
