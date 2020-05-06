@@ -7,6 +7,7 @@ export const SET_USER = 'SET_USER';
 export const SET_USER_SIGNOUT = 'SET_USER_SIGNOUT';
 export const SET_USER_CART = 'SET_USER_CART';
 export const DELETE_USER_CART = 'DELETE_USER_CART';
+export const CLEAR_USER_CARTS = 'CLEAR_USER_CARTS';
 
 // Products
 export const SET_PRODUCTS = 'SET_PRODUCTS';

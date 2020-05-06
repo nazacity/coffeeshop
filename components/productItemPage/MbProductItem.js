@@ -85,46 +85,6 @@ const MbProductItem = ({ product, products }) => {
               {product.price}.-
             </Typography>
           </div>
-          <MotionSlider padding={30} gap={30}>
-            {products.map((object, i) => (
-              <Link
-                href={`/product/[productId]`}
-                as={`/product/${object.id}`}
-                key={object.name}
-              >
-                <div
-                  style={{
-                    border: '2px solid',
-                    borderColor: '#2b715d',
-                    borderRadius: '5px',
-                    overflow: 'hidden',
-                    maxWidth: '180px',
-                    minWidth: '150px',
-                    width: '80%',
-                  }}
-                >
-                  <div
-                    style={{
-                      maxHeight: '180px',
-                      minHeight: '150px',
-                      maxWidth: '180px',
-                      minWidth: '150px',
-                      backgroundImage: `url(${object.pictureUrl})`,
-                      backgroundSize: 'cover',
-                    }}
-                  ></div>
-                  <div>
-                    <Typography align="center" variant="body1" color="primary">
-                      {object.name}
-                    </Typography>
-                    <Typography align="center" variant="body1" color="primary">
-                      {object.price} บาท
-                    </Typography>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </MotionSlider>
         </div>
 
         <Fab

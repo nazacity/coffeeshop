@@ -49,3 +49,30 @@ export const MUTATION_DELETECART = gql`
     }
   }
 `;
+
+export const MUTATION_CREATE_ORDER = gql`
+  mutation createOrder(
+    $amount: Float!
+    $cardId: String
+    $token: String
+    $return_uri: String
+  ) {
+    createOrder(
+      amount: $amount
+      cardId: $cardId
+      token: $token
+      return_uri: $return_uri
+    ) {
+      id
+      items {
+        id
+        product {
+          description
+          price
+        }
+        quantity
+      }
+      authorize_uri
+    }
+  }
+`;

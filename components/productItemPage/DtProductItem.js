@@ -83,49 +83,6 @@ const DtProductItem = ({ product, products }) => {
           ease: 'easeInOut',
         }}
       >
-        <div style={{ marginTop: '10px' }}>
-          <MotionSlider padding={30} gap={30}>
-            {products.map((object, i) => (
-              <Link
-                href={`/product/[productId]`}
-                as={`/product/${object.id}`}
-                key={object.name}
-              >
-                <div
-                  style={{
-                    border: '2px solid',
-                    borderColor: '#2b715d',
-                    borderRadius: '5px',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <motion.div
-                    style={{
-                      height: '200px',
-                      width: '200px',
-                      backgroundImage: `url(${object.pictureUrl})`,
-                      backgroundSize: 'cover',
-                    }}
-                    variants={fadeInUp}
-                    transition={{
-                      duration: 0.9,
-                      ease: 'easeInOut',
-                      delay: 0.4 * i,
-                    }}
-                  ></motion.div>
-                  <div>
-                    <Typography align="center" variant="body1" color="primary">
-                      {object.name}
-                    </Typography>
-                    <Typography align="center" variant="body1" color="primary">
-                      {object.price} บาท
-                    </Typography>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </MotionSlider>
-        </div>
         <div
           style={{
             marginBottom: '100px',

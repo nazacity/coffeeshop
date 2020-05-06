@@ -3,7 +3,10 @@ import {
   SET_USER_SIGNOUT,
   SET_USER_CART,
   DELETE_USER_CART,
+  CLEAR_USER_CARTS,
 } from '../types';
+import { useQuery } from '@apollo/react-hooks';
+import { QUERY_USER } from '../../apollo/query';
 
 let INITIAL_STATE = {
   id: 'guess',
@@ -41,9 +44,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
       let carts = state.carts.filter(
         (cartItem) => cartItem.id !== action.payload
       );
-      console.log('reducer id run', action.payload);
-      console.log('reducer run', carts);
       return { ...state, carts };
+    case CLEAR_USER_CARTS:
+      return { ...state, carts: [] };
     default:
       return state;
   }

@@ -5,6 +5,7 @@ import {
   SET_NAVBARINDEX,
   SET_USER_CART,
   DELETE_USER_CART,
+  CLEAR_USER_CARTS,
 } from '../types';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
@@ -65,9 +66,14 @@ export const updateUserCart = (newCart) => (dispatch) => {
 };
 
 export const deleteUserCart = (cartItemId) => (dispatch) => {
-  console.log('redux action run', cartItemId);
   dispatch({
     type: DELETE_USER_CART,
     payload: cartItemId,
+  });
+};
+
+export const clearUserCarts = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_USER_CARTS,
   });
 };
