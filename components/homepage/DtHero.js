@@ -168,7 +168,7 @@ const MbHero = ({ promoteObject }) => {
                     className={icon.icon}
                     style={{
                       color: 'black',
-                      fontSize: '2rem',
+                      fontSize: '2.5rem',
                     }}
                   />
                 </motion.a>

@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: '15vh',
     maxHeight: 250,
+    margin: '3vh auto',
   },
 }));
 
@@ -27,18 +28,18 @@ const PromotionItemList = ({ promotion: { pictureUrl, title, detail } }) => {
           image={pictureUrl}
           title="Contemplative Reptile"
         />
-        <CardContent style={{ height: '20%' }}>
+        <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
         </CardContent>
-        <CardContent style={{ height: '20%' }}>
+        <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {detail}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions style={{ height: '20%' }}>
+      <CardActions>
         <Button size="small" color="primary">
           แชร์
         </Button>

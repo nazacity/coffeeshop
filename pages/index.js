@@ -73,7 +73,7 @@ const HomePage = () => {
         client_id: process.env.LINE_CLIENT_KEY,
         client_secret: process.env.LINE_SECRET_KEY,
       };
-      console.log(lineRequest);
+      // console.log(lineRequest);
       axios
         .post(
           'https://api.line.me/oauth2/v2.1/token',

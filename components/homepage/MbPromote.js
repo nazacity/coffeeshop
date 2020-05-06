@@ -102,6 +102,8 @@ const promotions = [
 const MbPromote = ({ promoteObject }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const matches600down = useMediaQuery('(max-width:600px)');
+
   return (
     <React.Fragment>
       <Head>
@@ -315,7 +317,7 @@ const MbPromote = ({ promoteObject }) => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
+                  gridTemplateColumns: matches600down ? '1fr' : '1fr 1fr',
                   gridGap: '1vw',
                 }}
               >
