@@ -32,7 +32,7 @@ const MbProducts = ({ catalog, addToCart }) => {
             <Typography variant="h2" className={classes.title}>
               {catalog.name.toUpperCase()}
             </Typography>
-            <MotionSlider padding={30} gap={30}>
+            <MotionSlider padding={30} gap={30} allowSlideToLast>
               {catalog.data.map((object, i) => (
                 <ProductMenuItem object={object} i={i} key={object.id} />
               ))}

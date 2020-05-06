@@ -21,22 +21,44 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import { IconButton } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   top: {
-    color: theme.palette.secondary.dark,
+    color: theme.palette.primary.dark,
   },
   bottom: {
-    color: theme.palette.secondary.light,
+    color: theme.palette.primary.light,
     animationDuration: '550ms',
     position: 'absolute',
     left: 0,
+  },
+  media: {
+    height: '10vh',
+  },
+  cardRoot: {
+    minWidth: '250px',
+    width: '20vw',
+    maxWidth: '300px',
+    height: '400px',
+    boxShadow: theme.common.shadow.black,
+    borderRadius: '5px',
+    overflow: 'hidden',
   },
 }));
 
 const ProductMenuItem = ({ object, i }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const theme = useTheme();
 
   const action = useDispatch();
   const [addToCart, { loading, error }] = useMutation(MUTATION_ADDTOCART, {
@@ -55,80 +77,62 @@ const ProductMenuItem = ({ object, i }) => {
   };
 
   return (
-    <motion.div
-      style={{
-        border: '2px solid',
-        borderColor: '#2b715d',
-        borderRadius: '5px',
-        overflow: 'hidden',
-      }}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
-      <Link href={`/product/[productId]`} as={`/product/${object.id}`}>
-        <motion.div
-          style={{
-            height: '200px',
-            width: '200px',
-            backgroundImage: `url(${object.pictureUrl})`,
-            backgroundSize: 'cover',
-          }}
-          initial={{
-            y: 60,
-            opacity: 0,
-          }}
-          animate={{
-            y: 0,
-            opacity: 1,
-          }}
-          exit={{
-            y: -60,
-            opacity: 0,
-            transition: {
-              duration: 1.2,
+    <Card className={classes.cardRoot}>
+      <CardActionArea>
+        <Link href={`/product/[productId]`} as={`/product/${object.id}`}>
+          <motion.div
+            style={{
+              minHeight: '250px',
+              height: '20vw',
+              maxHeight: '300px',
+              width: '100%',
+              backgroundImage: `url(${object.pictureUrl})`,
+              backgroundSize: 'cover',
+              margin: 'auto',
+            }}
+            initial={{
+              y: 60,
+              opacity: 0,
+            }}
+            animate={{
+              y: 0,
+              opacity: 1,
+            }}
+            exit={{
+              y: -60,
+              opacity: 0,
+              transition: {
+                duration: 1.2,
+                ease: 'easeInOut',
+              },
+            }}
+            transition={{
+              duration: 0.9,
               ease: 'easeInOut',
-            },
-          }}
-          transition={{
-            duration: 0.9,
-            ease: 'easeInOut',
-            delay: 0.4 * i,
-          }}
-        ></motion.div>
-      </Link>
+              delay: 0.4 * i,
+            }}
+          ></motion.div>
+        </Link>
+      </CardActionArea>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{
-          opacity: 0,
-          transition: {
-            duration: 0.6,
-          },
-        }}
-        transition={{
-          duration: 1.2,
-          ease: 'easeIn',
-          delay: 0.2 * i + 0.8,
-        }}
-      >
-        <Typography align="center" variant="body1" color="primary">
-          {object.name}
-        </Typography>
-        <Typography align="center" variant="body1" color="primary">
-          {object.price} บาท
-        </Typography>
-      </motion.div>
-      <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          margin: '20px',
+          position: 'relative',
         }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        <Button
-          variant="outlined"
-          color="secondary"
+        <IconButton
+          aria-label="add"
+          style={{
+            backgroundColor: theme.palette.primary.main,
+            color: 'white',
+            position: 'absolute',
+            right: 10,
+            top: -25,
+            border: '5px solid #fff',
+            width: '60px',
+            height: '60px',
+          }}
           onClick={() => {
             if (user.state === 'guess') {
               route.push('/signin');
@@ -138,8 +142,7 @@ const ProductMenuItem = ({ object, i }) => {
           }}
           disabled={loading}
         >
-          เพิ่มลงตะกร้า
-          {loading && (
+          {loading ? (
             <div
               style={{
                 position: 'absolute',
@@ -162,10 +165,156 @@ const ProductMenuItem = ({ object, i }) => {
                 thickness={4}
               />
             </div>
+          ) : (
+            <AddIcon />
           )}
-        </Button>
-      </div>
-    </motion.div>
+        </IconButton>
+      </motion.div>
+      <CardContent>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{
+            opacity: 0,
+            transition: {
+              duration: 0.6,
+            },
+          }}
+          transition={{
+            duration: 1.2,
+            ease: 'easeIn',
+            delay: 0.2 * i + 0.8,
+          }}
+        >
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            align="center"
+            color="primary"
+          >
+            {object.name}
+          </Typography>
+          <Typography align="center" variant="body1" color="primary">
+            {object.name}
+          </Typography>
+          <Typography align="center" variant="body1" color="primary">
+            {object.price} บาท
+          </Typography>
+        </motion.div>
+      </CardContent>
+    </Card>
+    // <motion.div
+    //   style={{
+    //     border: '2px solid',
+    //     borderColor: '#2b715d',
+    //     borderRadius: '5px',
+    //     overflow: 'hidden',
+    //   }}
+    //   initial="initial"
+    //   animate="animate"
+    //   exit="exit"
+    // >
+    // <Link href={`/product/[productId]`} as={`/product/${object.id}`}>
+    //   <motion.div
+    //     style={{
+    //       height: '200px',
+    //       width: '200px',
+    //       backgroundImage: `url(${object.pictureUrl})`,
+    //       backgroundSize: 'cover',
+    //     }}
+    //     initial={{
+    //       y: 60,
+    //       opacity: 0,
+    //     }}
+    //     animate={{
+    //       y: 0,
+    //       opacity: 1,
+    //     }}
+    //     exit={{
+    //       y: -60,
+    //       opacity: 0,
+    //       transition: {
+    //         duration: 1.2,
+    //         ease: 'easeInOut',
+    //       },
+    //     }}
+    //     transition={{
+    //       duration: 0.9,
+    //       ease: 'easeInOut',
+    //       delay: 0.4 * i,
+    //     }}
+    //   ></motion.div>
+    // </Link>
+    // <motion.div
+    //   initial={{ opacity: 0 }}
+    //   animate={{ opacity: 1 }}
+    //   exit={{
+    //     opacity: 0,
+    //     transition: {
+    //       duration: 0.6,
+    //     },
+    //   }}
+    //   transition={{
+    //     duration: 1.2,
+    //     ease: 'easeIn',
+    //     delay: 0.2 * i + 0.8,
+    //   }}
+    // >
+    //   <Typography align="center" variant="body1" color="primary">
+    //     {object.name}
+    //   </Typography>
+    //   <Typography align="center" variant="body1" color="primary">
+    //     {object.price} บาท
+    //   </Typography>
+    // </motion.div>
+    //   <div
+    //     style={{
+    //       display: 'flex',
+    //       justifyContent: 'center',
+    //       margin: '20px',
+    //     }}
+    //   >
+    //     <Button
+    //       variant="outlined"
+    //       color="secondary"
+    // onClick={() => {
+    //   if (user.state === 'guess') {
+    //     route.push('/signin');
+    //   } else {
+    //     handleAddToCart(object.id);
+    //   }
+    // }}
+    // disabled={loading}
+    //     >
+    //       เพิ่มลงตะกร้า
+    // {loading && (
+    //   <div
+    //     style={{
+    //       position: 'absolute',
+    //       display: 'flex',
+    //       alignItems: 'center',
+    //     }}
+    //   >
+    //     <CircularProgress
+    //       variant="determinate"
+    //       value={100}
+    //       className={classes.top}
+    //       size={24}
+    //       thickness={4}
+    //     />
+    //     <CircularProgress
+    //       variant="indeterminate"
+    //       disableShrink
+    //       className={classes.bottom}
+    //       size={24}
+    //       thickness={4}
+    //     />
+    //   </div>
+    // )}
+    //     </Button>
+    //   </div>
+    // </motion.div>
   );
 };
 

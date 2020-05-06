@@ -10,15 +10,20 @@ import { motion } from 'framer-motion';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   avatarmb: {
-    width: '120px',
-    height: '120px',
-    margin: 'auto',
-    border: '5px solid',
-    borderColor: theme.palette.primary.main,
+    minHeight: '80px',
+    minWidth: '80px',
+    maxWidth: '150px',
+    maxHeight: '150px',
+    width: '20vw',
+    height: '20vw',
+    boxShadow: theme.common.shadow.main,
+    margin: 'auto 3vw',
+    top: '-30px',
   },
   brandname: {
     color: 'white',
@@ -30,90 +35,79 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const socialMediaIcon = [
+  {
+    name: 'facbook',
+    icon: 'fab fa-facebook-square',
+    link: '#',
+  },
+  {
+    name: 'twitter',
+    icon: 'fab fa-twitter-square',
+    link: '#',
+  },
+  {
+    name: 'instagram',
+    icon: 'fab fa-instagram-square',
+    link: '#',
+  },
+];
+
 const MbHero = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <>
       <Head>
         <link rel="stylesheet" type="text/css" href="/styles/float.css" />
+        <script
+          src="https://kit.fontawesome.com/20efa4bcb4.js"
+          crossorigin="anonymous"
+        ></script>
       </Head>
-      <motion.div
+      <div
         style={{
-          height: '30vh',
+          minHeight: '20vh',
+          maxHeight: '30vh',
+          hegiht: '30vw',
           overflow: 'hidden',
           zIndex: -1,
-          position: 'absolute',
-        }}
-        initial={{ y: '-40%' }}
-        animate={{ y: '0%' }}
-        exit={{
-          y: '-40%',
-          opacity: 0,
-          transition: {
-            duration: 1.6,
-            ease: 'easeInOut',
-          },
-        }}
-        transition={{
-          duration: 1.6,
-          ease: 'easeInOut',
         }}
       >
-        <img
+        <motion.img
+          initial={{ y: '-40%' }}
+          animate={{ y: '0%' }}
+          exit={{
+            y: '-40%',
+            opacity: 0,
+            transition: {
+              duration: 1.6,
+              ease: 'easeInOut',
+            },
+          }}
+          transition={{
+            duration: 1.6,
+            ease: 'easeInOut',
+          }}
           src="./images/hero/dthero.jpg"
           alt="coffee shop"
           style={{ height: '100%', width: '100%' }}
         />
-      </motion.div>
-      <motion.div
-        style={{ paddingTop: '20px' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{
-          opacity: 0,
-          transition: {
-            duration: 1.2,
-            ease: 'easeInOut',
-          },
-        }}
-        transition={{
-          duration: 1.2,
-          ease: 'easeInOut',
-          delay: 2,
-        }}
-        className="nav-logo"
-      >
-        <Avatar
-          alt="Remy Sharp"
-          src="/images/logo/logo.jpg"
-          className={classes.avatarmb}
-        />
-      </motion.div>
+      </div>
       <div
         style={{
-          height: '6em',
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          overflow: 'hidden',
+          maxWidth: theme.layer.maxwidthMb,
+          margin: 'auto',
         }}
       >
         <motion.div
-          style={{
-            background: '#a97743',
-            width: '70%',
-            height: '2em',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '10px',
-          }}
-          initial={{ opacity: 0, y: '40%' }}
-          animate={{ opacity: 1, y: '0%' }}
+          style={{ flexGrow: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            y: '40%',
             transition: {
               duration: 1.2,
               ease: 'easeInOut',
@@ -122,13 +116,53 @@ const MbHero = () => {
           transition={{
             duration: 1.2,
             ease: 'easeInOut',
-            delay: 2,
+            delay: 1.2,
           }}
+          className="nav-logo"
         >
-          <Typography variant="h1" className={classes.brandname}>
-            KAFFY COFFEE
-          </Typography>
+          <Avatar
+            alt="Remy Sharp"
+            src="/images/logo/logo.jpg"
+            className={classes.avatarmb}
+          />
         </motion.div>
+        <div>
+          {socialMediaIcon.map((icon, i) => (
+            <IconButton key={icon.name}>
+              <motion.a
+                initial={{ y: '30%', opacity: 0 }}
+                animate={{
+                  y: '0%',
+                  opacity: 1,
+                  transition: {
+                    ease: 'easeOut',
+                    duration: 0.4 * (i + 1),
+                    delay: 1.8,
+                  },
+                }}
+                exit={{
+                  y: '30%',
+                  opacity: 0,
+                  transition: {
+                    ease: 'easeIn',
+                    duration: 0.8,
+                  },
+                }}
+                href={icon.link}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon
+                  className={icon.icon}
+                  style={{
+                    color: 'black',
+                    fontSize: '2rem',
+                  }}
+                />
+              </motion.a>
+            </IconButton>
+          ))}
+        </div>
       </div>
     </>
   );

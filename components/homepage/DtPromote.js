@@ -1,7 +1,11 @@
 import React from 'react';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Next
 import Head from 'next/head';
+import Link from '../../src/Link';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -12,26 +16,93 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import Divider from '@material-ui/core/Divider';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
+
+// components
+import PromotionItemList from './components/PromotionItemList';
 
 const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'Oswald',
-    fontSize: '2em',
+    fontSize: '1em',
     backgroundColor: theme.palette.primary.main,
     color: 'white',
-    padding: '20px',
+    padding: '10px',
     borderRadius: '5px',
-    marginBottom: '0.7em',
+    marginBottom: '0.2em',
+    width: '80%',
+  },
+  headerCard: {
+    maxWidth: 345,
+  },
+  recentlyCustomer: {
+    display: 'inline-block',
+  },
+  recentlyCustomerAvatar: {
+    border: '2px solid white',
+    width: '100px',
+    height: '100px',
+  },
+  userAvatar: {
+    minHeight: '80px',
+    minWidth: '80px',
+    maxWidth: '150px',
+    maxHeight: '150px',
+    width: '20vw',
+    height: '20vw',
+    boxShadow: theme.common.shadow.main,
+  },
+  cardRoot: {
+    boxShadow: theme.common.shadow.black,
   },
 }));
 
+const faces = [
+  'http://i.pravatar.cc/300?img=1',
+  'http://i.pravatar.cc/300?img=2',
+  'http://i.pravatar.cc/300?img=3',
+  'http://i.pravatar.cc/300?img=4',
+];
+
+const promotions = [
+  {
+    id: 1,
+    title: 'ซื้อ 2 แถม 1',
+    detail: 'โปรโมชั่น รับหน้าร้อน ซื้อ 2 แถม 1',
+    pictureUrl: './images/homepage/home1.jpg',
+  },
+  {
+    id: 2,
+    title: 'กาแฟ กับ ขนมอร่อยกว่า',
+    detail: 'ซื้อกาแฟ รับส่วนลดขนม 20 %',
+    pictureUrl: './images/homepage/home2.jpg',
+  },
+  {
+    id: 3,
+    title: 'กาแฟ กับ อาหารเช้า',
+    detail: 'โปรโมชั่น สุดคุ้ม ชุด กาแฟ กับ อาหารเช้า ลด 20% ก่อน 10 โมงเช้า',
+    pictureUrl: './images/homepage/home3.jpg',
+  },
+  {
+    id: 4,
+    title: 'ซื้อ 2 แถม 1',
+    detail: 'โปรโมชั่น สุดคุ้ม ชุด กาแฟ กับ อาหารเช้า ลด 20% ก่อน 10 โมงเช้า',
+    pictureUrl: './images/homepage/home1.jpg',
+  },
+];
+
 const DtPromote = ({ promoteObject }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
-  const matchesLGup = useMediaQuery(theme.breakpoints.up('lg'));
+  const user = useSelector((state) => state.user);
   return (
-    <>
+    <React.Fragment>
       <Head>
         <link rel="stylesheet" type="text/css" href="/styles/cardpromote.css" />
         <script
@@ -39,164 +110,223 @@ const DtPromote = ({ promoteObject }) => {
           crossorigin="anonymous"
         ></script>
       </Head>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: 1,
+            ease: 'easeOut',
+            delay: 1.8,
+          },
         }}
+        exit={{ opacity: 0 }}
+        style={{ padding: '0 3vw', marginBottom: '5vw' }}
       >
-        <div
-          style={{
-            display: 'flex',
-            maxWidth: '1000px',
-            margin: 'auto',
-          }}
-        >
-          <motion.img
-            src="./images/homepage/home1.png"
-            alt="coffee cafe"
-            height="300px"
-            initial={{ opacity: 0, x: '-40%' }}
-            animate={{ opacity: 1, x: '0%' }}
-            exit={{
-              opacity: 0,
-              x: '-40%',
-              transition: {
-                duration: 1.2,
-                ease: 'easeInOut',
-              },
-            }}
-            transition={{
-              duration: 1.2,
-              ease: 'easeInOut',
-              delay: 2,
-            }}
-          />
-          <motion.div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              maxWidth: '800px',
-              width: '80%',
-            }}
-            initial={{ opacity: 0, y: '20%' }}
-            animate={{ opacity: 1, y: '0%' }}
-            exit={{
-              opacity: 0,
-              y: '20%',
-              transition: {
-                duration: 1.2,
-                ease: 'easeInOut',
-              },
-            }}
-            transition={{
-              duration: 1.2,
-              ease: 'easeInOut',
-              delay: 1.8,
-            }}
-          >
-            <Typography variant="h3" className={classes.title}>
-              Coffee Cafe
-            </Typography>
-            <Typography variant="body1" className={classes.content}>
-              ระบบจำลอง full system e-commerce รองรับการยืนยันตัวตนด้วย Line
-              เพื่อเพิ่มความสะดวกสบายให้กับผู้ใช้งาน ทั้ง Admin และ Client
-              ระบบออกแบบมาให้คล้ายกับ POS มีทั้งเว็บ FRONT สำหรับ โปรโมท โฆษณา
-              สั่ง สินค้า/อาหาร ระบบตะกร้า ชำระเงินด้วย PAYMENT GATEWAY เว็บ
-              ADMIN สำหรับจัดการสินค้า คลัง สรุปข้อมูล และอื่นๆ
-              ทั้งยังมีระบบแจ้งเตือนลูกค้าด้วย LINE OA ให้ครบวงจร
-            </Typography>
-            <Typography variant="body1" className={classes.content}>
-              ใช้เทคโนโลยีการเขียน WEB APP สมัยใหม่ NEXTJS REDUX GRAPHQL
-              ให้ประสบการณ์ความรวดเร็วของการใช้งาน ฝากระบบบน FIREBASE ระบบเดียว
-              บริการ SERVERLESS จาก GOOGLE ทั้ง HOSTING และ DATABASE จึงมั่นใจใน
-              ความปลอดภัย และสเถียรของระบบ เหมาะกับธุรกิจขนาดเล็ก-กลาง
-              ที่ไม่ต้องการวุ่นวายกับระบบ SERVER ของตัวเอง
-              เพราะมีค่าใช้จ่ายที่ถูกกว่าในการติดตั้ง และดูแล SERVER ของตัวเอง
-              ทั้งยังสามารถ SCALE ระบบเพิ่มขึ้นได้
-            </Typography>
-            <Typography variant="body1" className={classes.content}>
-              รายละเอียดเพิ่มเติม 0881493995 (ตั้ว) หรือเยี่ยมชม MY RESUME
-            </Typography>
-            <a href="https://myresume-c62b3.firebaseapp.com/">
-              <Button variant="contained" color="primary">
-                MY RESUME
-              </Button>
-            </a>
-          </motion.div>
+        <div>
+          <Card className={classes.cardRoot}>
+            <CardContent>
+              <Typography
+                variant="h1"
+                style={{ fontSize: '20px', fontWeight: 600 }}
+              >
+                Katty Coffee
+              </Typography>
+              <Divider style={{ margin: '1vh auto', width: '80%' }} />
+              <Typography variant="body2" color="textSecondary" component="p">
+                ร้านกาแฟยอดนิยมที่มียอดขาย ทั้งออนไลน์ และออนไลน์ สตอร์
+                ร้านแคทตี้ ตกแต่งร้านอย่างมีเอกลักษณ์เฉพาะตัว บรรยากาศเรียบง่าย
+                กับสไตล์การแต่งที่ไม่เหมือนกันใคร
+                เรียกได้ว่ามาดื่มด่ำกับรสชาติกาแฟที่หอมกรุ่นแล้วยังได้เสพงานศิลป์ไปพร้อม
+                ๆ กันด้วย สำหรับภายในร้านมีบรรยากาศวินเทจผสมผสานล้านนา
+                ตกแต่งด้วยภาพวาดจากศิลปินหลากหลายคน รวมถึงมี 2 โซนให้เลือกนั่ง
+                คือ โซนด้านหน้าร้าน ซึ่งมีต้นไม้ร่มรื่น
+                แต่สำหรับใครที่ไม่ชอบนั่งกลางแจ้ง ทางร้านก็มีโซนภายในร้านรองรับ
+                และโซนชั้นสองที่มีการจัดวางโต๊ะในมุมต่าง ๆ
+                สำหรับคนที่ต้องการความเป็นส่วนตัวมากยิ่งขึ้น
+              </Typography>
+              <Divider style={{ margin: '1vh auto', width: '80%' }} />
+            </CardContent>
+            <CardActionArea>
+              <CardContent style={{ overflow: 'hidden' }}>
+                {user.state === 'guess' || user.state === 'client0' ? (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <motion.div
+                      initial={{ x: '-30%' }}
+                      animate={{
+                        x: '0%',
+                        transition: {
+                          duration: 1,
+                          delay: 2,
+                          ease: 'easeOut',
+                        },
+                      }}
+                      exit={{
+                        x: '-30%',
+                        transition: {
+                          duration: 1,
+                          delay: 2,
+                          ease: 'easeIn',
+                        },
+                      }}
+                    >
+                      <Avatar
+                        src={
+                          user.state === 'guess'
+                            ? './images/homepage/register.jpg'
+                            : user.pictureUrl
+                        }
+                        alt="Register"
+                        className={classes.userAvatar}
+                      />
+                    </motion.div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
+                        color="primary"
+                        style={{ fontSize: '20px', marginBottom: '20px' }}
+                      >
+                        กรุณาลงทะเบียน
+                      </Typography>
+                      <Button
+                        component={Link}
+                        href="/user"
+                        variant="outlined"
+                        color="primary"
+                      >
+                        ลงทะเบียน
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <motion.div
+                      initial={{ x: '-30%', opacity: 0 }}
+                      animate={{
+                        x: '0%',
+                        opacity: 1,
+                        transition: {
+                          duration: 1,
+                          delay: 2,
+                          ease: 'easeOut',
+                        },
+                      }}
+                      exit={{
+                        x: '-30%',
+                        opacity: 0,
+                        transition: {
+                          duration: 1,
+                          delay: 2,
+                          ease: 'easeIn',
+                        },
+                      }}
+                    >
+                      <Avatar
+                        src={user.pictureUrl}
+                        alt="user.name"
+                        className={classes.userAvatar}
+                      />
+                    </motion.div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <List component="nav" aria-label="man detail">
+                        <Typography
+                          variant="h3"
+                          color="primary"
+                          style={{ fontSize: '20px' }}
+                        >
+                          ยินดีต้อนรับ
+                        </Typography>
+                        <ListItemText
+                          primary={`คุณ ${user.firstName} ${user.lastName}`}
+                        />
+                      </List>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </CardActionArea>
+            <CardContent>
+              <Divider style={{ margin: '1vh auto', width: '80%' }} />
+              <Typography
+                variant="h1"
+                style={{ fontSize: '20px', fontWeight: 600 }}
+              >
+                Recently customer
+              </Typography>
+              <div style={{ display: 'flex' }}>
+                {faces.map((face, i) => (
+                  <motion.div
+                    key={face}
+                    initial={{ x: '-30%', opacity: 0 }}
+                    animate={{
+                      x: '0%',
+                      opacity: 1,
+                      transition: {
+                        duration: 1,
+                        ease: 'easeOut',
+                        delay: 1.8 + i * 0.4,
+                      },
+                    }}
+                    exit={{
+                      x: '-30%',
+                      opacity: 0,
+                      tansition: {
+                        duration: 1,
+                        ease: 'easeOut',
+                      },
+                    }}
+                    className={classes.recentlyCustomer}
+                  >
+                    <IconButton>
+                      <Avatar
+                        src={face}
+                        className={classes.recentlyCustomerAvatar}
+                      />
+                    </IconButton>
+                  </motion.div>
+                ))}
+              </div>
+            </CardContent>
+            <CardContent>
+              <Divider style={{ margin: '1vh auto', width: '80%' }} />
+              <Typography
+                variant="h1"
+                style={{ fontSize: '20px', fontWeight: 600, margin: '1vh 0' }}
+              >
+                Promotion
+              </Typography>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gridGap: '1vw',
+                }}
+              >
+                {promotions.map((promotion) => (
+                  <PromotionItemList key={promotion.id} promotion={promotion} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          width: '100%',
-          marginTop: '1em',
-          marginBottom: '200px',
-        }}
-      >
-        {promoteObject.map((object) => (
-          <motion.div
-            key={object.id}
-            className="box"
-            style={{
-              marginTop: '2em',
-              width: matchesLGup ? '400px' : '300px',
-              height: matchesLGup ? '400px' : '300px',
-            }}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{
-              scale: 0.8,
-              opacity: 0,
-              transition: { duration: 1, ease: 'easeInOut' },
-            }}
-            transition={{
-              duration: 1,
-              ease: 'easeIn',
-              delay: 1.8,
-            }}
-          >
-            <div className="imgBx">
-              <img src={object.imageUrl} alt="" />
-            </div>
-            <ul className="social-icon">
-              <li>
-                <a href="#">
-                  <i className="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-linkedin-in" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-instagram" aria-hidden="true"></i>
-                </a>
-              </li>
-            </ul>
-            <div className="details">
-              <h2>{object.title}</h2>
-              <p>{object.subtitle}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </>
+      </motion.div>
+    </React.Fragment>
   );
 };
 

@@ -119,10 +119,7 @@ const HomePage = () => {
       />
       <Container maxWidth={false} style={{ margin: 0, padding: 0 }}>
         <Hidden smDown>
-          <div style={{ position: 'relative', height: '50vh' }}>
-            <DtHero />
-          </div>
-          <DtPromote promoteObject={promoteObject} />
+          <DtHero promoteObject={promoteObject} />
         </Hidden>
         <Hidden mdUp>
           <MbHero />

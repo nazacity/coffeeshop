@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     width: '100%',
     bottom: 0,
+    boxShadow: theme.common.shadow.main,
   },
   bottomnavroot: {
     padding: '6px 0px 8px',
     color: theme.common.color.white,
-    boxShadow: '0px 0px 5px 3px rgba(169,120,67,0.5);',
   },
   bottomnavbox: {
     backgroundColor: theme.common.color.navColor,
