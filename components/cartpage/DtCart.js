@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
+// Apollo
+import { useMutation } from '@apollo/react-hooks';
+import { MUTATION_CREATE_ORDER } from '../../apollo/mutation';
+
 // Next
 import Head from 'next/head';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUserCarts } from '../../redux/actions/userActions';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -20,6 +25,8 @@ import Typography from '@material-ui/core/Typography';
 // Components
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
+import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
+import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -38,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
 
 const DtCart = () => {
   const theme = useTheme();
+  const action = useDispatch();
   const classes = useStyles();
-  const user = useSelector((state) => state.user);
+  const carts = useSelector((state) => state.user.carts);
   const [progressing, setProgressing] = useState(false);
 
   const calculateAmount = (carts) => {
@@ -48,6 +56,23 @@ const DtCart = () => {
       0
     );
     return amount * 100;
+  };
+
+  const [createOrder, { loading, error }] = useMutation(MUTATION_CREATE_ORDER, {
+    onCompleted: (data) => {
+      console.log(data);
+      if (data.createOrder.authorize_uri) {
+        window.location.href = data.createOrder.authorize_uri;
+      }
+      action(clearUserCarts());
+    },
+  });
+
+  const handleCheckout = async (amount, cardId, token, return_uri) => {
+    const result = await createOrder({
+      variables: { amount, cardId, token, return_uri },
+    });
+    console.log('result', result);
   };
 
   return (
@@ -99,7 +124,7 @@ const DtCart = () => {
           </div>
           <Divider style={{ width: '60%', margin: '20px auto' }} />
 
-          {user.carts.length === 0 ? (
+          {carts.length === 0 ? (
             <div style={{ padding: '0 10px' }}>
               <div
                 style={{
@@ -120,17 +145,17 @@ const DtCart = () => {
               }}
               threshold={0.2}
             >
-              {user.carts.map((cartItem, index) => (
+              {carts.map((cartItem, index) => (
                 <CartItemList
                   key={cartItem.id}
                   cartItem={cartItem}
                   index={index}
-                  userCartsLength={user.carts.length}
+                  userCartsLength={carts.length}
                 />
               ))}
             </SwipeableList>
           )}
-          {user.carts.length > 0 && (
+          {carts.length > 0 && (
             <div>
               <div
                 style={{
@@ -142,7 +167,7 @@ const DtCart = () => {
                 <h3 style={{ margin: 'auto' }}></h3>
                 <h3 style={{ marginRight: 'auto' }}>รวม</h3>
                 <h3 style={{ marginLeft: 'auto' }}>
-                  {calculateAmount(user.carts) / 100}
+                  {calculateAmount(carts) / 100}
                 </h3>
                 <h4 style={{ margin: 'auto' }}>บาท</h4>
               </div>
@@ -156,7 +181,7 @@ const DtCart = () => {
                 <h4 style={{ margin: 'auto' }}></h4>
                 <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
                 <h4 style={{ marginLeft: 'auto' }}>
-                  {((calculateAmount(user.carts) / 100) * 0.07).toFixed(2)}
+                  {((calculateAmount(carts) / 100) * 0.07).toFixed(2)}
                 </h4>
                 <h4 style={{ margin: 'auto' }}>บาท</h4>
               </div>
@@ -170,13 +195,25 @@ const DtCart = () => {
                 <h3 style={{ margin: 'auto' }}></h3>
                 <h3 style={{ marginRight: 'auto' }}>สุทธิ</h3>
                 <h3 style={{ marginLeft: 'auto' }}>
-                  {((calculateAmount(user.carts) / 100) * 1.07).toFixed(2)}
+                  {((calculateAmount(carts) / 100) * 1.07).toFixed(2)}
                 </h3>
                 <h4 style={{ margin: 'auto' }}>บาท</h4>
               </div>
             </div>
           )}
         </div>
+        {carts.length !== 0 && (
+          <div>
+            <CheckoutWithCreditCard
+              amount={Math.floor(calculateAmount(carts) * 1.07)}
+              handleCheckout={handleCheckout}
+            />
+            <CheckoutWithInternetBanking
+              amount={Math.floor(calculateAmount(carts) * 1.07)}
+              handleCheckout={handleCheckout}
+            />
+          </div>
+        )}
       </motion.div>
     </>
   );

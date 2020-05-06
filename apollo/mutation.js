@@ -64,6 +64,12 @@ export const MUTATION_CREATE_ORDER = gql`
       return_uri: $return_uri
     ) {
       id
+      amount
+      net
+      fee
+      fee_vat
+      status
+      chargeId
       items {
         id
         product {

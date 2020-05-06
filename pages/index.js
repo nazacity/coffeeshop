@@ -66,16 +66,18 @@ const HomePage = () => {
   const router = useRouter();
   useEffect(() => {
     if (router.query.code) {
+      const lineRequest = {
+        grant_type: 'authorization_code',
+        code: router.query.code,
+        redirect_uri: process.env.LINE_REDIRECT_URI,
+        client_id: process.env.LINE_CLIENT_KEY,
+        client_secret: process.env.LINE_SECRET_KEY,
+      };
+      console.log(lineRequest);
       axios
         .post(
           'https://api.line.me/oauth2/v2.1/token',
-          queryString.stringify({
-            grant_type: 'authorization_code',
-            code: router.query.code,
-            redirect_uri: process.env.LINE_REDIRECT_URI,
-            client_id: process.env.LINE_CLIENT_KEY,
-            client_secret: process.env.LINE_SECRET_KEY,
-          }),
+          queryString.stringify(lineRequest),
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
