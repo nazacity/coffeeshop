@@ -47,12 +47,13 @@ const CheckoutWithInternetBanking = ({ amount, handleCheckout }) => {
   };
 
   const omiseCardHandler = () => {
+    const redirect_uri = process.env.LINE_REDIRECT_URI;
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
       amount,
       onCreateTokenSuccess: (token) => {
         console.log(token);
-        handleCheckout(amount, null, token, 'http://localhost:3000/cart');
+        handleCheckout(amount, null, token, redirect_uri);
       },
       onFormClosed: () => {},
     });
