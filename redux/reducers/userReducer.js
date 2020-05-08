@@ -5,8 +5,6 @@ import {
   DELETE_USER_CART,
   CLEAR_USER_CARTS,
 } from '../types';
-import { useQuery } from '@apollo/react-hooks';
-import { QUERY_USER } from '../../apollo/query';
 
 let INITIAL_STATE = {
   id: 'guess',

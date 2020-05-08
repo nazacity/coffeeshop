@@ -1,5 +1,6 @@
 .nav-logo {
   animation: float 3s ease-in-out infinite;
+  z-index: 10;
 }
 
 .productitempicture {

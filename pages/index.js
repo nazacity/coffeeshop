@@ -32,26 +32,6 @@ import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 const HomePage = () => {
   const user = useSelector((state) => state.user);
   const action = useDispatch();
-  const promoteObject = [
-    {
-      id: 1,
-      imageUrl: './images/homepage/home1.jpg',
-      title: 'พื้นที่',
-      subtitle: 'บรรยากาศสวยงาม',
-    },
-    {
-      id: 2,
-      imageUrl: './images/homepage/home2.jpg',
-      title: 'เมนู',
-      subtitle: 'อาหารเลิศรส',
-    },
-    {
-      id: 3,
-      imageUrl: './images/homepage/home3.jpg',
-      title: 'กาแฟ',
-      subtitle: 'เครื่องดื่มกาแฟที่ไม่เหมือนใคร',
-    },
-  ];
 
   const [signinWithAccessToken, { loading, error }] = useMutation(
     MUTATION_SIGNINWITHACCESSTOKEN,
@@ -121,11 +101,11 @@ const HomePage = () => {
       />
       <Container maxWidth={false} style={{ margin: 0, padding: 0 }}>
         <Hidden smDown>
-          <DtHero promoteObject={promoteObject} />
+          <DtHero />
         </Hidden>
         <Hidden mdUp>
           <MbHero />
-          <MbPromote promoteObject={promoteObject} />
+          <MbPromote />
         </Hidden>
       </Container>
     </React.Fragment>

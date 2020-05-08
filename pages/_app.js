@@ -79,15 +79,17 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
       <ApolloProvider client={apollo}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
-            <Hidden smDown>
-              <TopNavbar />
-            </Hidden>
-            <AnimatePresence exitBeforeEnter>
-              <Component {...pageProps} key={router.route} />
-            </AnimatePresence>
-            <Hidden mdUp>
-              <BottomNavbar />
-            </Hidden>
+            <React.Fragment>
+              <Hidden smDown>
+                <TopNavbar />
+              </Hidden>
+              <AnimatePresence exitBeforeEnter>
+                <Component {...pageProps} key={router.route} />
+              </AnimatePresence>
+              <Hidden mdUp>
+                <BottomNavbar />
+              </Hidden>
+            </React.Fragment>
           </ThemeProvider>
         </Provider>
       </ApolloProvider>
@@ -171,55 +173,5 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
     }
   }
 };
-
-// export const getStaticProps = async ({ ctx, router }) => {
-//   if (process.browser) {
-//     return __NEXT_DATA__.props.pageProps;
-//   }
-
-//   const { headers } = ctx.req;
-
-//   const cookies = headers && cookie.parse(headers.cookie || '');
-
-//   const accessToken = cookies && cookies.accessToken;
-//   if (!accessToken) {
-//     if (router.pathname === '/user' || router.pathname === '/carts') {
-//       ctx.res.writeHead(302, { Location: '/signin' });
-//       ctx.res.end();
-//       return { props: {} };
-//     }
-//   }
-
-//   if (accessToken) {
-//     if (router.pathname === '/signin') {
-//       ctx.res.writeHead(302, { Location: '/user' });
-//       ctx.res.end();
-//       return { props: {} };
-//     }
-//   }
-
-//   const uri = process.env.APOLLO_URL;
-//   if (accessToken) {
-//     const response = await fetch(uri, {
-//       method: 'post',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         authorization: `${accessToken}` || '',
-//       },
-//       body: JSON.stringify(QUERY_USER),
-//     });
-//     if (response.ok) {
-//       const result = await response.json();
-//       return { props: { user: result.data.user } };
-//     } else {
-//       if (router.pathname === '/user' || router.pathname === '/carts') {
-//         ctx.res.writeHead(302, { Location: '/signin' });
-//         ctx.res.end();
-//         return null;
-//       }
-//       return null;
-//     }
-//   }
-// };
 
 export default apolloClient(MyApp);

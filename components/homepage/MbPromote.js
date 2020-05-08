@@ -99,7 +99,7 @@ const promotions = [
   },
 ];
 
-const MbPromote = ({ promoteObject }) => {
+const MbPromote = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
   const matches600down = useMediaQuery('(max-width:600px)');

@@ -98,7 +98,7 @@ const promotions = [
   },
 ];
 
-const DtPromote = ({ promoteObject }) => {
+const DtPromote = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
   return (

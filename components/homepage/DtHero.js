@@ -56,7 +56,7 @@ const socialMediaIcon = [
   },
 ];
 
-const MbHero = ({ promoteObject }) => {
+const MbHero = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -71,42 +71,38 @@ const MbHero = ({ promoteObject }) => {
       </Head>
       <div
         style={{
-          maxWidth: theme.layer.maxwidth,
-          width: '80%',
-          margin: 'auto',
-          boxShadow: theme.common.shadow.black,
+          minHeight: '20vh',
+          maxHeight: '30vh',
+          hegiht: '40vw',
           overflow: 'hidden',
         }}
       >
-        <div
-          style={{
-            minHeight: '20vh',
-            maxHeight: '30vh',
-            hegiht: '40vw',
-            overflow: 'hidden',
-            zIndex: -1,
-          }}
-        >
-          <motion.img
-            initial={{ y: '-40%' }}
-            animate={{ y: '0%' }}
-            exit={{
-              y: '-40%',
-              opacity: 0,
-              transition: {
-                duration: 1.6,
-                ease: 'easeInOut',
-              },
-            }}
-            transition={{
+        <motion.img
+          initial={{ y: '-40%' }}
+          animate={{ y: '0%' }}
+          exit={{
+            y: '-40%',
+            opacity: 0,
+            transition: {
               duration: 1.6,
               ease: 'easeInOut',
-            }}
-            src="./images/hero/dthero.jpg"
-            alt="coffee shop"
-            style={{ height: '100%', width: '100%' }}
-          />
-        </div>
+            },
+          }}
+          transition={{
+            duration: 1.6,
+            ease: 'easeInOut',
+          }}
+          src="./images/hero/dthero.jpg"
+          alt="coffee shop"
+          style={{ height: '100%', width: '100%' }}
+        />
+      </div>
+      <div
+        style={{
+          maxWidth: theme.layer.maxwidth,
+          margin: 'auto',
+        }}
+      >
         <div
           style={{
             display: 'flex',
@@ -176,7 +172,7 @@ const MbHero = ({ promoteObject }) => {
             ))}
           </div>
         </div>
-        <DtPromote promoteObject={promoteObject} />
+        <DtPromote />
       </div>
       <div
         style={{

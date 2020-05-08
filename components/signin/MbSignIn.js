@@ -10,7 +10,6 @@ import { motion } from 'framer-motion';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   signinborder: {
@@ -48,8 +47,6 @@ const useStyles = makeStyles((theme) => ({
 const MbSignIn = () => {
   const classes = useStyles();
 
-  // const client_id = '1654159386';
-  // const redirect = 'http%3A%2F%2Flocalhost%3A3000';
   const client_id = process.env.LINE_CLIENT_KEY;
   const redirect = process.env.LINE_REDIRECT_LINK;
   const scope = 'openid%20profile%20email';
