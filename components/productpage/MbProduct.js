@@ -23,14 +23,14 @@ const MbProducts = ({ catalog, addToCart }) => {
 
   return (
     <>
-      <div>
+      <div style={{ marginBottom: '100px' }}>
         {catalog.map((catalog) => (
           <motion.div
-            style={{ marginBottom: '3em', marginTop: '3em' }}
+            style={{ marginBottom: '2vh', marginTop: '2vh' }}
             key={catalog.name}
           >
-            <Typography variant="h2" className={classes.title}>
-              {catalog.name.toUpperCase()}
+            <Typography variant="h2" align="center" className={classes.title}>
+              {catalog.th}
             </Typography>
             <MotionSlider padding={30} gap={30} allowSlideToLast>
               {catalog.data.map((object, i) => (

@@ -4,8 +4,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 // MUI
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // Components
 import MotionSlider from './motionslider';
@@ -13,24 +14,34 @@ import ProductMenuItem from './ProductMenuItem';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    fontSize: '3.5em',
+    fontSize: '2em',
     color: theme.palette.secondary.main,
   },
 }));
 
 const DtProducts = ({ catalog, addToCart }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches1025down = useMediaQuery('(max-width:1024px)');
 
   return (
     <>
-      <div>
+      <div
+        style={{
+          maxWidth: matches1025down ? undefined : '1200px',
+          margin: 'auto',
+          boxShadow: matches1025down ? undefined : theme.common.shadow.black,
+        }}
+      >
         {catalog.map((catalog) => (
-          <motion.div
-            style={{ marginBottom: '3em', marginTop: '3em' }}
-            key={catalog.name}
-          >
-            <Typography variant="h2" className={classes.title}>
-              {catalog.name.toUpperCase()}
+          <motion.div style={{ marginBottom: '2vh' }} key={catalog.name}>
+            <Typography
+              variant="h6"
+              component="h2"
+              align="center"
+              className={classes.title}
+            >
+              {catalog.th}
             </Typography>
             <MotionSlider padding={30} gap={30}>
               {catalog.data.map((object, i) => (

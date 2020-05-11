@@ -42,10 +42,9 @@ const useStyles = makeStyles((theme) => ({
     height: '10vh',
   },
   cardRoot: {
-    minWidth: '250px',
+    minWidth: '200px',
     width: '20vw',
     maxWidth: '300px',
-    height: '400px',
     boxShadow: theme.common.shadow.black,
     borderRadius: '5px',
     overflow: 'hidden',
@@ -80,12 +79,14 @@ const ProductMenuItem = ({ object, i }) => {
         <Link href={`/product/[productId]`} as={`/product/${object.id}`}>
           <motion.div
             style={{
-              minHeight: '250px',
+              minHeight: '150px',
               height: '20vw',
               maxHeight: '300px',
               width: '100%',
               backgroundImage: `url(${object.pictureUrl})`,
-              backgroundSize: 'cover',
+              backgroundSize: 'contain,cover',
+              backgroundPositionX: '50%',
+              backgroundRepeat: 'no-repeat',
               margin: 'auto',
             }}
             initial={{
@@ -184,15 +185,6 @@ const ProductMenuItem = ({ object, i }) => {
             delay: 0.2 * i + 0.8,
           }}
         >
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
-            align="center"
-            color="primary"
-          >
-            {object.name}
-          </Typography>
           <Typography align="center" variant="body1" color="primary">
             {object.name}
           </Typography>

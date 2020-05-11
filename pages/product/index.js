@@ -52,6 +52,7 @@ const QUERY_CATALOGS = {
   query{
     catalogs {
       name
+      th
     }
   }
   `,
@@ -67,6 +68,7 @@ export const getStaticProps = async () => {
   catalogs.map((catalog, i) => {
     result.push({
       name: catalog.name,
+      th: catalog.th,
       data: products.filter((product) => product.catalog === catalog.name),
     });
   });
