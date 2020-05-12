@@ -124,35 +124,24 @@ const QUERY_USER = {
   `,
 };
 
-MyApp.getInitialProps = async ({ ctx, router }) => {
-  if (process.browser) {
-    return __NEXT_DATA__.props.pageProps;
-  }
-
-  const { headers } = ctx.req;
+export const getServerSideProps = async ({ req, res }) => {
+  const { headers } = req;
 
   const cookies = headers && cookie.parse(headers.cookie || '');
 
   const accessToken = cookies && cookies.accessToken;
+
   if (!accessToken) {
     if (router.pathname === '/user' || router.pathname === '/carts') {
-      ctx.res.writeHead(302, { Location: '/signin' });
-      ctx.res.end();
-      return null;
-    }
-  }
-
-  if (accessToken) {
-    if (router.pathname === '/signin') {
-      ctx.res.writeHead(302, { Location: '/user' });
-      ctx.res.end();
+      res.writeHead(302, { Location: '/signin' });
+      res.end();
       return null;
     }
   }
 
   const uri = process.env.APOLLO_URL;
   if (accessToken) {
-    const response = await fetch(uri, {
+    const responseUser = await fetch(uri, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -160,13 +149,23 @@ MyApp.getInitialProps = async ({ ctx, router }) => {
       },
       body: JSON.stringify(QUERY_USER),
     });
-    if (response.ok) {
-      const result = await response.json();
-      return { user: result.data.user };
+    const responeUsers = await fetch(uri, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${accessToken}` || '',
+      },
+      body: JSON.stringify(QUERY_USERS),
+    });
+    if (responseUser.ok && responeUsers.ok) {
+      const user = await responseUser.json();
+      const users = await responeUsers.json();
+
+      return { prop: { user: user.data.user, client: users.data.users } };
     } else {
       if (router.pathname === '/user' || router.pathname === '/carts') {
-        ctx.res.writeHead(302, { Location: '/signin' });
-        ctx.res.end();
+        res.writeHead(302, { Location: '/signin' });
+        res.end();
         return null;
       }
       return null;
