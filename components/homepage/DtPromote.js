@@ -71,34 +71,7 @@ const faces = [
   'http://i.pravatar.cc/300?img=4',
 ];
 
-const promotions = [
-  {
-    id: 1,
-    title: 'ซื้อ 2 แถม 1',
-    detail: 'โปรโมชั่น รับหน้าร้อน ซื้อ 2 แถม 1',
-    pictureUrl: './images/homepage/home1.jpg',
-  },
-  {
-    id: 2,
-    title: 'กาแฟ กับ ขนมอร่อยกว่า',
-    detail: 'ซื้อกาแฟ รับส่วนลดขนม 20 %',
-    pictureUrl: './images/homepage/home2.jpg',
-  },
-  {
-    id: 3,
-    title: 'กาแฟ กับ อาหารเช้า',
-    detail: 'โปรโมชั่น สุดคุ้ม ชุด กาแฟ กับ อาหารเช้า ลด 20% ก่อน 10 โมงเช้า',
-    pictureUrl: './images/homepage/home3.jpg',
-  },
-  {
-    id: 4,
-    title: 'ซื้อ 2 แถม 1',
-    detail: 'โปรโมชั่น สุดคุ้ม ชุด กาแฟ กับ อาหารเช้า ลด 20% ก่อน 10 โมงเช้า',
-    pictureUrl: './images/homepage/home1.jpg',
-  },
-];
-
-const DtPromote = () => {
+const DtPromote = ({ promotions }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
   return (

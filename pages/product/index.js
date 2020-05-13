@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
-import { getData } from '../../db';
+import { getData, QUERY_PRODUCTS, QUERY_CATALOGS } from '../../apollo/db';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -30,32 +30,6 @@ const ProductPage = ({ products, catalog }) => {
       </Hidden>
     </Container>
   );
-};
-
-const QUERY_PRODUCTS = {
-  query: `
-  query{
-    products{
-      id
-      name
-      description
-      price
-      pictureUrl
-      catalog
-    }
-  }
-  `,
-};
-
-const QUERY_CATALOGS = {
-  query: `
-  query{
-    catalogs {
-      name
-      th
-    }
-  }
-  `,
 };
 
 export const getStaticProps = async () => {

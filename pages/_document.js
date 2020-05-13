@@ -21,14 +21,16 @@ export default class MyDocument extends Document {
             name="apple-mobile-web-app-status-bar-style"
             content="default"
           />
-          <meta name="apple-mobile-web-app-title" content="PWA App" />
-          <meta name="description" content="Best PWA App in the world" />
+          <meta name="apple-mobile-web-app-title" content="Line Ecommerce" />
+          <meta
+            name="description"
+            content="Full System Ecommerce with Line sample"
+          />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
 
           <meta name="msapplication-TileColor" content="#2B5797" />
           <meta name="msapplication-tap-highlight" content="no" />
-          <meta name="theme-color" content="#000000" />
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
@@ -36,20 +38,20 @@ export default class MyDocument extends Document {
 
           <link
             rel="apple-touch-icon"
-            sizes="180x180"
-            href="/images/logo/logo.png"
+            sizes="256x256"
+            href="/icons/icon_256x256.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/images/logo/logo.png"
+            href="/icons/icon_96x96.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/images/logo/logo.png"
+            href="/icons/icon_96x96.png"
           />
           <link rel="manifest" href="/manifest.json" />
           <link rel="mask-icon" href="/images/logo/logo.png" color="#5bbad5" />

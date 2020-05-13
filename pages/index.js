@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { getData, QUERY_PROMOTIONS } from '../apollo/db';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,7 +30,7 @@ import queryString from 'query-string';
 
 import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 
-const HomePage = () => {
+const HomePage = ({ promotions }) => {
   const user = useSelector((state) => state.user);
   const action = useDispatch();
 
@@ -101,15 +102,22 @@ const HomePage = () => {
       />
       <Container maxWidth={false} style={{ margin: 0, padding: 0 }}>
         <Hidden smDown>
-          <DtHero />
+          <DtHero promotions={promotions} />
         </Hidden>
         <Hidden mdUp>
           <MbHero />
-          <MbPromote />
+          <MbPromote promotions={promotions} />
         </Hidden>
       </Container>
     </React.Fragment>
   );
+};
+
+export const getStaticProps = async () => {
+  const resultPromotions = await getData(QUERY_PROMOTIONS);
+  let promotions = resultPromotions.data.promotion;
+
+  return { props: { promotions: promotions } };
 };
 
 export default HomePage;

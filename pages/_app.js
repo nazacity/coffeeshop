@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
+
+// Apollo
 import { ApolloProvider } from '@apollo/react-hooks';
 import apolloClient from '../apollo/apolloClient';
-import fetch from 'isomorphic-unfetch';
+import { QUERY_USER, QUERY_USERS } from '../apollo/db';
 
 // Framer-motion
 import { AnimatePresence } from 'framer-motion';
@@ -97,35 +99,11 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
   );
 };
 
-const QUERY_USER = {
-  query: `
-  query{
-    user{
-      id
-      firstName
-      lastName
-      email
-      phone
-      pictureUrl
-      state
-      createdAt
-      carts{
-        id
-        product{
-          id
-          name
-          pictureUrl
-          price
-        }
-        quantity
-      }
-    }
+MyApp.getInitialProps = async ({ ctx, router }) => {
+  if (process.browser) {
+    return __NEXT_DATA__.props.pageProps;
   }
-  `,
-};
-
-export const getServerSideProps = async ({ req, res }) => {
-  const { headers } = req;
+  const { headers } = ctx.req;
 
   const cookies = headers && cookie.parse(headers.cookie || '');
 
@@ -133,8 +111,8 @@ export const getServerSideProps = async ({ req, res }) => {
 
   if (!accessToken) {
     if (router.pathname === '/user' || router.pathname === '/carts') {
-      res.writeHead(302, { Location: '/signin' });
-      res.end();
+      ctx.res.writeHead(302, { Location: '/signin' });
+      ctx.res.end();
       return null;
     }
   }
@@ -161,11 +139,11 @@ export const getServerSideProps = async ({ req, res }) => {
       const user = await responseUser.json();
       const users = await responeUsers.json();
 
-      return { prop: { user: user.data.user, client: users.data.users } };
+      return { user: user.data.user, client: users.data.users };
     } else {
       if (router.pathname === '/user' || router.pathname === '/carts') {
-        res.writeHead(302, { Location: '/signin' });
-        res.end();
+        ctx.res.writeHead(302, { Location: '/signin' });
+        ctx.res.end();
         return null;
       }
       return null;

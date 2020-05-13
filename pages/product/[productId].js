@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 // Apollo
-import { getData } from '../../db';
+import { getData, QUERY_PRODUCTS } from '../../apollo/db';
 // import { useQuery } from '@apollo/react-hooks';
 // import { QUERY_PRODUCT, QUERY_PRODUCTS } from '../../apollo/query';
 
@@ -40,21 +40,6 @@ const ProductItem = ({ products, product }) => {
       </motion.div>
     </>
   );
-};
-
-const QUERY_PRODUCTS = {
-  query: `
-  query{
-    products{
-      id
-      name
-      description
-      price
-      pictureUrl
-      catalog
-    }
-  }
-  `,
 };
 
 export const getStaticPaths = async () => {

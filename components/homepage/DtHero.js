@@ -56,7 +56,7 @@ const socialMediaIcon = [
   },
 ];
 
-const MbHero = () => {
+const MbHero = ({ promotions }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -172,7 +172,7 @@ const MbHero = () => {
             ))}
           </div>
         </div>
-        <DtPromote />
+        <DtPromote promotions={promotions} />
       </div>
       <div
         style={{
