@@ -124,10 +124,12 @@ export const getServerSideProps = async ({ req, res }) => {
 
   const cookies = headers && cookie.parse(headers.cookie || '');
   const accessToken = cookies && cookies.accessToken;
+  if (accessToken) {
+    const user = await getUserByAccessToken(accessToken);
+    return { props: { promotions, user } };
+  }
 
-  const user = await getUserByAccessToken(accessToken);
-
-  return { props: { promotions, user } };
+  return { props: { promotions, user: {} } };
 };
 
 export default HomePage;

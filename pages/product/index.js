@@ -61,8 +61,11 @@ export const getServerSideProps = async ({ req, res }) => {
   const cookies = headers && cookie.parse(headers.cookie || '');
   const accessToken = cookies && cookies.accessToken;
 
-  const user = await getUserByAccessToken(accessToken);
-  return { props: { products, catalog: result, user } };
+  if (accessToken) {
+    const user = await getUserByAccessToken(accessToken);
+    return { props: { products, catalog: result, user } };
+  }
+  return { props: { products, catalog: result, user: {} } };
 };
 
 export default ProductPage;
