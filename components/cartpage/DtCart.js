@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_CREATE_ORDER } from '../../apollo/mutation';
+import { MUTATION_CREATE_ORDER_BYOMISE } from '../../apollo/mutation';
 
 // Next
 import Head from 'next/head';
@@ -58,19 +58,30 @@ const DtCart = () => {
     return amount * 100;
   };
 
-  const [createOrder, { loading, error }] = useMutation(MUTATION_CREATE_ORDER, {
-    onCompleted: (data) => {
-      console.log(data);
-      if (data.createOrder.authorize_uri) {
-        window.location.href = data.createOrder.authorize_uri;
-      }
-      action(clearUserCarts());
-    },
-  });
+  const [createOrderฺByOmise, { loading, error }] = useMutation(
+    MUTATION_CREATE_ORDER_BYOMISE,
+    {
+      onCompleted: (data) => {
+        console.log(data);
+        if (data.createOrderฺByOmise.authorize_uri) {
+          window.location.href = data.createOrderฺByOmise.authorize_uri;
+        }
+        action(clearUserCarts());
+      },
+    }
+  );
 
   const handleCheckout = async (amount, cardId, token, return_uri) => {
-    const result = await createOrder({
-      variables: { amount, cardId, token, return_uri },
+    const result = await createOrderฺByOmise({
+      variables: {
+        amount,
+        cardId,
+        token,
+        return_uri,
+        branch: 'online',
+        table: '',
+        discount: 0,
+      },
     });
     console.log('result', result);
   };

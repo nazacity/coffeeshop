@@ -50,18 +50,57 @@ export const MUTATION_DELETECART = gql`
   }
 `;
 
-export const MUTATION_CREATE_ORDER = gql`
-  mutation createOrder(
+export const MUTATION_CREATE_ORDER_BYOMISE = gql`
+  mutation createOrderByOmise(
     $amount: Float!
     $cardId: String
     $token: String
     $return_uri: String
+    $branch: String
+    $table: String
+    $discount: Float
   ) {
-    createOrder(
+    createOrderByOmise(
       amount: $amount
       cardId: $cardId
       token: $token
       return_uri: $return_uri
+      branch: $branch
+      table: $table
+      discount: $discount
+    ) {
+      id
+      amount
+      net
+      fee
+      fee_vat
+      status
+      chargeId
+      items {
+        id
+        product {
+          description
+          price
+        }
+        quantity
+      }
+      authorize_uri
+    }
+  }
+`;
+
+export const MUTATION_CREATE_ORDER_BYCASH = gql`
+  mutation createOrderByOmise(
+    $amount: Float!
+    $branch: String
+    $table: String
+    $discount: Float
+  ) {
+    createOrderByCash(
+      amount: $amount
+      branch: $branch
+      table: $table
+      discount: $discount
     ) {
       id
       amount

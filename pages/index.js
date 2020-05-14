@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { getData, QUERY_PROMOTIONS } from '../apollo/db';
+import { getData, QUERY_PROMOTIONS, getUserByAccessToken } from '../apollo/db';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions/userActions';
 import { setUserLoading } from '../redux/actions/layoutActions';
 
@@ -18,7 +18,6 @@ import Hidden from '@material-ui/core/Hidden';
 
 // components
 import DtHero from '../components/homepage/DtHero';
-import DtPromote from '../components/homepage/DtPromote';
 import MbHero from '../components/homepage/MbHero';
 import MbPromote from '../components/homepage/MbPromote';
 
@@ -27,12 +26,16 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Script from 'react-load-script';
 import queryString from 'query-string';
+import cookie from 'cookie';
 
 import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 
-const HomePage = ({ promotions }) => {
-  const user = useSelector((state) => state.user);
+const HomePage = ({ promotions, user }) => {
   const action = useDispatch();
+
+  useEffect(() => {
+    action(setUser(user ? user : null));
+  }, [user]);
 
   const [signinWithAccessToken, { loading, error }] = useMutation(
     MUTATION_SIGNINWITHACCESSTOKEN,
@@ -113,11 +116,18 @@ const HomePage = ({ promotions }) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req, res }) => {
   const resultPromotions = await getData(QUERY_PROMOTIONS);
   let promotions = resultPromotions.data.promotion;
 
-  return { props: { promotions: promotions } };
+  const { headers } = req;
+
+  const cookies = headers && cookie.parse(headers.cookie || '');
+  const accessToken = cookies && cookies.accessToken;
+
+  const user = await getUserByAccessToken(accessToken);
+
+  return { props: { promotions, user } };
 };
 
 export default HomePage;

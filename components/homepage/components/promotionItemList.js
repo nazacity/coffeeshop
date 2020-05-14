@@ -40,6 +40,7 @@ const PromotionItemList = ({
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {products.map((product) => (
             <Avatar
+              key={product.name}
               src={product.pictureUrl}
               className={classes.productAvatar}
             />

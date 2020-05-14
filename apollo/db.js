@@ -68,6 +68,7 @@ export const QUERY_USER = {
   query{
     user{
       id
+      lineId
       firstName
       lastName
       email
@@ -115,4 +116,23 @@ export const QUERY_USERS = {
     }
   }
   `,
+};
+
+export const getUserByAccessToken = async (accessToken) => {
+  const uri = process.env.APOLLO_URL;
+  let user;
+  if (accessToken) {
+    const responseUser = await fetch(uri, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${accessToken}` || '',
+      },
+      body: JSON.stringify(QUERY_USER),
+    });
+    if (responseUser.ok) {
+      user = await responseUser.json();
+    }
+  }
+  return user.data.user;
 };

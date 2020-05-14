@@ -89,7 +89,7 @@ const CheckoutWithInternetBanking = ({ amount, handleCheckout }) => {
           }}
           color="primary"
         >
-          Pay with Inernet Banking
+          จ่ายทางอินเตอร์เน็ตแบงค์คิง
         </Button>
       </form>
     </div>

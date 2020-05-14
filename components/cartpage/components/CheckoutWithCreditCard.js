@@ -83,7 +83,7 @@ const CheckoutWithCreditCard = ({ handleCheckout, amount }) => {
           }}
           color="primary"
         >
-          Pay with Credit Card
+          จ่ายทางบัตรเครดิต
         </Button>
       </form>
     </div>

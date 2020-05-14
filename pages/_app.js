@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 // Apollo
 import { ApolloProvider } from '@apollo/react-hooks';
 import apolloClient from '../apollo/apolloClient';
-import { QUERY_USER, QUERY_USERS } from '../apollo/db';
+import { QUERY_USER } from '../apollo/db';
 
 // Framer-motion
 import { AnimatePresence } from 'framer-motion';
@@ -37,7 +37,7 @@ Router.events.on('routeChangeStart', (url) => {
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-const MyApp = ({ Component, pageProps, apollo, user }) => {
+const MyApp = ({ Component, pageProps, apollo }) => {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -46,13 +46,6 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
     }
   }, []);
   const router = useRouter();
-
-  useEffect(() => {
-    store.dispatch({
-      type: SET_USER,
-      payload: user ? user : null,
-    });
-  }, [user]);
 
   return (
     <React.Fragment>
@@ -99,56 +92,47 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
   );
 };
 
-MyApp.getInitialProps = async ({ ctx, router }) => {
-  if (process.browser) {
-    return __NEXT_DATA__.props.pageProps;
-  }
-  const { headers } = ctx.req;
+// MyApp.getInitialProps = async ({ ctx, router }) => {
+//   if (process.browser) {
+//     return __NEXT_DATA__.props.pageProps;
+//   }
 
-  const cookies = headers && cookie.parse(headers.cookie || '');
+//   const { headers } = ctx.req;
 
-  const accessToken = cookies && cookies.accessToken;
+//   const cookies = headers && cookie.parse(headers.cookie || '');
+//   const accessToken = cookies && cookies.accessToken;
+//   if (!accessToken) {
+//     if (router.pathname === '/user' || router.pathname === '/cart') {
+//       ctx.res.writeHead(302, { Location: '/signin' });
+//       ctx.res.end();
+//       return null;
+//     }
+//   }
 
-  if (!accessToken) {
-    if (router.pathname === '/user' || router.pathname === '/carts') {
-      ctx.res.writeHead(302, { Location: '/signin' });
-      ctx.res.end();
-      return null;
-    }
-  }
+//   const uri = process.env.APOLLO_URL;
 
-  const uri = process.env.APOLLO_URL;
-  if (accessToken) {
-    const responseUser = await fetch(uri, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `${accessToken}` || '',
-      },
-      body: JSON.stringify(QUERY_USER),
-    });
-    const responeUsers = await fetch(uri, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `${accessToken}` || '',
-      },
-      body: JSON.stringify(QUERY_USERS),
-    });
-    if (responseUser.ok && responeUsers.ok) {
-      const user = await responseUser.json();
-      const users = await responeUsers.json();
+//   if (accessToken) {
+//     const responseUser = await fetch(uri, {
+//       method: 'post',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         authorization: `${accessToken}` || '',
+//       },
+//       body: JSON.stringify(QUERY_USER),
+//     });
+//     if (responseUser.ok) {
+//       const user = await responseUser.json();
 
-      return { user: user.data.user, client: users.data.users };
-    } else {
-      if (router.pathname === '/user' || router.pathname === '/carts') {
-        ctx.res.writeHead(302, { Location: '/signin' });
-        ctx.res.end();
-        return null;
-      }
-      return null;
-    }
-  }
-};
+//       return { user: user.data.user };
+//     } else {
+//       if (router.pathname === '/user' || router.pathname === '/cart') {
+//         ctx.res.writeHead(302, { Location: '/' });
+//         ctx.res.end();
+//         return null;
+//       }
+//       return null;
+//     }
+//   }
+// };
 
 export default apolloClient(MyApp);

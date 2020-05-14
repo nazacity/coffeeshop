@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_CREATE_ORDER } from '../../apollo/mutation';
+import { MUTATION_CREATE_ORDER_BYOMISE } from '../../apollo/mutation';
 import { QUERY_USER } from '../../apollo/query';
 
 // Next
@@ -30,6 +30,7 @@ import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
 import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
 import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
+import OrderAndPayByCash from './components/OrderAndPayByCash';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -59,19 +60,30 @@ const MbCart = () => {
     return amount * 100;
   };
 
-  const [createOrder, { loading, error }] = useMutation(MUTATION_CREATE_ORDER, {
-    onCompleted: (data) => {
-      console.log(data);
-      if (data.createOrder.authorize_uri) {
-        window.location.href = data.createOrder.authorize_uri;
-      }
-      action(clearUserCarts());
-    },
-  });
+  const [createOrderฺByOmise, { loading, error }] = useMutation(
+    MUTATION_CREATE_ORDER_BYOMISE,
+    {
+      onCompleted: (data) => {
+        console.log(data);
+        if (data.createOrderByOmise.authorize_uri) {
+          window.location.href = data.createOrderByOmise.authorize_uri;
+        }
+        action(clearUserCarts());
+      },
+    }
+  );
 
   const handleCheckout = async (amount, cardId, token, return_uri) => {
-    const result = await createOrder({
-      variables: { amount, cardId, token, return_uri },
+    const result = await createOrderฺByOmise({
+      variables: {
+        amount,
+        cardId,
+        token,
+        return_uri,
+        branch: 'online',
+        table: '',
+        discount: 0,
+      },
     });
   };
 
@@ -203,6 +215,9 @@ const MbCart = () => {
             <CheckoutWithInternetBanking
               amount={Math.floor(calculateAmount(carts) * 1.07)}
               handleCheckout={handleCheckout}
+            />
+            <OrderAndPayByCash
+              amount={Math.floor(calculateAmount(carts) * 1.07)}
             />
           </div>
         )}
