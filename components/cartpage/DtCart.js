@@ -27,6 +27,7 @@ import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
 import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
 import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
+import OrderAndPayByCash from './components/OrderAndPayByCash';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -222,6 +223,9 @@ const DtCart = () => {
             <CheckoutWithInternetBanking
               amount={Math.floor(calculateAmount(carts) * 1.07)}
               handleCheckout={handleCheckout}
+            />
+            <OrderAndPayByCash
+              amount={Math.floor(calculateAmount(carts) * 1.07)}
             />
           </div>
         )}
