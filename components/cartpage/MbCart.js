@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// firebase
+import { db } from '../../firebase';
+
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_CREATE_ORDER_BYOMISE } from '../../apollo/mutation';
@@ -60,13 +63,13 @@ const MbCart = () => {
     return amount * 100;
   };
 
-  const [createOrderฺByOmise, { loading, error }] = useMutation(
+  const [createOrderByOmise, { loading, error }] = useMutation(
     MUTATION_CREATE_ORDER_BYOMISE,
     {
-      onCompleted: (data) => {
-        console.log(data);
-        if (data.createOrderByOmise.authorize_uri) {
-          window.location.href = data.createOrderByOmise.authorize_uri;
+      onCompleted: async (data) => {
+        db.ref('/order').push(data.createOrderByOmise);
+        if (data.createOrderByOmise?.authorizeUri) {
+          window.location.href = data.createOrderByOmise.authorizeUri;
         }
         action(clearUserCarts());
       },
@@ -74,7 +77,7 @@ const MbCart = () => {
   );
 
   const handleCheckout = async (amount, cardId, token, return_uri) => {
-    const result = await createOrderฺByOmise({
+    const result = await createOrderByOmise({
       variables: {
         amount,
         cardId,

@@ -71,20 +71,27 @@ export const MUTATION_CREATE_ORDER_BYOMISE = gql`
     ) {
       id
       amount
-      net
-      fee
-      fee_vat
-      status
-      chargeId
+      user {
+        id
+        lineId
+        pictureUrl
+        firstName
+        phone
+      }
       items {
         id
         product {
-          description
-          price
+          name
+          pictureUrl
         }
         quantity
       }
-      authorize_uri
+      place {
+        branch
+        table
+      }
+      createdAt
+      authorizeUri
     }
   }
 `;
@@ -104,20 +111,26 @@ export const MUTATION_CREATE_ORDER_BYCASH = gql`
     ) {
       id
       amount
-      net
-      fee
-      fee_vat
-      status
-      chargeId
+      user {
+        id
+        lineId
+        pictureUrl
+        firstName
+        phone
+      }
       items {
         id
         product {
-          description
-          price
+          name
+          pictureUrl
         }
         quantity
       }
-      authorize_uri
+      place {
+        branch
+        table
+      }
+      createdAt
     }
   }
 `;

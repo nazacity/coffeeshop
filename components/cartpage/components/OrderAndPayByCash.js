@@ -1,5 +1,8 @@
 import React from 'react';
 
+// firebase
+import { db } from '../../../firebase';
+
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_CREATE_ORDER_BYCASH } from '../../../apollo/mutation';
@@ -18,6 +21,7 @@ const OrderAndPayByCash = ({ amount }) => {
     {
       onCompleted: (data) => {
         action(clearUserCarts());
+        db.ref('/order').push(data.createOrderByCash);
       },
     }
   );
