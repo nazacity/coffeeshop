@@ -40,7 +40,7 @@ export const getServerSideProps = async ({ req, res }) => {
   const accessToken = cookies && cookies.accessToken;
 
   if (!accessToken) {
-    res.writeHead(302, { Location: '/sigin' });
+    res.writeHead(302, { Location: '/signin' });
     res.end();
     return { props: {} };
   } else {
