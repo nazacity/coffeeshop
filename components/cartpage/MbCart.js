@@ -31,8 +31,8 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 // Components
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
-import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
-import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
+// import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
+// import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
 import OrderAndPayByCash from './components/OrderAndPayByCash';
 
 const useStyles = makeStyles((theme) => ({
@@ -211,14 +211,14 @@ const MbCart = () => {
         </div>
         {carts.length !== 0 && (
           <div>
-            <CheckoutWithCreditCard
+            {/* <CheckoutWithCreditCard
               amount={Math.floor(calculateAmount(carts) * 1.07)}
               handleCheckout={handleCheckout}
             />
             <CheckoutWithInternetBanking
               amount={Math.floor(calculateAmount(carts) * 1.07)}
               handleCheckout={handleCheckout}
-            />
+            /> */}
             <OrderAndPayByCash
               amount={Math.floor(calculateAmount(carts) * 1.07)}
             />

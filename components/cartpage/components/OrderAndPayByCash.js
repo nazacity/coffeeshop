@@ -55,6 +55,7 @@ const OrderAndPayByCash = ({ amount }) => {
             fontSize: '18px',
           }}
           color="primary"
+          disabled={loading}
         >
           จ่ายด้วยเงินสด
         </Button>

@@ -56,18 +56,12 @@ export const MUTATION_CREATE_ORDER_BYOMISE = gql`
     $cardId: String
     $token: String
     $return_uri: String
-    $branch: String
-    $table: String
-    $discount: Float
   ) {
     createOrderByOmise(
       amount: $amount
       cardId: $cardId
       token: $token
       return_uri: $return_uri
-      branch: $branch
-      table: $table
-      discount: $discount
     ) {
       id
       amount
@@ -85,10 +79,7 @@ export const MUTATION_CREATE_ORDER_BYOMISE = gql`
           pictureUrl
         }
         quantity
-      }
-      place {
-        branch
-        table
+        state
       }
       createdAt
       authorizeUri
@@ -97,18 +88,8 @@ export const MUTATION_CREATE_ORDER_BYOMISE = gql`
 `;
 
 export const MUTATION_CREATE_ORDER_BYCASH = gql`
-  mutation createOrderByOmise(
-    $amount: Float!
-    $branch: String
-    $table: String
-    $discount: Float
-  ) {
-    createOrderByCash(
-      amount: $amount
-      branch: $branch
-      table: $table
-      discount: $discount
-    ) {
+  mutation createOrderByOmise($amount: Float!) {
+    createOrderByCash(amount: $amount) {
       id
       amount
       user {
@@ -125,10 +106,7 @@ export const MUTATION_CREATE_ORDER_BYCASH = gql`
           pictureUrl
         }
         quantity
-      }
-      place {
-        branch
-        table
+        state
       }
       createdAt
     }
