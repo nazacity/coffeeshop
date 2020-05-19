@@ -17,7 +17,7 @@ import Link from '../../src/Link';
 import route from 'next/router';
 
 // MUI
-import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,6 +27,9 @@ import CardContent from '@material-ui/core/CardContent';
 import AddIcon from '@material-ui/icons/Add';
 import { IconButton } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
+
+// Toast
+import { useToasts } from 'react-toast-notifications';
 
 const useStyles = makeStyles((theme) => ({
   top: {
@@ -56,10 +59,30 @@ const ProductMenuItem = ({ object, i }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
   const theme = useTheme();
+  const { addToast } = useToasts();
 
   const action = useDispatch();
   const [addToCart, { loading, error }] = useMutation(MUTATION_ADDTOCART, {
     onCompleted: (data) => {
+      console.log(data.addToCart);
+      const content = (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar
+            src={data.addToCart.product.pictureUrl}
+            alt={data.addToCart.product.name}
+            style={{
+              marginRight: '1vh',
+              backgroundColor: '#fff',
+              boxShadow: theme.common.shadow.black,
+            }}
+          />
+          <Typography>เพิ่ม {data.addToCart.product.name} เรียบร้อย</Typography>
+        </div>
+      );
+      addToast(content, {
+        appearance: 'success',
+        autoDismiss: true,
+      });
       action(updateUserCart(data.addToCart));
     },
   });

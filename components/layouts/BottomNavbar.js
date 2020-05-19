@@ -91,19 +91,19 @@ const BottomNavbar = () => {
   };
   const menuOptions = [
     {
-      name: 'Home',
+      name: 'หน้าแรก',
       link: '/',
       selectedIndex: 0,
       icon: <HomeIcon />,
     },
     {
-      name: 'Product',
+      name: 'สินค้า',
       link: '/product',
       selectedIndex: 1,
       icon: <LocalCafeIcon />,
     },
     {
-      name: 'Cart',
+      name: 'ตะกร้า',
       link: '/cart',
       selectedIndex: 2,
       icon: (
@@ -191,8 +191,8 @@ const BottomNavbar = () => {
                 : user?.state !== 'guess'
                 ? user?.firstName !== ''
                   ? user.firstName.toUpperCase()
-                  : 'REGISTER'
-                : 'Sign In'
+                  : 'ลงทะเบียน'
+                : 'ลงชื่อเข้าใช้'
             }
             value={3}
             icon={
@@ -275,7 +275,7 @@ const BottomNavbar = () => {
                   fontSize="small"
                 />
               </ListItemIcon>
-              <Typography variant="inherit">USER INFOMATION</Typography>
+              <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
             </Link>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
@@ -288,7 +288,7 @@ const BottomNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              PROMOTION
+              โปรโมชั่น
             </Typography>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
@@ -306,7 +306,7 @@ const BottomNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              SIGN OUT
+              ลงชื่อออก
             </Typography>
           </MenuItem>
         </Menu>

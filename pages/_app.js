@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from '../src/theme';
 import Hidden from '@material-ui/core/Hidden';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // Components
 import BottomNavbar from '../components/layouts/BottomNavbar';
@@ -28,8 +29,9 @@ import BottomNavbar from '../components/layouts/BottomNavbar';
 // Other
 import NProgress from 'nprogress';
 import TopNavbar from '../components/layouts/TopNavbar';
-import cookie from 'cookie';
-import { SET_USER } from '../redux/types';
+
+// Toast
+import { ToastProvider } from 'react-toast-notifications';
 
 Router.events.on('routeChangeStart', (url) => {
   NProgress.start();
@@ -46,6 +48,7 @@ const MyApp = ({ Component, pageProps, apollo }) => {
     }
   }, []);
   const router = useRouter();
+  const matches600down = useMediaQuery('(max-width:600px)');
 
   return (
     <React.Fragment>
@@ -74,17 +77,21 @@ const MyApp = ({ Component, pageProps, apollo }) => {
       <ApolloProvider client={apollo}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
-            <React.Fragment>
-              <Hidden smDown>
-                <TopNavbar />
-              </Hidden>
-              <AnimatePresence exitBeforeEnter>
-                <Component {...pageProps} key={router.route} />
-              </AnimatePresence>
-              <Hidden mdUp>
-                <BottomNavbar />
-              </Hidden>
-            </React.Fragment>
+            <ToastProvider
+              placement={matches600down ? 'bottom-center' : 'top-center'}
+            >
+              <React.Fragment>
+                <Hidden smDown>
+                  <TopNavbar />
+                </Hidden>
+                <AnimatePresence exitBeforeEnter>
+                  <Component {...pageProps} key={router.route} />
+                </AnimatePresence>
+                <Hidden mdUp>
+                  <BottomNavbar />
+                </Hidden>
+              </React.Fragment>
+            </ToastProvider>
           </ThemeProvider>
         </Provider>
       </ApolloProvider>

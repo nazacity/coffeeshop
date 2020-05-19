@@ -5,14 +5,20 @@ import { db } from '../../firebase';
 
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_CREATE_ORDER_BYOMISE } from '../../apollo/mutation';
+import {
+  MUTATION_CREATE_ORDER_BYOMISE,
+  MUTATION_DELETECART,
+} from '../../apollo/mutation';
 
 // Next
 import Head from 'next/head';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { clearUserCarts } from '../../redux/actions/userActions';
+import {
+  clearUserCarts,
+  deleteUserCart,
+} from '../../redux/actions/userActions';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -24,13 +30,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Divider from '@material-ui/core/Divider';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 
 // Components
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
-// import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
-// import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
-import OrderAndPayByCash from './components/OrderAndPayByCash';
+import CheckoutWithCreditCard from './components/CheckoutWithCreditCard';
+import CheckoutWithInternetBanking from './components/CheckoutWithInternetBanking';
+// import OrderAndPayByCash from './components/OrderAndPayByCash';
+
+// Toast
+import { useToasts } from 'react-toast-notifications';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -53,6 +63,7 @@ const DtCart = () => {
   const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
   const [progressing, setProgressing] = useState(false);
+  const { addToast } = useToasts();
 
   const calculateAmount = (carts) => {
     const amount = carts.reduce(
@@ -62,18 +73,19 @@ const DtCart = () => {
     return amount * 100;
   };
 
-  const [createOrderByOmise, { loading, error }] = useMutation(
-    MUTATION_CREATE_ORDER_BYOMISE,
-    {
-      onCompleted: (data) => {
-        db.ref('/order').push(data.createOrderByOmise);
-        action(clearUserCarts());
-        if (data.createOrderByOmise?.authorizeUri !== null) {
-          window.location.href = data.createOrderByOmise.authorizeUri;
-        }
-      },
-    }
-  );
+  const [createOrderByOmise] = useMutation(MUTATION_CREATE_ORDER_BYOMISE, {
+    onCompleted: (data) => {
+      db.ref('/order').push(data.createOrderByOmise);
+      action(clearUserCarts());
+      addToast('สั่งอาหารสำเร็จ', {
+        appearance: 'success',
+        autoDismiss: true,
+      });
+      if (data.createOrderByOmise?.authorizeUri !== null) {
+        window.location.href = data.createOrderByOmise.authorizeUri;
+      }
+    },
+  });
 
   const handleCheckout = async (amount, cardId, token, return_uri) => {
     const result = await createOrderByOmise({
@@ -88,6 +100,30 @@ const DtCart = () => {
       },
     });
   };
+
+  const [deleteCart, { loading, error }] = useMutation(MUTATION_DELETECART, {
+    onCompleted: (data) => {
+      action(deleteUserCart(data.deleteCart.id));
+      const content = (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar
+            src={data.deleteCart.product.pictureUrl}
+            alt={data.deleteCart.product.name}
+            style={{
+              marginRight: '1vh',
+              backgroundColor: '#fff',
+              boxShadow: theme.common.shadow.black,
+            }}
+          />
+          <Typography>ลบ {data.deleteCart.product.name} เรียบร้อย</Typography>
+        </div>
+      );
+      addToast(content, {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+    },
+  });
 
   return (
     <>
@@ -165,6 +201,8 @@ const DtCart = () => {
                   cartItem={cartItem}
                   index={index}
                   userCartsLength={carts.length}
+                  deleteCart={deleteCart}
+                  loading={loading}
                 />
               ))}
             </SwipeableList>
@@ -218,17 +256,17 @@ const DtCart = () => {
         </div>
         {carts.length !== 0 && (
           <div>
-            {/* <CheckoutWithCreditCard
+            <CheckoutWithCreditCard
               amount={Math.floor(calculateAmount(carts) * 1.07)}
               handleCheckout={handleCheckout}
             />
             <CheckoutWithInternetBanking
               amount={Math.floor(calculateAmount(carts) * 1.07)}
               handleCheckout={handleCheckout}
-            /> */}
-            <OrderAndPayByCash
-              amount={Math.floor(calculateAmount(carts) * 1.07)}
             />
+            {/* <OrderAndPayByCash
+              amount={Math.floor(calculateAmount(carts) * 1.07)}
+            /> */}
           </div>
         )}
       </motion.div>

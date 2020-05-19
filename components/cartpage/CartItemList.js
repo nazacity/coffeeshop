@@ -26,6 +26,9 @@ import {
   ActionAnimations,
 } from '@sandstreamdev/react-swipeable-list';
 
+// Toast
+import { useToasts } from 'react-toast-notifications';
+
 const useStyles = makeStyles((theme) => ({
   progresscontainer: {
     padding: '5px',
@@ -43,20 +46,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CartItemList = ({ cartItem, index, userCartsLength }) => {
+const CartItemList = ({
+  cartItem,
+  index,
+  userCartsLength,
+  deleteCart,
+  loading,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesLGDown = useMediaQuery('(max-width:1300px)');
   const matchesMDDown = useMediaQuery('(max-width:1200px)');
   const matchesSMDown = useMediaQuery('(max-width:600px)');
-  const action = useDispatch();
-  const [deleteCart, { loading, error }] = useMutation(MUTATION_DELETECART, {
-    onCompleted: (data) => {
-      console.log(data.deleteCart.id);
-      action(deleteUserCart(data.deleteCart.id));
-      //route.reload();
-    },
-  });
 
   const handleDelete = async (cartItemId) => {
     try {
@@ -77,7 +78,7 @@ const CartItemList = ({ cartItem, index, userCartsLength }) => {
           <div
             style={{
               backgroundColor: '#c21414',
-              width: '80%',
+              width: '100%',
               marginRight: '5%',
               display: 'flex',
               justifyContent: 'flex-end',

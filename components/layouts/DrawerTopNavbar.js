@@ -64,19 +64,19 @@ const DrawerTopNavbar = () => {
 
   const menuOptions = [
     {
-      name: 'Home',
+      name: 'หน้าแรก',
       link: '/',
       selectedIndex: 0,
       icon: <HomeIcon />,
     },
     {
-      name: 'Product',
+      name: 'สินค้า',
       link: '/product',
       selectedIndex: 1,
       icon: <LocalCafeIcon />,
     },
     {
-      name: 'Cart',
+      name: 'ตะกร้า',
       link: '/cart',
       selectedIndex: 2,
       icon: <ShoppingCartIcon />,
@@ -86,9 +86,9 @@ const DrawerTopNavbar = () => {
         ? 'loading'
         : user?.state !== 'guess'
         ? user?.firstName !== ''
-          ? 'USER INFORMATION'
-          : 'REGISTER'
-        : 'Sign In',
+          ? 'ข้อมูลผู้ใช้'
+          : 'ลงทะเบียน'
+        : 'ลงชื่อเข้าใช้',
       link: userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin',
       selectedIndex: 3,
       icon: userLoading ? (

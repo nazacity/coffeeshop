@@ -29,6 +29,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
 import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 
@@ -120,7 +121,9 @@ const TopNavbar = () => {
             <div>
               <Link href="/product" style={{ marginRight: '2em' }}>
                 <IconButton>
-                  <LocalCafeIcon style={{ color: '#fff' }} />
+                  <Tooltip title="สินค้า">
+                    <LocalCafeIcon style={{ color: '#fff' }} />
+                  </Tooltip>
                 </IconButton>
               </Link>
               {user?.state !== 'guess' && (
@@ -131,7 +134,9 @@ const TopNavbar = () => {
                       color="primary"
                       classes={{ colorPrimary: classes.badge }}
                     >
-                      <ShoppingCartIcon style={{ color: '#fff' }} />
+                      <Tooltip title="ตะกร้า">
+                        <ShoppingCartIcon style={{ color: '#fff' }} />
+                      </Tooltip>
                     </Badge>
                   </IconButton>
                 </Link>
@@ -208,7 +213,7 @@ const TopNavbar = () => {
                   fontSize="small"
                 />
               </ListItemIcon>
-              <Typography variant="inherit">USER INFOMATION</Typography>
+              <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
             </Link>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
@@ -221,7 +226,7 @@ const TopNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              PROMOTION
+              โปรโมชั่น
             </Typography>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
@@ -239,7 +244,7 @@ const TopNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              SIGN OUT
+              ลงชื่อออก
             </Typography>
           </MenuItem>
         </Menu>

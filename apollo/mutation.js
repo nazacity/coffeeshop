@@ -46,6 +46,15 @@ export const MUTATION_DELETECART = gql`
   mutation MUTATION_DELETECART($id: ID!) {
     deleteCart(id: $id) {
       id
+      product {
+        id
+        name
+        description
+        pictureUrl
+        catalog
+        price
+      }
+      quantity
     }
   }
 `;
