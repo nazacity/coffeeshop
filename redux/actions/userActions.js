@@ -6,6 +6,8 @@ import {
   SET_USER_CART,
   DELETE_USER_CART,
   CLEAR_USER_CARTS,
+  ADD_ITEM_CART,
+  DELETE_ITEM_CART,
 } from '../types';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
@@ -75,5 +77,23 @@ export const deleteUserCart = (cartItemId) => (dispatch) => {
 export const clearUserCarts = () => (dispatch) => {
   dispatch({
     type: CLEAR_USER_CARTS,
+  });
+};
+
+export const addItemCart = (item) => (dispatch) => {
+  let AddItem = {
+    product: item,
+    quantity: 1,
+  };
+  dispatch({
+    type: ADD_ITEM_CART,
+    payload: AddItem,
+  });
+};
+
+export const deleteItemCart = (id) => (dispatch) => {
+  dispatch({
+    type: DELETE_ITEM_CART,
+    payload: id,
   });
 };

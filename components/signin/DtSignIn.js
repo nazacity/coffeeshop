@@ -48,7 +48,7 @@ const DtSignIn = () => {
   const client_id = process.env.LINE_CLIENT_KEY;
   const redirect = process.env.LINE_REDIRECT_LINK;
   const scope = 'openid%20profile%20email';
-  const state = 'coffeecafe';
+  const state = 'loginviaweb';
   const lineloginlink = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=${state}&scope=${scope}`;
 
   return (

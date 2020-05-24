@@ -153,164 +153,165 @@ const BottomNavbar = () => {
           href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
         />
       </Head>
-      <motion.div
-        initial={{ opacity: 0, y: '100%' }}
-        animate={{ opacity: 1, y: '0%' }}
-        transition={{
-          duration: 1.2,
-          ease: [0.43, 0.13, 0.23, 0.96],
-        }}
-        className={classes.root}
-        onAnimationStart={checkRoute}
-        style={{ zIndex: 2, width: '100vw' }}
-      >
-        <BottomNavigation
-          value={menuIndex}
-          onChange={handleChange}
-          className={classes.bottomnavbox}
+      {user.state !== 'StoreClient' && (
+        <motion.div
+          initial={{ opacity: 0, y: '100%' }}
+          animate={{ opacity: 1, y: '0%' }}
+          transition={{
+            duration: 1.2,
+            ease: [0.43, 0.13, 0.23, 0.96],
+          }}
+          className={classes.root}
+          onAnimationStart={checkRoute}
+          style={{ zIndex: 2, width: '100vw' }}
         >
-          {menuOptions.map((menu) => (
+          <BottomNavigation
+            value={menuIndex}
+            onChange={handleChange}
+            className={classes.bottomnavbox}
+          >
+            {menuOptions.map((menu) => (
+              <BottomNavigationAction
+                component={Link}
+                href={menu.link}
+                key={menu.name}
+                label={menu.name}
+                value={menu.selectedIndex}
+                icon={menu.icon}
+                classes={{
+                  root: classes.bottomnavroot,
+                  selected: classes.selected,
+                }}
+              />
+            ))}
             <BottomNavigationAction
-              component={Link}
-              href={menu.link}
-              key={menu.name}
-              label={menu.name}
-              value={menu.selectedIndex}
-              icon={menu.icon}
+              label={
+                userLoading
+                  ? 'loading'
+                  : user?.state !== 'guess'
+                  ? user?.firstName !== ''
+                    ? user.firstName.toUpperCase()
+                    : 'ลงทะเบียน'
+                  : 'ลงชื่อเข้าใช้'
+              }
+              value={3}
+              icon={
+                userLoading ? (
+                  <div style={{ position: 'relative' }}>
+                    <CircularProgress
+                      variant="determinate"
+                      value={100}
+                      className={classes.top}
+                      size={24}
+                      thickness={4}
+                    />
+                    <CircularProgress
+                      variant="indeterminate"
+                      disableShrink
+                      className={classes.bottom}
+                      size={24}
+                      thickness={4}
+                    />
+                  </div>
+                ) : user.state !== 'guess' ? (
+                  <Avatar
+                    alt="line logo"
+                    src={user.pictureUrl}
+                    className={classes.userlogo}
+                    ref={userIcon}
+                    onClick={
+                      user.state === 'guess' && userLoading === false
+                        ? () => {
+                            route.push('/signin');
+                          }
+                        : user.state === 'client0' && userLoading === false
+                        ? () => {
+                            route.push('/user');
+                          }
+                        : handleMenu
+                    }
+                  />
+                ) : (
+                  <AccountCircleIcon />
+                )
+              }
               classes={{
                 root: classes.bottomnavroot,
                 selected: classes.selected,
               }}
+              onClick={
+                user.state === 'guess' && userLoading === false
+                  ? () => {
+                      route.push('/signin');
+                    }
+                  : user.state === 'client0' && userLoading === false
+                  ? () => {
+                      route.push('/user');
+                    }
+                  : userLoading === true
+                  ? () => {}
+                  : handleUserNavbarClick
+              }
             />
-          ))}
-
-          <BottomNavigationAction
-            label={
-              userLoading
-                ? 'loading'
-                : user?.state !== 'guess'
-                ? user?.firstName !== ''
-                  ? user.firstName.toUpperCase()
-                  : 'ลงทะเบียน'
-                : 'ลงชื่อเข้าใช้'
-            }
-            value={3}
-            icon={
-              userLoading ? (
-                <div style={{ position: 'relative' }}>
-                  <CircularProgress
-                    variant="determinate"
-                    value={100}
-                    className={classes.top}
-                    size={24}
-                    thickness={4}
-                  />
-                  <CircularProgress
-                    variant="indeterminate"
-                    disableShrink
-                    className={classes.bottom}
-                    size={24}
-                    thickness={4}
-                  />
-                </div>
-              ) : user.state !== 'guess' ? (
-                <Avatar
-                  alt="line logo"
-                  src={user.pictureUrl}
-                  className={classes.userlogo}
-                  ref={userIcon}
-                  onClick={
-                    user.state === 'guess' && userLoading === false
-                      ? () => {
-                          route.push('/signin');
-                        }
-                      : user.state === 'client0' && userLoading === false
-                      ? () => {
-                          route.push('/user');
-                        }
-                      : handleMenu
-                  }
-                />
-              ) : (
-                <AccountCircleIcon />
-              )
-            }
-            classes={{
-              root: classes.bottomnavroot,
-              selected: classes.selected,
-            }}
-            onClick={
-              user.state === 'guess' && userLoading === false
-                ? () => {
-                    route.push('/signin');
-                  }
-                : user.state === 'client0' && userLoading === false
-                ? () => {
-                    route.push('/user');
-                  }
-                : userLoading === true
-                ? () => {}
-                : handleUserNavbarClick
-            }
-          />
-        </BottomNavigation>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          elevation={2}
-          style={{ top: '10px' }}
-          transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-          <MenuItem
-            style={{ width: '40%', minWidth: '250px', maxWidth: '400px' }}
+          </BottomNavigation>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            elevation={2}
+            style={{ top: '10px' }}
+            transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <Link href="/user" onClick={handleClose}>
+            <MenuItem
+              style={{ width: '40%', minWidth: '250px', maxWidth: '400px' }}
+            >
+              <Link href="/user" onClick={handleClose}>
+                <ListItemIcon>
+                  <Icon
+                    className="fas fa-user"
+                    color="primary"
+                    fontSize="small"
+                  />
+                </ListItemIcon>
+                <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
+              </Link>
+            </MenuItem>
+            <Divider style={{ width: '60%', margin: '00px auto' }} />
+            <MenuItem>
               <ListItemIcon>
                 <Icon
-                  className="fas fa-user"
+                  className="fas fa-smile-wink"
                   color="primary"
                   fontSize="small"
                 />
               </ListItemIcon>
-              <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
-            </Link>
-          </MenuItem>
-          <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem>
-            <ListItemIcon>
-              <Icon
-                className="fas fa-smile-wink"
-                color="primary"
-                fontSize="small"
-              />
-            </ListItemIcon>
-            <Typography variant="inherit" color="primary">
-              โปรโมชั่น
-            </Typography>
-          </MenuItem>
-          <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem
-            onClick={() => {
-              action(userSignOut());
-              handleClose();
-            }}
-          >
-            <ListItemIcon>
-              <Icon
-                className="fas fa-sign-out-alt"
-                color="primary"
-                fontSize="small"
-              />
-            </ListItemIcon>
-            <Typography variant="inherit" color="primary">
-              ลงชื่อออก
-            </Typography>
-          </MenuItem>
-        </Menu>
-      </motion.div>
+              <Typography variant="inherit" color="primary">
+                โปรโมชั่น
+              </Typography>
+            </MenuItem>
+            <Divider style={{ width: '60%', margin: '00px auto' }} />
+            <MenuItem
+              onClick={() => {
+                action(userSignOut());
+                handleClose();
+              }}
+            >
+              <ListItemIcon>
+                <Icon
+                  className="fas fa-sign-out-alt"
+                  color="primary"
+                  fontSize="small"
+                />
+              </ListItemIcon>
+              <Typography variant="inherit" color="primary">
+                ลงชื่อออก
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </motion.div>
+      )}
     </>
   );
 };

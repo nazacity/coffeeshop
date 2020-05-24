@@ -58,3 +58,31 @@ export const QUERY_PRODUCT = gql`
     }
   }
 `;
+
+export const QUERY_PLACE = gql`
+  query QUERY_PLACE($id: ID!) {
+    place(id: $id) {
+      id
+      table
+      branch {
+        id
+        branch
+      }
+      state
+      bill {
+        id
+        adult
+        children
+        orders {
+          id
+          storeProduct {
+            id
+            name
+            pictureUrl
+            price
+          }
+        }
+      }
+    }
+  }
+`;

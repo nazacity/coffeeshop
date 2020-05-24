@@ -64,7 +64,6 @@ const ProductMenuItem = ({ object, i }) => {
   const action = useDispatch();
   const [addToCart, { loading, error }] = useMutation(MUTATION_ADDTOCART, {
     onCompleted: (data) => {
-      console.log(data.addToCart);
       const content = (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 // Apollo
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -73,6 +74,18 @@ const MyApp = ({ Component, pageProps, apollo }) => {
           href="https://fonts.googleapis.com/css?family=Oswald|Paprika|Roboto&display=swap"
           rel="stylesheet"
         ></link>
+        <html lang="ja" prefix="og: http://ogp.me/ns#" />
+        <meta property="og:title" content="Line Ecommerce" />
+        <meta property="og:type" content="`website`" />
+        <meta
+          property="og:description"
+          content="หน้าร้าน ระบบเมนู และตะกร้าสินค้า"
+        />
+        <meta property="og:url" content="https://coffeecafe.now.sh/" />
+        <meta property="og:site_name" content="Line Ecommerce" />
+        <meta property="og:image" content="./images/hero/dthero.jpg" />
+        <meta property="og:image:width" content="480" />
+        <meta property="og:image:height" content="255" />
       </Head>
       <ApolloProvider client={apollo}>
         <Provider store={store}>

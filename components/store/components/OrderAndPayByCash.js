@@ -1,34 +1,44 @@
 import React from 'react';
 
-// firebase
-import { db } from '../../../firebase';
-
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_CREATE_ORDER_BYCASH } from '../../../apollo/mutation';
+import { MUTATION_CREATE_ORDERITEM_FROM_STOREORDER } from '../../../apollo/mutation';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUserCarts } from '../../../redux/actions/userActions';
+import { deleteCartsState } from '../../../redux/localStore';
 
 // MUI
 import Button from '@material-ui/core/Button';
 
 const OrderAndPayByCash = ({ amount }) => {
   const action = useDispatch();
-  const [createOrderByCash, { loading, error }] = useMutation(
-    MUTATION_CREATE_ORDER_BYCASH,
+  const carts = useSelector((state) => state.user.carts);
+  const branchId = useSelector((state) => state.user.table.branch.id);
+  const tableId = useSelector((state) => state.user.table.bill.id);
+
+  const [createOrderItemFromStoreOrder, { loading, error }] = useMutation(
+    MUTATION_CREATE_ORDERITEM_FROM_STOREORDER,
     {
       onCompleted: (data) => {
         action(clearUserCarts());
-        db.ref('/order').push(data.createOrderByCash);
+        deleteCartsState();
       },
     }
   );
 
   const handleCheckout = async () => {
-    const result = await createOrderByCash({
-      variables: { amount, branch: 'online', table: '', discount: 0 },
+    console.log('checkout');
+    let orderItem = [];
+    carts.map((item) => {
+      orderItem.push({
+        productId: item.product.id,
+        quantity: item.quantity,
+      });
+    });
+    const result = await createOrderItemFromStoreOrder({
+      variables: { tableId, orderItem, branchId },
     });
   };
 
@@ -57,7 +67,7 @@ const OrderAndPayByCash = ({ amount }) => {
           color="primary"
           disabled={loading}
         >
-          จ่ายด้วยเงินสด
+          สั่งอาหาร
         </Button>
       </form>
     </div>

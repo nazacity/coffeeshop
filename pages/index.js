@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
+import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 
 // MUI
 import Container from '@material-ui/core/Container';
@@ -27,8 +28,6 @@ import Cookies from 'js-cookie';
 import Script from 'react-load-script';
 import queryString from 'query-string';
 import cookie from 'cookie';
-
-import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 
 const HomePage = ({ promotions, user }) => {
   const action = useDispatch();

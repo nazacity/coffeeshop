@@ -35,7 +35,6 @@ import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 
 // components
 import DrawerTopNavbar from './DrawerTopNavbar';
-import { route } from 'next/dist/next-server/server/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,159 +95,161 @@ const TopNavbar = () => {
           href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
         />
       </Head>
-      <motion.div
-        initial={{ opacity: 0, y: '-100%' }}
-        animate={{ opacity: 1, y: '0%' }}
-        transition={{
-          duration: 2,
-          ease: [0.43, 0.13, 0.23, 0.96],
-        }}
-      >
-        <AppBar position="static" classes={{ root: classes.navbar }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-              onClick={() => action(setDrawerTopNavbar())}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Link href="/" className={classes.title}>
-              <Typography variant="h6">Coffee Shop</Typography>
-            </Link>
-            <div>
-              <Link href="/product" style={{ marginRight: '2em' }}>
-                <IconButton>
-                  <Tooltip title="สินค้า">
-                    <LocalCafeIcon style={{ color: '#fff' }} />
-                  </Tooltip>
-                </IconButton>
+      {user.state !== 'StoreClient' && (
+        <motion.div
+          initial={{ opacity: 0, y: '-100%' }}
+          animate={{ opacity: 1, y: '0%' }}
+          transition={{
+            duration: 2,
+            ease: [0.43, 0.13, 0.23, 0.96],
+          }}
+        >
+          <AppBar position="static" classes={{ root: classes.navbar }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+                onClick={() => action(setDrawerTopNavbar())}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Link href="/" className={classes.title}>
+                <Typography variant="h6">Coffee Shop</Typography>
               </Link>
-              {user?.state !== 'guess' && (
-                <Link href="/cart" style={{ marginRight: '2em' }}>
+              <div>
+                <Link href="/product" style={{ marginRight: '2em' }}>
                   <IconButton>
-                    <Badge
-                      badgeContent={cartQuantity(user.carts)}
-                      color="primary"
-                      classes={{ colorPrimary: classes.badge }}
-                    >
-                      <Tooltip title="ตะกร้า">
-                        <ShoppingCartIcon style={{ color: '#fff' }} />
-                      </Tooltip>
-                    </Badge>
+                    <Tooltip title="สินค้า">
+                      <LocalCafeIcon style={{ color: '#fff' }} />
+                    </Tooltip>
                   </IconButton>
                 </Link>
-              )}
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                onClick={
-                  user.state === 'guess' && userLoading === false
-                    ? () => {
-                        route.push('/signin');
-                      }
-                    : user.state === 'client0' && userLoading === false
-                    ? () => {
-                        route.push('/user');
-                      }
-                    : userLoading === true
-                    ? () => {}
-                    : handleMenu
-                }
-              >
-                {userLoading ? (
-                  <div style={{ position: 'relative' }}>
-                    <CircularProgress
-                      variant="determinate"
-                      value={100}
-                      className={classes.top}
-                      size={24}
-                      thickness={4}
-                    />
-                    <CircularProgress
-                      variant="indeterminate"
-                      disableShrink
-                      className={classes.bottom}
-                      size={24}
-                      thickness={4}
-                    />
-                  </div>
-                ) : user.state !== 'guess' ? (
-                  <Avatar
-                    alt="line logo"
-                    src={user.pictureUrl}
-                    className={classes.userlogo}
-                  />
-                ) : (
-                  <AccountCircleIcon style={{ fontSize: 40 }} />
+                {user?.state !== 'guess' && (
+                  <Link href="/cart" style={{ marginRight: '2em' }}>
+                    <IconButton>
+                      <Badge
+                        badgeContent={cartQuantity(user.carts)}
+                        color="primary"
+                        classes={{ colorPrimary: classes.badge }}
+                      >
+                        <Tooltip title="ตะกร้า">
+                          <ShoppingCartIcon style={{ color: '#fff' }} />
+                        </Tooltip>
+                      </Badge>
+                    </IconButton>
+                  </Link>
                 )}
-              </IconButton>
-            </div>
-          </Toolbar>
-          <DrawerTopNavbar />
-        </AppBar>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          elevation={2}
-          style={{ top: '10px' }}
-          transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          style={{ top: '30px', left: '10px' }}
-        >
-          <MenuItem
-            style={{ width: '40%', minWidth: '250px', maxWidth: '400px' }}
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={
+                    user.state === 'guess' && userLoading === false
+                      ? () => {
+                          route.push('/signin');
+                        }
+                      : user.state === 'client0' && userLoading === false
+                      ? () => {
+                          route.push('/user');
+                        }
+                      : userLoading === true
+                      ? () => {}
+                      : handleMenu
+                  }
+                >
+                  {userLoading ? (
+                    <div style={{ position: 'relative' }}>
+                      <CircularProgress
+                        variant="determinate"
+                        value={100}
+                        className={classes.top}
+                        size={24}
+                        thickness={4}
+                      />
+                      <CircularProgress
+                        variant="indeterminate"
+                        disableShrink
+                        className={classes.bottom}
+                        size={24}
+                        thickness={4}
+                      />
+                    </div>
+                  ) : user.state !== 'guess' ? (
+                    <Avatar
+                      alt="line logo"
+                      src={user.pictureUrl}
+                      className={classes.userlogo}
+                    />
+                  ) : (
+                    <AccountCircleIcon style={{ fontSize: 40 }} />
+                  )}
+                </IconButton>
+              </div>
+            </Toolbar>
+            <DrawerTopNavbar />
+          </AppBar>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            elevation={2}
+            style={{ top: '10px' }}
+            transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            style={{ top: '30px', left: '10px' }}
           >
-            <Link href="/user" onClick={handleClose}>
+            <MenuItem
+              style={{ width: '40%', minWidth: '250px', maxWidth: '400px' }}
+            >
+              <Link href="/user" onClick={handleClose}>
+                <ListItemIcon>
+                  <Icon
+                    className="fas fa-user"
+                    color="primary"
+                    fontSize="small"
+                  />
+                </ListItemIcon>
+                <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
+              </Link>
+            </MenuItem>
+            <Divider style={{ width: '60%', margin: '00px auto' }} />
+            <MenuItem>
               <ListItemIcon>
                 <Icon
-                  className="fas fa-user"
+                  className="fas fa-smile-wink"
                   color="primary"
                   fontSize="small"
                 />
               </ListItemIcon>
-              <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
-            </Link>
-          </MenuItem>
-          <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem>
-            <ListItemIcon>
-              <Icon
-                className="fas fa-smile-wink"
-                color="primary"
-                fontSize="small"
-              />
-            </ListItemIcon>
-            <Typography variant="inherit" color="primary">
-              โปรโมชั่น
-            </Typography>
-          </MenuItem>
-          <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem
-            onClick={() => {
-              action(userSignOut());
-              handleClose();
-            }}
-          >
-            <ListItemIcon>
-              <Icon
-                className="fas fa-sign-out-alt"
-                color="primary"
-                fontSize="small"
-              />
-            </ListItemIcon>
-            <Typography variant="inherit" color="primary">
-              ลงชื่อออก
-            </Typography>
-          </MenuItem>
-        </Menu>
-      </motion.div>
+              <Typography variant="inherit" color="primary">
+                โปรโมชั่น
+              </Typography>
+            </MenuItem>
+            <Divider style={{ width: '60%', margin: '00px auto' }} />
+            <MenuItem
+              onClick={() => {
+                action(userSignOut());
+                handleClose();
+              }}
+            >
+              <ListItemIcon>
+                <Icon
+                  className="fas fa-sign-out-alt"
+                  color="primary"
+                  fontSize="small"
+                />
+              </ListItemIcon>
+              <Typography variant="inherit" color="primary">
+                ลงชื่อออก
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </motion.div>
+      )}
     </>
   );
 };

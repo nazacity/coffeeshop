@@ -136,3 +136,26 @@ export const getUserByAccessToken = async (accessToken) => {
   }
   return user.data.user;
 };
+
+export const QUERY_STOREPRODUCTCATALOG = {
+  query: `
+  query{
+    storeProductCatalog{
+      id
+      name
+      th
+      storeProducts{
+        id
+        name
+        price
+        pictureUrl
+        package
+        stockOutDetail{
+          name
+          out
+        }
+      }
+    }
+  }
+  `,
+};
