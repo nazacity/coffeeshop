@@ -13,6 +13,7 @@ import { deleteCartsState } from '../../../redux/localStore';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 
 // Toast
 import { useToasts } from 'react-toast-notifications';
@@ -44,20 +45,11 @@ const OrderAndPayByCash = ({ amount }) => {
         deleteCartsState();
         const content = (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar
-              src={product.pictureUrl}
-              alt={product.name}
-              style={{
-                marginRight: '1vh',
-                backgroundColor: '#fff',
-                boxShadow: theme.common.shadow.black,
-              }}
-            />
             <Typography>ขอบคุณค่ะ</Typography>
           </div>
         );
         addToast(content, {
-          appearance: 'error',
+          appearance: 'info',
           autoDismiss: true,
         });
       },

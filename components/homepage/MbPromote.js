@@ -83,7 +83,7 @@ const MbPromote = ({ promotions }) => {
         <link rel="stylesheet" type="text/css" href="/styles/cardpromote.css" />
         <script
           src="https://kit.fontawesome.com/20efa4bcb4.js"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
       </Head>
       <motion.div

@@ -116,8 +116,9 @@ const HomePage = ({ promotions, user }) => {
 };
 
 export const getServerSideProps = async ({ req, res }) => {
-  const resultPromotions = await getData(QUERY_PROMOTIONS);
-  let promotions = resultPromotions.data.promotion;
+  // const resultPromotions = await getData(QUERY_PROMOTIONS);
+  // let promotions = resultPromotions.data.promotion;
+  let promotions = [];
 
   const { headers } = req;
 

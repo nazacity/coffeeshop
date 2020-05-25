@@ -58,9 +58,7 @@ const index = ({ storeProductCatalog }) => {
     );
     action(setStoreProductCatalogs(storeProductCatalog));
   }, []);
-  const [state, setState] = useState({
-    state: 'Open',
-  });
+  const [state, setState] = useState('Open');
   const router = useRouter();
 
   const { data, loading, error } = useQuery(QUERY_PLACE, {
@@ -68,10 +66,22 @@ const index = ({ storeProductCatalog }) => {
       id: router.query.place,
     },
     onCompleted: (data) => {
-      setState(data.place);
+      setState(data.place.state);
       action(setUser({ table: data.place }));
     },
   });
+
+  const checkState = () => {
+    if (!loading) {
+      if (state == 'Close') {
+        return <Menu />;
+      } else if (state == 'Open') {
+        return <Promotion />;
+      } else {
+        return <Bill />;
+      }
+    }
+  };
 
   return (
     <motion.div
@@ -104,13 +114,7 @@ const index = ({ storeProductCatalog }) => {
           />
         </div>
       )}
-      {!loading && state.state === 'Open' ? (
-        <Promotion state={state.state} />
-      ) : !loading && state.state === 'Close' ? (
-        <Menu />
-      ) : (
-        !loading && state.state === 'Waiting' && <Bill />
-      )}
+      {checkState()}
     </motion.div>
   );
 };

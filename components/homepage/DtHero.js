@@ -66,7 +66,7 @@ const MbHero = ({ promotions }) => {
         <link rel="stylesheet" type="text/css" href="/styles/float.css" />
         <script
           src="https://kit.fontawesome.com/20efa4bcb4.js"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
       </Head>
       <div

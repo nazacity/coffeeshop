@@ -2,7 +2,7 @@ import React from 'react';
 
 // MUI
 import { Typography, Avatar, Divider } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/Styles';
+import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // Redux
