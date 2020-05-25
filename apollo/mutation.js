@@ -11,16 +11,6 @@ export const MUTATION_SIGNINWITHACCESSTOKEN = gql`
       phone
       pictureUrl
       state
-      carts {
-        id
-        product {
-          id
-          name
-          pictureUrl
-          price
-        }
-        quantity
-      }
     }
   }
 `;
@@ -123,6 +113,43 @@ export const MUTATION_CREATE_ORDER_BYCASH = gql`
 `;
 
 export const MUTATION_CREATE_ORDERITEM_FROM_STOREORDER = gql`
+  mutation createOrderItemFromStoreOrder(
+    $tableId: ID!
+    $orderItem: [OrderItemInput]
+    $branchId: ID!
+  ) {
+    createOrderItemFromStoreOrder(
+      tableId: $tableId
+      orderItem: $orderItem
+      branchId: $branchId
+    ) {
+      id
+      place {
+        id
+        branch {
+          id
+          branch
+        }
+        state
+      }
+      adult
+      children
+      orders {
+        id
+        storeProduct {
+          id
+          name
+          pictureUrl
+          price
+        }
+        quantity
+        cost
+      }
+    }
+  }
+`;
+
+export const MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER = gql`
   mutation createOrderItemFromStoreOrder(
     $tableId: ID!
     $orderItem: [OrderItemInput]

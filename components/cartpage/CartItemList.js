@@ -5,20 +5,15 @@ import { motion } from 'framer-motion';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { deleteUserCart } from '../../redux/actions/userActions';
+import { deleteItemCart } from '../../redux/actions/userActions';
 
 // MUI
-import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-
-// Apollo
-import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_DELETECART } from '../../apollo/mutation';
 
 // Components
 import {
@@ -29,46 +24,34 @@ import {
 // Toast
 import { useToasts } from 'react-toast-notifications';
 
-const useStyles = makeStyles((theme) => ({
-  progresscontainer: {
-    padding: '5px',
-    display: 'flex',
-    position: 'relative',
-  },
-  top: {
-    color: '#ffffff',
-    zIndex: 1,
-  },
-  bottom: {
-    right: 5,
-    color: '#a2a2a2',
-    position: 'absolute',
-  },
-}));
-
-const CartItemList = ({
-  cartItem,
-  index,
-  userCartsLength,
-  deleteCart,
-  loading,
-}) => {
-  const classes = useStyles();
+const CartItemList = ({ cartItem, index, userCartsLength }) => {
   const theme = useTheme();
   const matchesLGDown = useMediaQuery('(max-width:1300px)');
   const matchesMDDown = useMediaQuery('(max-width:1200px)');
   const matchesSMDown = useMediaQuery('(max-width:600px)');
+  const action = useDispatch();
+  const { addToast } = useToasts();
 
-  const handleDelete = async (cartItemId) => {
-    try {
-      await deleteCart({
-        variables: {
-          id: cartItemId,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  const handleDelete = async (product) => {
+    action(deleteItemCart(product.id));
+    const content = (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Avatar
+          src={product.pictureUrl}
+          alt={product.name}
+          style={{
+            marginRight: '1vh',
+            backgroundColor: '#fff',
+            boxShadow: theme.common.shadow.black,
+          }}
+        />
+        <Typography>ลบ {product.name} เรียบร้อย</Typography>
+      </div>
+    );
+    addToast(content, {
+      appearance: 'error',
+      autoDismiss: true,
+    });
   };
 
   return (
@@ -84,43 +67,28 @@ const CartItemList = ({
               justifyContent: 'flex-end',
             }}
           >
-            {!loading ? (
-              <ListItemIcon
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  padding: '5px',
-                  paddingRight: matchesSMDown
-                    ? '2%'
-                    : matchesMDDown
-                    ? '4%'
-                    : matchesLGDown
-                    ? '4.5%'
-                    : '5%',
-                }}
-              >
-                <DeleteIcon style={{ color: '#fff' }} />
-              </ListItemIcon>
-            ) : (
-              <div className={classes.progresscontainer}>
-                <CircularProgress
-                  size={24}
-                  classes={{ colorPrimary: classes.top }}
-                />
-                <CircularProgress
-                  variant="determinate"
-                  value={100}
-                  size={24}
-                  classes={{ colorPrimary: classes.bottom }}
-                />
-              </div>
-            )}
+            <ListItemIcon
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                padding: '5px',
+                paddingRight: matchesSMDown
+                  ? '2%'
+                  : matchesMDDown
+                  ? '4%'
+                  : matchesLGDown
+                  ? '4.5%'
+                  : '5%',
+              }}
+            >
+              <DeleteIcon style={{ color: '#fff' }} />
+            </ListItemIcon>
           </div>
         ),
-        action: () => handleDelete(cartItem.id),
+        action: () => handleDelete(cartItem.product),
         actionAnimation: ActionAnimations.REMOVE,
       }}
-      cartItemId={cartItem.id}
+      cartItemId={cartItem.product.id}
       style={{
         position: 'relative',
         transition: 'max-height 0.5s ease',

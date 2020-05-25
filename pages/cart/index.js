@@ -10,25 +10,27 @@ import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
 
 // Component
-import DtCart from '../../components/cartpage/DtCart';
-import MbCart from '../../components/cartpage/MbCart';
+import CartDisplay from '../../components/cartpage/CartDisplay';
+
+// loadState
+import { loadCartsState } from '../../redux/localStore';
 
 // Other
 import cookie from 'cookie';
 
 const CartPage = ({ user }) => {
   const action = useDispatch();
+
   useEffect(() => {
-    action(setUser(user ? user : null));
+    let carts = loadCartsState();
+    if (carts === undefined) {
+      carts = [];
+    }
+    action(setUser(user ? { ...user, carts } : null));
   }, [user]);
   return (
     <Container maxWidth={false}>
-      <Hidden smDown>
-        <DtCart />
-      </Hidden>
-      <Hidden mdUp>
-        <MbCart />
-      </Hidden>
+      <CartDisplay />
     </Container>
   );
 };

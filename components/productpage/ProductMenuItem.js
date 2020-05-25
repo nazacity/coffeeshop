@@ -3,27 +3,18 @@ import React from 'react';
 // Redux
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { updateUserCart } from '../../redux/actions/userActions';
-
-// Apollo
-import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_ADDTOCART } from '../../apollo/mutation';
+import { addItemCart } from '../../redux/actions/userActions';
 
 // Framer-motion
 import { motion } from 'framer-motion';
 
-// Next
-import Link from '../../src/Link';
-import route from 'next/router';
-
 // MUI
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
 import AddIcon from '@material-ui/icons/Add';
 import { IconButton } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
@@ -62,78 +53,44 @@ const ProductMenuItem = ({ object, i }) => {
   const { addToast } = useToasts();
 
   const action = useDispatch();
-  const [addToCart, { loading, error }] = useMutation(MUTATION_ADDTOCART, {
-    onCompleted: (data) => {
-      const content = (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar
-            src={data.addToCart.product.pictureUrl}
-            alt={data.addToCart.product.name}
-            style={{
-              marginRight: '1vh',
-              backgroundColor: '#fff',
-              boxShadow: theme.common.shadow.black,
-            }}
-          />
-          <Typography>เพิ่ม {data.addToCart.product.name} เรียบร้อย</Typography>
-        </div>
-      );
-      addToast(content, {
-        appearance: 'success',
-        autoDismiss: true,
-      });
-      action(updateUserCart(data.addToCart));
-    },
-  });
-
-  const handleAddToCart = async (id) => {
-    await addToCart({
-      variables: {
-        id: id,
-        quantity: 1,
-      },
-    });
-  };
 
   return (
     <Card className={classes.cardRoot}>
       <CardActionArea>
-        <Link href={`/product/[productId]`} as={`/product/${object.id}`}>
-          <motion.div
-            style={{
-              minHeight: '150px',
-              height: '20vw',
-              maxHeight: '300px',
-              width: '100%',
-              backgroundImage: `url(${object.pictureUrl})`,
-              backgroundSize: 'contain,cover',
-              backgroundPositionX: '50%',
-              backgroundRepeat: 'no-repeat',
-              margin: 'auto',
-            }}
-            initial={{
-              y: 60,
-              opacity: 0,
-            }}
-            animate={{
-              y: 0,
-              opacity: 1,
-            }}
-            exit={{
-              y: -60,
-              opacity: 0,
-              transition: {
-                duration: 1.2,
-                ease: 'easeInOut',
-              },
-            }}
-            transition={{
-              duration: 0.9,
+        <motion.div
+          style={{
+            minHeight: '150px',
+            height: '20vw',
+            maxHeight: '300px',
+            width: '100%',
+            backgroundImage: `url(${object.pictureUrl})`,
+            backgroundSize: 'contain,cover',
+            backgroundPositionX: '50%',
+            backgroundRepeat: 'no-repeat',
+            margin: 'auto',
+          }}
+          initial={{
+            y: 60,
+            opacity: 0,
+          }}
+          animate={{
+            y: 0,
+            opacity: 1,
+          }}
+          exit={{
+            y: -60,
+            opacity: 0,
+            transition: {
+              duration: 1.2,
               ease: 'easeInOut',
-              delay: 0.4 * i,
-            }}
-          ></motion.div>
-        </Link>
+            },
+          }}
+          transition={{
+            duration: 0.9,
+            ease: 'easeInOut',
+            delay: 0.4 * i,
+          }}
+        ></motion.div>
       </CardActionArea>
       <motion.div
         style={{
@@ -155,40 +112,28 @@ const ProductMenuItem = ({ object, i }) => {
             height: '60px',
           }}
           onClick={() => {
-            if (user.state === 'guess') {
-              route.push('/signin');
-            } else {
-              handleAddToCart(object.id);
-            }
+            action(addItemCart(object));
+            const content = (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Avatar
+                  src={object.pictureUrl}
+                  alt={object.name}
+                  style={{
+                    marginRight: '1vh',
+                    backgroundColor: '#fff',
+                    boxShadow: theme.common.shadow.black,
+                  }}
+                />
+                <Typography>เพิ่ม {object.name} เรียบร้อย</Typography>
+              </div>
+            );
+            addToast(content, {
+              appearance: 'success',
+              autoDismiss: true,
+            });
           }}
-          disabled={loading}
         >
-          {loading ? (
-            <div
-              style={{
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <CircularProgress
-                variant="determinate"
-                value={100}
-                className={classes.top}
-                size={24}
-                thickness={4}
-              />
-              <CircularProgress
-                variant="indeterminate"
-                disableShrink
-                className={classes.bottom}
-                size={24}
-                thickness={4}
-              />
-            </div>
-          ) : (
-            <AddIcon />
-          )}
+          <AddIcon />
         </IconButton>
       </motion.div>
       <CardContent>

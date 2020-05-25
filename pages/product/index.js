@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import {
   getData,
-  QUERY_PRODUCTS,
-  QUERY_CATALOGS,
   getUserByAccessToken,
+  QUERY_ONLINEPRODUCTCATALOG,
 } from '../../apollo/db';
 
 // Apollo
@@ -18,20 +17,18 @@ import { setUser } from '../../redux/actions/userActions';
 import { setUserLoading } from '../../redux/actions/layoutActions';
 
 // Components
-import DtProducts from '../../components/productpage/DtProducts';
-
-// MUI
-import Hidden from '@material-ui/core/Hidden';
-import MbProducts from '../../components/productpage/MbProduct';
+import OnlineProductDisplay from '../../components/productpage/OnlineProductDisplay';
 
 // Other
 import cookie from 'cookie';
 import Cookies from 'js-cookie';
 import Script from 'react-load-script';
 
-const ProductPage = ({ products, catalog, user }) => {
-  const action = useDispatch();
+// loadState
+import { loadCartsState } from '../../redux/localStore';
 
+const ProductPage = ({ onlineProductCatalog, user }) => {
+  const action = useDispatch();
   const [signinWithAccessToken, { loading, error }] = useMutation(
     MUTATION_SIGNINWITHACCESSTOKEN,
     {
@@ -43,9 +40,13 @@ const ProductPage = ({ products, catalog, user }) => {
   );
 
   useEffect(() => {
-    action(setOnlineProductCatalogs(products));
-    action(setUser(user ? user : null));
-  }, [products, user]);
+    let carts = loadCartsState();
+    if (carts === undefined) {
+      carts = [];
+    }
+    action(setOnlineProductCatalogs(onlineProductCatalog));
+    action(setUser(user ? { ...user, carts } : null));
+  }, [onlineProductCatalog, user]);
 
   const handleLiff = async () => {
     let accessToken;
@@ -68,30 +69,15 @@ const ProductPage = ({ products, catalog, user }) => {
         url="https://static.line-scdn.net/liff/edge/2.1/sdk.js"
         onLoad={() => handleLiff()}
       />
-      <Hidden smDown>
-        <DtProducts catalog={catalog} />
-      </Hidden>
-      <Hidden mdUp>
-        <MbProducts catalog={catalog} />
-      </Hidden>
+      <OnlineProductDisplay />
     </Container>
   );
 };
 
 export const getServerSideProps = async ({ req, res }) => {
-  const resultProducts = await getData(QUERY_PRODUCTS);
-  const resultCatalogs = await getData(QUERY_CATALOGS);
-  let products = resultProducts.data.products;
-  let catalogs = resultCatalogs.data.catalogs;
+  const resultOnelineCatalogs = await getData(QUERY_ONLINEPRODUCTCATALOG);
+  let { onlineProductCatalog } = resultOnelineCatalogs.data;
 
-  let result = [];
-  catalogs.map((catalog, i) => {
-    result.push({
-      name: catalog.name,
-      th: catalog.th,
-      data: products.filter((product) => product.catalog === catalog.name),
-    });
-  });
   const { headers } = req;
 
   const cookies = headers && cookie.parse(headers.cookie || '');
@@ -99,9 +85,9 @@ export const getServerSideProps = async ({ req, res }) => {
 
   if (accessToken) {
     const user = await getUserByAccessToken(accessToken);
-    return { props: { products, catalog: result, user } };
+    return { props: { onlineProductCatalog, user } };
   }
-  return { props: { products, catalog: result, user: {} } };
+  return { props: { onlineProductCatalog, user: {} } };
 };
 
 export default ProductPage;

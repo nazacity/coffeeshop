@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// firebase
-import { db } from '../../../firebase';
-
 // Next
 import Head from 'next/head';
 import router from 'next/router';
@@ -24,10 +21,10 @@ import Avatar from '@material-ui/core/Avatar';
 // Components
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
-import OrderAndPayByCash from './OrderAndPayByCash';
 
 // Toast
 import { useToasts } from 'react-toast-notifications';
+import OrderButton from './components/OrderButton';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -52,8 +49,16 @@ const CartDisplay = () => {
   const { addToast } = useToasts();
   const theme = useTheme();
 
+  const calculateAmount = (carts) => {
+    const amount = carts.reduce(
+      (sum, cart) => sum + cart.quantity * cart.product.price,
+      0
+    );
+    return amount * 100;
+  };
+
   return (
-    <>
+    <React.Fragment>
       <Head>
         <link
           rel="stylesheet"
@@ -148,13 +153,59 @@ const CartDisplay = () => {
             </SwipeableList>
           )}
         </div>
-        {carts.length !== 0 && (
+        {carts.length > 0 && (
+          <div style={{ color: theme.palette.secondary.main }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                width: '100%',
+              }}
+            >
+              <h4 style={{ margin: 'auto' }}></h4>
+              <h4 style={{ marginRight: 'auto' }}>รวม</h4>
+              <h4 style={{ marginLeft: 'auto' }}>
+                {calculateAmount(carts) / 100}
+              </h4>
+              <h4 style={{ margin: 'auto' }}>บาท</h4>
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                width: '100%',
+              }}
+            >
+              <h4 style={{ margin: 'auto' }}></h4>
+              <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
+              <h4 style={{ marginLeft: 'auto' }}>
+                {((calculateAmount(carts) / 100) * 0.07).toFixed(2)}
+              </h4>
+              <h4 style={{ margin: 'auto' }}>บาท</h4>
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr',
+                width: '100%',
+              }}
+            >
+              <h4 style={{ margin: 'auto' }}></h4>
+              <h4 style={{ marginRight: 'auto' }}>สุทธิ</h4>
+              <h4 style={{ marginLeft: 'auto' }}>
+                {((calculateAmount(carts) / 100) * 1.07).toFixed(2)}
+              </h4>
+              <h4 style={{ margin: 'auto' }}>บาท</h4>
+            </div>
+          </div>
+        )}
+        {carts !== 0 && (
           <div>
-            <OrderAndPayByCash />
+            <OrderButton />
           </div>
         )}
       </motion.div>
-    </>
+    </React.Fragment>
   );
 };
 

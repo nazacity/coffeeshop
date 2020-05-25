@@ -36,7 +36,7 @@ const MenuDisplay = () => {
             <Typography variant="h2" align="center" className={classes.title}>
               {catalog.th}
             </Typography>
-            <MotionSlider padding={30} gap={30} allowSlideToLast>
+            <MotionSlider padding={30} gap={30}>
               {catalog.storeProducts.map((object, i) => (
                 <ProductMenuItem object={object} i={i} key={object.id} />
               ))}

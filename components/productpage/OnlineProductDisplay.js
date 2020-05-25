@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import MotionSlider from './motionslider';
 import ProductMenuItem from './ProductMenuItem';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: '1.5em',
@@ -18,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MbProducts = ({ catalog, addToCart }) => {
+const OnlineProductDisplay = () => {
   const classes = useStyles();
+  const catalogs = useSelector((state) => state.products.onlineProductCatalogs);
 
   return (
     <>
       <div style={{ marginBottom: '100px' }}>
-        {catalog.map((catalog) => (
+        {catalogs.map((catalog) => (
           <motion.div
             style={{ marginBottom: '2vh', marginTop: '2vh' }}
             key={catalog.name}
@@ -32,8 +36,8 @@ const MbProducts = ({ catalog, addToCart }) => {
             <Typography variant="h2" align="center" className={classes.title}>
               {catalog.th}
             </Typography>
-            <MotionSlider padding={30} gap={30} allowSlideToLast>
-              {catalog.data.map((object, i) => (
+            <MotionSlider padding={30} gap={30}>
+              {catalog.onlineProducts.map((object, i) => (
                 <ProductMenuItem object={object} i={i} key={object.id} />
               ))}
             </MotionSlider>
@@ -44,4 +48,4 @@ const MbProducts = ({ catalog, addToCart }) => {
   );
 };
 
-export default MbProducts;
+export default OnlineProductDisplay;

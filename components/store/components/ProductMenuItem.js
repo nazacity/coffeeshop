@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
 import AddIcon from '@material-ui/icons/Add';
 import { IconButton } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
@@ -112,6 +113,24 @@ const ProductMenuItem = ({ object, i }) => {
           }}
           onClick={() => {
             action(addItemCart(object));
+            const content = (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Avatar
+                  src={object.pictureUrl}
+                  alt={object.name}
+                  style={{
+                    marginRight: '1vh',
+                    backgroundColor: '#fff',
+                    boxShadow: theme.common.shadow.black,
+                  }}
+                />
+                <Typography>เพิ่ม {object.name} เรียบร้อย</Typography>
+              </div>
+            );
+            addToast(content, {
+              appearance: 'success',
+              autoDismiss: true,
+            });
           }}
         >
           <AddIcon />

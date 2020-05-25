@@ -11,12 +11,30 @@ import { deleteCartsState } from '../../../redux/localStore';
 
 // MUI
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// Toast
+import { useToasts } from 'react-toast-notifications';
+
+const useStyles = makeStyles((theme) => ({
+  top: {
+    color: theme.palette.primary.dark,
+  },
+  bottom: {
+    color: theme.palette.primary.light,
+    animationDuration: '550ms',
+    position: 'absolute',
+    left: 0,
+  },
+}));
 
 const OrderAndPayByCash = ({ amount }) => {
+  const classes = useStyles();
   const action = useDispatch();
   const carts = useSelector((state) => state.user.carts);
-  const branchId = useSelector((state) => state.user.table.branch.id);
-  const tableId = useSelector((state) => state.user.table.bill.id);
+  const table = useSelector((state) => state.user.table);
+  const { addToast } = useToasts();
 
   const [createOrderItemFromStoreOrder, { loading, error }] = useMutation(
     MUTATION_CREATE_ORDERITEM_FROM_STOREORDER,
@@ -24,6 +42,24 @@ const OrderAndPayByCash = ({ amount }) => {
       onCompleted: (data) => {
         action(clearUserCarts());
         deleteCartsState();
+        const content = (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={product.pictureUrl}
+              alt={product.name}
+              style={{
+                marginRight: '1vh',
+                backgroundColor: '#fff',
+                boxShadow: theme.common.shadow.black,
+              }}
+            />
+            <Typography>ขอบคุณค่ะ</Typography>
+          </div>
+        );
+        addToast(content, {
+          appearance: 'error',
+          autoDismiss: true,
+        });
       },
     }
   );
@@ -38,7 +74,11 @@ const OrderAndPayByCash = ({ amount }) => {
       });
     });
     const result = await createOrderItemFromStoreOrder({
-      variables: { tableId, orderItem, branchId },
+      variables: {
+        tableId: table.bill.id,
+        orderItem,
+        branchId: table.branch.id,
+      },
     });
   };
 
@@ -52,24 +92,46 @@ const OrderAndPayByCash = ({ amount }) => {
         marginTop: '20px',
       }}
     >
-      <form>
-        <Button
-          variant="outlined"
-          id="credit-card"
-          type="button"
-          onClick={handleCheckout}
-          disabled={!amount}
-          style={{
-            padding: '5px 10px',
-            cursor: 'pointer',
-            fontSize: '18px',
-          }}
-          color="primary"
-          disabled={loading}
-        >
-          สั่งอาหาร
-        </Button>
-      </form>
+      <Button
+        variant="outlined"
+        id="credit-card"
+        type="button"
+        onClick={handleCheckout}
+        disabled={!amount}
+        style={{
+          padding: '5px 10px',
+          cursor: 'pointer',
+          fontSize: '18px',
+        }}
+        color="primary"
+        disabled={loading || !table}
+      >
+        สั่งอาหาร
+        {loading && (
+          <div
+            style={{
+              position: 'absolute',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <CircularProgress
+              variant="determinate"
+              value={100}
+              className={classes.top}
+              size={24}
+              thickness={4}
+            />
+            <CircularProgress
+              variant="indeterminate"
+              disableShrink
+              className={classes.bottom}
+              size={24}
+              thickness={4}
+            />
+          </div>
+        )}
+      </Button>
     </div>
   );
 };
