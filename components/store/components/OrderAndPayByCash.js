@@ -7,7 +7,7 @@ import { MUTATION_CREATE_ORDERITEM_FROM_STOREORDER } from '../../../apollo/mutat
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUserCarts } from '../../../redux/actions/userActions';
-import { deleteCartsState } from '../../../redux/localStore';
+import { deleteStoreCartsState } from '../../../redux/localStore';
 
 // MUI
 import Button from '@material-ui/core/Button';
@@ -42,7 +42,7 @@ const OrderAndPayByCash = ({ amount }) => {
     {
       onCompleted: (data) => {
         action(clearUserCarts());
-        deleteCartsState();
+        deleteStoreCartsState();
         const content = (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Typography>ขอบคุณค่ะ</Typography>
@@ -57,7 +57,6 @@ const OrderAndPayByCash = ({ amount }) => {
   );
 
   const handleCheckout = async () => {
-    console.log('checkout');
     let orderItem = [];
     carts.map((item) => {
       orderItem.push({

@@ -143,26 +143,6 @@ const DtUserDetail = ({ user }) => {
           <List component="nav" aria-label="address">
             <ListItem>
               <ListItemIcon>
-                <LocationOnIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary="Address" />
-              <IconButton>
-                <Icon className="fa fa-plus-circle" color="primary" />
-              </IconButton>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon></ListItemIcon>
-              <ListItemText primary="26/89 อาคารพนมสิริวัน ถนนพหลโยธิน บางเขน กรุงเทพ 10210" />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon></ListItemIcon>
-              <ListItemText primary="20/19 คอนโดแสนสิริ ทองหล่อ กรุงเทพ 10210" />
-            </ListItem>
-          </List>
-          <Divider style={{ width: '80%', margin: 'auto' }} />
-          <List component="nav" aria-label="address">
-            <ListItem>
-              <ListItemIcon>
                 <Icon className="fas fa-list-ul" color="primary" />
               </ListItemIcon>
               <ListItemText primary="Order History" />

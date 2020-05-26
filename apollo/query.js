@@ -43,3 +43,16 @@ export const QUERY_PLACE = gql`
     }
   }
 `;
+
+export const QUERY_BRANCH = gql`
+  query QUERY_BRANCH {
+    branch {
+      id
+      branch
+      position {
+        lat
+        lng
+      }
+    }
+  }
+`;

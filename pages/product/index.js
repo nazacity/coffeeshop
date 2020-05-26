@@ -25,7 +25,7 @@ import Cookies from 'js-cookie';
 import Script from 'react-load-script';
 
 // loadState
-import { loadCartsState } from '../../redux/localStore';
+import { loadOnlineCartsState } from '../../redux/localStore';
 
 const ProductPage = ({ onlineProductCatalog, user }) => {
   const action = useDispatch();
@@ -40,7 +40,7 @@ const ProductPage = ({ onlineProductCatalog, user }) => {
   );
 
   useEffect(() => {
-    let carts = loadCartsState();
+    let carts = loadOnlineCartsState();
     if (carts === undefined) {
       carts = [];
     }

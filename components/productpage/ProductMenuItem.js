@@ -3,7 +3,7 @@ import React from 'react';
 // Redux
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addItemCart } from '../../redux/actions/userActions';
+import { addOnlineItemCart } from '../../redux/actions/userActions';
 
 // Framer-motion
 import { motion } from 'framer-motion';
@@ -112,7 +112,7 @@ const ProductMenuItem = ({ object, i }) => {
             height: '60px',
           }}
           onClick={() => {
-            action(addItemCart(object));
+            action(addOnlineItemCart(object));
             const content = (
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar

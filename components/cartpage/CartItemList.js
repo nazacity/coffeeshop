@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { deleteItemCart } from '../../redux/actions/userActions';
+import { deleteOnlineItemCart } from '../../redux/actions/userActions';
 
 // MUI
 import { useTheme } from '@material-ui/core/styles';
@@ -33,7 +33,7 @@ const CartItemList = ({ cartItem, index, userCartsLength }) => {
   const { addToast } = useToasts();
 
   const handleDelete = async (product) => {
-    action(deleteItemCart(product.id));
+    action(deleteOnlineItemCart(product.id));
     const content = (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Avatar

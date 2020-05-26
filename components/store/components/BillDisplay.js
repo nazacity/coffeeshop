@@ -97,6 +97,7 @@ const Bill = () => {
               ease: 'easeOut',
               delay: 0.2 * index,
             }}
+            key={`${order.storeProduct.id}${index}`}
           >
             <Avatar
               src={order.storeProduct.pictureUrl}

@@ -169,39 +169,11 @@ const CartDisplay = () => {
               </h4>
               <h4 style={{ margin: 'auto' }}>บาท</h4>
             </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 2fr 1fr 1fr',
-                width: '100%',
-              }}
-            >
-              <h4 style={{ margin: 'auto' }}></h4>
-              <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
-              <h4 style={{ marginLeft: 'auto' }}>
-                {((calculateAmount(carts) / 100) * 0.07).toFixed(2)}
-              </h4>
-              <h4 style={{ margin: 'auto' }}>บาท</h4>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 2fr 1fr 1fr',
-                width: '100%',
-              }}
-            >
-              <h4 style={{ margin: 'auto' }}></h4>
-              <h4 style={{ marginRight: 'auto' }}>สุทธิ</h4>
-              <h4 style={{ marginLeft: 'auto' }}>
-                {((calculateAmount(carts) / 100) * 1.07).toFixed(2)}
-              </h4>
-              <h4 style={{ margin: 'auto' }}>บาท</h4>
-            </div>
           </div>
         )}
         {carts !== 0 && (
           <div>
-            <OrderButton />
+            <OrderButton amount={calculateAmount(carts) / 100} />
           </div>
         )}
       </motion.div>

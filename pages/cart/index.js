@@ -13,7 +13,7 @@ import Hidden from '@material-ui/core/Hidden';
 import CartDisplay from '../../components/cartpage/CartDisplay';
 
 // loadState
-import { loadCartsState } from '../../redux/localStore';
+import { loadOnlineCartsState } from '../../redux/localStore';
 
 // Other
 import cookie from 'cookie';
@@ -22,7 +22,7 @@ const CartPage = ({ user }) => {
   const action = useDispatch();
 
   useEffect(() => {
-    let carts = loadCartsState();
+    let carts = loadOnlineCartsState();
     if (carts === undefined) {
       carts = [];
     }

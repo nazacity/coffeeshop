@@ -4,10 +4,12 @@ import {
   SET_USER_CART,
   DELETE_USER_CART,
   CLEAR_USER_CARTS,
-  ADD_ITEM_CART,
-  DELETE_ITEM_CART,
+  ADD_STOREITEM_CART,
+  DELETE_STOREITEM_CART,
+  ADD_ONLINEITEM_CART,
+  DELETE_ONLINEITEM_CART,
 } from '../types';
-import { saveCartsState } from '../localStore';
+import { saveStoreCartsState, saveOnlineCartsState } from '../localStore';
 
 let INITIAL_STATE = {
   id: 'guess',
@@ -48,21 +50,37 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return { ...state, carts };
     case CLEAR_USER_CARTS:
       return { ...state, carts: [] };
-    case ADD_ITEM_CART:
+    case ADD_STOREITEM_CART:
       index = state.carts.findIndex(
         (cart) => cart.product.id === action.payload.product.id
       );
       if (index > -1) {
         carts = state.carts;
         carts[index].quantity += 1;
-        saveCartsState(carts);
+        saveStoreCartsState(carts);
         return { ...state, carts };
       }
-      saveCartsState([...state.carts, action.payload]);
+      saveStoreCartsState([...state.carts, action.payload]);
       return { ...state, carts: [...state.carts, action.payload] };
-    case DELETE_ITEM_CART:
+    case DELETE_STOREITEM_CART:
       carts = state.carts.filter((cart) => cart.product.id !== action.payload);
-      saveCartsState(carts);
+      saveStoreCartsState(carts);
+      return { ...state, carts };
+    case ADD_ONLINEITEM_CART:
+      index = state.carts.findIndex(
+        (cart) => cart.product.id === action.payload.product.id
+      );
+      if (index > -1) {
+        carts = state.carts;
+        carts[index].quantity += 1;
+        saveOnlineCartsState(carts);
+        return { ...state, carts };
+      }
+      saveOnlineCartsState([...state.carts, action.payload]);
+      return { ...state, carts: [...state.carts, action.payload] };
+    case DELETE_ONLINEITEM_CART:
+      carts = state.carts.filter((cart) => cart.product.id !== action.payload);
+      saveOnlineCartsState(carts);
       return { ...state, carts };
     default:
       return state;

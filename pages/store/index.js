@@ -22,7 +22,7 @@ import Menu from '../../components/store';
 import Bill from '../../components/store/Bill';
 
 // loadState
-import { loadCartsState } from '../../redux/localStore';
+import { loadStoreCartsState } from '../../redux/localStore';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -45,7 +45,7 @@ const index = ({ storeProductCatalog }) => {
   const matches600down = useMediaQuery('(max-width:600px)');
   const action = useDispatch();
   useEffect(() => {
-    let carts = loadCartsState();
+    let carts = loadStoreCartsState();
     if (carts === undefined) {
       carts = [];
     }

@@ -1,6 +1,6 @@
-export const loadCartsState = () => {
+export const loadStoreCartsState = () => {
   try {
-    const serializedState = localStorage.getItem('carts');
+    const serializedState = localStorage.getItem('StoreCarts');
     if (serializedState === null) {
       return undefined;
     } else {
@@ -11,27 +11,48 @@ export const loadCartsState = () => {
   }
 };
 
-export const saveCartsState = (state) => {
+export const saveStoreCartsState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('carts', serializedState);
+    localStorage.setItem('StoreCarts', serializedState);
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const deleteCartsState = (state) => {
+export const deleteStoreCartsState = (state) => {
   try {
-    localStorage.removeItem('carts');
+    localStorage.removeItem('StoreCarts');
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const saveBillState = (state) => {
+export const loadOnlineCartsState = () => {
+  try {
+    const serializedState = localStorage.getItem('OnlineCarts');
+    if (serializedState === null) {
+      return undefined;
+    } else {
+      return JSON.parse(serializedState);
+    }
+  } catch (error) {
+    return undefined;
+  }
+};
+
+export const saveOnlineCartsState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('bill', serializedState);
+    localStorage.setItem('OnlineCarts', serializedState);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const deleteOnlineCartsState = (state) => {
+  try {
+    localStorage.removeItem('OnlineCarts');
   } catch (error) {
     console.log(error.message);
   }
