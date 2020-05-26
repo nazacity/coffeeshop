@@ -43,14 +43,14 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
     OmiseCard.configure({
       publicKey: process.env.OMISE_PUBLIC_KEY,
       currency: 'thb',
-      frameLabel: 'Tea Shop',
-      submitLabel: 'PAY NOW',
-      buttonLabel: 'PAY with Omise',
+      frameLabel: 'Coffee Shop',
+      submitLabel: 'ชำระเงิน',
+      buttonLabel: 'ชำระด้วย OMISE',
     });
   };
 
-  const internetBankingConfigure = () => {
-    OmiseCard.configure({
+  const internetBankingConfigure = async () => {
+    await OmiseCard.configure({
       defaultPaymentMethod: 'internet_banking',
       otherPaymentMethods: [
         'bill_payment_tesco_lotus',
@@ -60,26 +60,24 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
         'convenience_store',
       ],
     });
-    OmiseCard.configureButton('#internet-banking');
-    OmiseCard.attach();
+    await OmiseCard.configureButton('#internet-banking');
+    await OmiseCard.attach();
   };
 
   const omiseCardHandler = () => {
     const redirect_uri = process.env.LINE_REDIRECT_URI;
 
-    let orderItem = [];
-    carts.map((item) => {
-      orderItem.push({
-        productId: item.product.id,
-        quantity: item.quantity,
-      });
-    });
-
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
       amount,
-      onCreateTokenSuccess: (token) => {
-        console.log(token);
+      onCreateTokenSuccess: async (token) => {
+        let orderItem = [];
+        await carts.map((item) => {
+          orderItem.push({
+            productId: item.product.id,
+            quantity: item.quantity,
+          });
+        });
         createOrderItemFromOnlineOrder({
           variables: {
             amount: amount,
@@ -102,23 +100,24 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Script url="https://cdn.omise.co/omise.js" onLoad={handleLoadScript} />
-      <Button
-        variant="contained"
-        id="internet-banking"
-        type="button"
-        onClick={handleClick}
-        disabled={!amount}
-        style={{
-          padding: '5px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          width: matches1024down ? '100%' : '30vw',
-          margin: 'auto',
-        }}
-        color="primary"
-      >
-        ชำระทางอินเตอร์เน็ตแบงค์คิง
-      </Button>
+      <form style={{ width: '100%' }}>
+        <Button
+          variant="contained"
+          id="internet-banking"
+          onClick={handleClick}
+          disabled={!amount}
+          style={{
+            padding: '5px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            width: matches1024down ? '100%' : '30vw',
+            margin: 'auto',
+          }}
+          color="primary"
+        >
+          ชำระทางอินเตอร์เน็ตแบงค์คิง
+        </Button>
+      </form>
     </div>
   );
 };

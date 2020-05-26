@@ -24,6 +24,7 @@ import Select from '@material-ui/core/Select';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CallIcon from '@material-ui/icons/Call';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Component
 import GoogleMapComponent from './GoogleMap';
@@ -46,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  top: {
+    color: theme.palette.primary.dark,
+    position: 'absolute',
+  },
+  bottom: {
+    color: theme.palette.primary.light,
+    animationDuration: '550ms',
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -60,6 +69,7 @@ const OrderButton = ({ amount }) => {
   const [open, setOpen] = useState(false);
   const [distance, setDistance] = useState(false);
   const matches1024down = useMediaQuery('(max-width:1024px)');
+  const matches600down = useMediaQuery('(max-width:600px)');
 
   const [selectedBranch, setSelectedBranch] = useState({
     id: '',
@@ -68,6 +78,12 @@ const OrderButton = ({ amount }) => {
       lng: '0',
     },
   });
+
+  const calculateAmount = (amount, distanceNet) => {
+    let total;
+    total = (amount + Math.ceil(distanceNet)) * 100;
+    return total;
+  };
 
   const [indexBranch, setIndexBranch] = useState();
 
@@ -155,7 +171,6 @@ const OrderButton = ({ amount }) => {
           </Button>
         </div>
       )}
-
       <Dialog
         fullScreen
         open={open}
@@ -177,162 +192,206 @@ const OrderButton = ({ amount }) => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <div style={{ marginBottom: '100px' }}>
-          <Card
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '2vh',
-              margin: '2vh auto',
-              width: '90%',
-            }}
-          >
-            <Avatar
-              src={user.pictureUrl}
-              alt={user.firstName}
-              style={{
-                width: matches1024down ? 60 : 80,
-                height: matches1024down ? 60 : 80,
-                marginRight: matches1024down ? '1vh' : '2vh',
-              }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContents: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Typography color="primary">ผู้รับ</Typography>
-              <Typography color="primary" style={{ marginTop: '1vh' }}>
-                {user.firstName} {user.lastName}
-              </Typography>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContents: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Typography>
-                <CallIcon color="primary" />
-              </Typography>
-              <Typography color="primary">{user.phone}</Typography>
-            </div>
-          </Card>
-          <FormControl
-            variant="outlined"
-            style={{
-              minWidth: 120,
-              width: matches1024down ? '95%' : '80%',
-              margin: '1vh auto',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <InputLabel id="demo-simple-select-outlined-label">สาขา</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={indexBranch}
-              onChange={handleChange}
-              label="สาขา"
-            >
-              {data?.branch.map((branch) => (
-                <MenuItem
-                  key={branch.id}
-                  value={branch.position}
-                  name={branch.id}
-                >
-                  {branch.branch}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        {loading ? (
           <div
             style={{
-              width: matches1024down ? '100%' : '80%',
-              margin: '1vh auto',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%,-50%)',
             }}
           >
-            <GoogleMapComponent
-              branchPosition={selectedBranch.position}
-              setDistance={setDistance}
+            <CircularProgress
+              variant="determinate"
+              value={100}
+              className={classes.top}
+              size={matches600down ? 60 : 120}
+              thickness={4}
+            />
+            <CircularProgress
+              variant="indeterminate"
+              disableShrink
+              className={classes.bottom}
+              size={matches600down ? 60 : 120}
+              thickness={4}
             />
           </div>
-
-          <AppBar
-            position="fixed"
-            color="primary"
-            style={{
-              top: 'auto',
-              bottom: 0,
-              backgroundColor: '#fff',
-            }}
-          >
-            <div
+        ) : (
+          <div style={{ marginBottom: '100px' }}>
+            <Card
               style={{
-                width: matches1024down ? '90%' : '80%',
-                margin: '1vh auto',
+                display: 'flex',
+                justifyContent: 'space-between',
                 padding: '2vh',
+                margin: '2vh auto',
+                width: '90%',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="body2" color="primary">
-                  ค่าอาหาร
-                </Typography>
-                <Typography variant="body2" color="primary">
-                  {amount.toFixed(2)} บาท
-                </Typography>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="body2" color="primary">
-                  ค่าจัดส่ง ({distance.text ? distance.text : 'กรุณาเลือกพิกัด'}
-                  )
-                </Typography>
-                <Typography variant="body2" color="primary">
-                  {(distance.value ? distance.value * 0.02 : 0).toFixed(2)} บาท
+              <Avatar
+                src={user.pictureUrl}
+                alt={user.firstName}
+                style={{
+                  width: matches1024down ? 60 : 80,
+                  height: matches1024down ? 60 : 80,
+                  marginRight: matches1024down ? '1vh' : '2vh',
+                }}
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContents: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography color="primary">ผู้รับ</Typography>
+                <Typography color="primary" style={{ marginTop: '1vh' }}>
+                  {user.firstName} {user.lastName}
                 </Typography>
               </div>
               <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'space-between',
+                  flexDirection: 'column',
+                  justifyContents: 'center',
+                  alignItems: 'center',
                 }}
               >
-                <Typography
-                  variant="body1"
-                  color="primary"
-                  style={{ fontWeight: 'bold' }}
-                >
-                  รวม
+                <Typography>
+                  <CallIcon color="primary" />
                 </Typography>
-                <Typography
-                  variant="body1"
-                  color="primary"
-                  style={{ fontWeight: 'bold' }}
-                >
-                  {(distance.value
-                    ? amount + distance.value * 0.02
-                    : 0
-                  ).toFixed(2)}
-                  บาท
-                </Typography>
+                <Typography color="primary">{user.phone}</Typography>
               </div>
-              <CheckoutWithCreditCard
-                amount={distance.value ? amount + distance.value * 0.02 : 0}
-                branchId={selectedBranch.id}
-              />
-              <CheckoutWithInternetBanking
-                amount={distance.value ? amount + distance.value * 0.02 : 0}
-                branchId={selectedBranch.id}
+            </Card>
+            <FormControl
+              variant="outlined"
+              style={{
+                minWidth: 120,
+                width: matches1024down ? '95%' : '80%',
+                margin: '1vh auto',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                สาขา
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={indexBranch}
+                onChange={handleChange}
+                label="สาขา"
+              >
+                {data?.branch.map((branch) => (
+                  <MenuItem
+                    key={branch.id}
+                    value={branch.position}
+                    name={branch.id}
+                  >
+                    {branch.branch}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <div
+              style={{
+                width: matches1024down ? '100%' : '80%',
+                margin: '1vh auto',
+              }}
+            >
+              <GoogleMapComponent
+                branchPosition={selectedBranch.position}
+                setDistance={setDistance}
               />
             </div>
-          </AppBar>
-        </div>
+
+            <AppBar
+              position="fixed"
+              color="primary"
+              style={{
+                top: 'auto',
+                bottom: 0,
+                backgroundColor: '#fff',
+              }}
+            >
+              <div
+                style={{
+                  width: matches1024down ? '90%' : '80%',
+                  margin: '1vh auto',
+                  padding: '2vh',
+                }}
+              >
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Typography variant="body2" color="primary">
+                    ค่าอาหาร
+                  </Typography>
+                  <Typography variant="body2" color="primary">
+                    {amount.toFixed(2)} บาท
+                  </Typography>
+                </div>
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Typography variant="body2" color="primary">
+                    ค่าจัดส่ง (
+                    {distance.text ? distance.text : 'กรุณาเลือกพิกัด'})
+                  </Typography>
+                  <Typography variant="body2" color="primary">
+                    {(distance.value
+                      ? Math.ceil(distance.value * 0.02)
+                      : 0
+                    ).toFixed(2)}{' '}
+                    บาท
+                  </Typography>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    color="primary"
+                    style={{ fontWeight: 'bold' }}
+                  >
+                    รวม
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="primary"
+                    style={{ fontWeight: 'bold' }}
+                  >
+                    {(distance.value
+                      ? amount + Math.ceil(distance.value * 0.02)
+                      : 0
+                    ).toFixed(2)}
+                    บาท
+                  </Typography>
+                </div>
+                <CheckoutWithCreditCard
+                  amount={
+                    distance.value
+                      ? calculateAmount(amount, distance.value * 0.02)
+                      : 0
+                  }
+                  branchId={selectedBranch.id}
+                />
+                <CheckoutWithInternetBanking
+                  amount={
+                    distance.value
+                      ? calculateAmount(amount, distance.value * 0.02)
+                      : 0
+                  }
+                  branchId={selectedBranch.id}
+                />
+              </div>
+            </AppBar>
+          </div>
+        )}
       </Dialog>
     </React.Fragment>
   );

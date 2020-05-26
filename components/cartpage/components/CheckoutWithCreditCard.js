@@ -29,6 +29,8 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
   const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
 
+  console.log(amount);
+
   const [createOrderItemFromOnlineOrder, { loading, error }] = useMutation(
     MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER,
     {
@@ -43,35 +45,33 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
     OmiseCard.configure({
       publicKey: process.env.OMISE_PUBLIC_KEY,
       currency: 'thb',
-      frameLabel: 'Tea Shop',
-      submitLabel: 'PAY NOW',
-      buttonLabel: 'PAY with Omise',
+      frameLabel: 'Coffee Cafe',
+      submitLabel: 'ชำระเงิน',
+      buttonLabel: 'ชำระด้วย OMISE',
     });
   };
 
-  const creditCardConfigure = () => {
-    OmiseCard.configure({
+  const creditCardConfigure = async () => {
+    console.log('test2');
+    await OmiseCard.configure({
       defaultPaymentMethod: 'credit_card',
       otherPaymentMethods: [],
     });
-    OmiseCard.configureButton('#credit-card');
-    OmiseCard.attach();
+    await OmiseCard.configureButton('#credit-card');
+    await OmiseCard.attach();
   };
 
   const omiseHandler = () => {
-    let orderItem = [];
-    carts.map((item) => {
-      orderItem.push({
-        productId: item.product.id,
-        quantity: item.quantity,
-      });
-    });
-
     OmiseCard.open({
       amount: amount,
-      onCreateTokenSuccess: (token) => {
-        console.log(token);
-        console.log(token);
+      onCreateTokenSuccess: async (token) => {
+        let orderItem = [];
+        await carts.map((item) => {
+          orderItem.push({
+            productId: item.product.id,
+            quantity: item.quantity,
+          });
+        });
         createOrderItemFromOnlineOrder({
           variables: {
             amount: amount,
@@ -97,22 +97,24 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
       style={{ margin: '1vh auto', display: 'flex', justifyContent: 'center' }}
     >
       <Script url="https://cdn.omise.co/omise.js" onLoad={handleLoadScript} />
-      <Button
-        variant="contained"
-        id="credit-card"
-        type="button"
-        onClick={handleClick}
-        disabled={!amount}
-        style={{
-          padding: '5px 10px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          width: matches1024down ? '100%' : '30vw',
-        }}
-        color="primary"
-      >
-        ชำระทางบัตรเครดิต
-      </Button>
+      <form style={{ width: '100%' }}>
+        <Button
+          variant="contained"
+          id="credit-card"
+          onClick={handleClick}
+          disabled={!amount}
+          style={{
+            padding: '5px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            width: matches1024down ? '100%' : '30vw',
+            margin: 'auto',
+          }}
+          color="primary"
+        >
+          ชำระทางบัตรเครดิต
+        </Button>
+      </form>
     </div>
   );
 };
