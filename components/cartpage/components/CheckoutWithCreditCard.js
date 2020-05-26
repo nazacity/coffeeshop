@@ -24,18 +24,20 @@ const useStyles = makeStyles((theme) => ({
 
 let OmiseCard;
 
-const CheckoutWithCreditCard = ({ amount, branchId }) => {
+const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
-
-  console.log(amount);
 
   const [createOrderItemFromOnlineOrder, { loading, error }] = useMutation(
     MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER,
     {
       onCompleted: (data) => {
         console.log(data.createOrderItemFromOnlineOrder);
+        if (data.createOrderItemFromOnlineOrder.authorizeUri) {
+          window.location.href =
+            data.createOrderItemFromOnlineOrder.authorizeUri;
+        }
       },
     }
   );
@@ -45,25 +47,25 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
     OmiseCard.configure({
       publicKey: process.env.OMISE_PUBLIC_KEY,
       currency: 'thb',
-      frameLabel: 'Coffee Cafe',
+      frameLabel: 'Coffee Shop',
       submitLabel: 'ชำระเงิน',
       buttonLabel: 'ชำระด้วย OMISE',
     });
   };
 
-  const creditCardConfigure = async () => {
-    console.log('test2');
-    await OmiseCard.configure({
+  const internetBankingConfigure = () => {
+    OmiseCard.configure({
       defaultPaymentMethod: 'credit_card',
       otherPaymentMethods: [],
     });
-    await OmiseCard.configureButton('#credit-card');
-    await OmiseCard.attach();
+    OmiseCard.configureButton('#creditcard');
+    OmiseCard.attach();
   };
 
-  const omiseHandler = () => {
+  const omiseCardHandler = () => {
     OmiseCard.open({
-      amount: amount,
+      frameDescription: 'Invoice #3847',
+      amount,
       onCreateTokenSuccess: async (token) => {
         let orderItem = [];
         await carts.map((item) => {
@@ -72,6 +74,7 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
             quantity: item.quantity,
           });
         });
+        console.log(token);
         createOrderItemFromOnlineOrder({
           variables: {
             amount: amount,
@@ -86,21 +89,26 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
   };
 
   const handleClick = (e) => {
+    handleClose();
     e.preventDefault();
-
-    creditCardConfigure();
-    omiseHandler();
+    internetBankingConfigure();
+    omiseCardHandler();
   };
 
   return (
-    <div
-      style={{ margin: '1vh auto', display: 'flex', justifyContent: 'center' }}
-    >
+    <React.Fragment>
       <Script url="https://cdn.omise.co/omise.js" onLoad={handleLoadScript} />
-      <form style={{ width: '100%' }}>
+      <form
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          margin: '1vh auto',
+        }}
+      >
         <Button
           variant="contained"
-          id="credit-card"
+          id="creditcard"
           onClick={handleClick}
           disabled={!amount}
           style={{
@@ -115,8 +123,8 @@ const CheckoutWithCreditCard = ({ amount, branchId }) => {
           ชำระทางบัตรเครดิต
         </Button>
       </form>
-    </div>
+    </React.Fragment>
   );
 };
 
-export default CheckoutWithCreditCard;
+export default CheckoutWithInternetBanking;

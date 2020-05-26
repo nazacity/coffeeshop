@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 let OmiseCard;
 
-const CheckoutWithInternetBanking = ({ amount, branchId }) => {
+const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
@@ -34,6 +34,10 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
     {
       onCompleted: (data) => {
         console.log(data.createOrderItemFromOnlineOrder);
+        if (data.createOrderItemFromOnlineOrder.authorizeUri) {
+          window.location.href =
+            data.createOrderItemFromOnlineOrder.authorizeUri;
+        }
       },
     }
   );
@@ -49,8 +53,8 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
     });
   };
 
-  const internetBankingConfigure = async () => {
-    await OmiseCard.configure({
+  const internetBankingConfigure = () => {
+    OmiseCard.configure({
       defaultPaymentMethod: 'internet_banking',
       otherPaymentMethods: [
         'bill_payment_tesco_lotus',
@@ -60,8 +64,8 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
         'convenience_store',
       ],
     });
-    await OmiseCard.configureButton('#internet-banking');
-    await OmiseCard.attach();
+    OmiseCard.configureButton('#internet-banking');
+    OmiseCard.attach();
   };
 
   const omiseCardHandler = () => {
@@ -78,6 +82,7 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
             quantity: item.quantity,
           });
         });
+        console.log(token);
         createOrderItemFromOnlineOrder({
           variables: {
             amount: amount,
@@ -92,15 +97,24 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    handleClose();
+    e.preventDefault();
     internetBankingConfigure();
     omiseCardHandler();
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <React.Fragment>
       <Script url="https://cdn.omise.co/omise.js" onLoad={handleLoadScript} />
-      <form style={{ width: '100%' }}>
+      <form
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          margin: '1vh auto',
+        }}
+      >
         <Button
           variant="contained"
           id="internet-banking"
@@ -118,7 +132,7 @@ const CheckoutWithInternetBanking = ({ amount, branchId }) => {
           ชำระทางอินเตอร์เน็ตแบงค์คิง
         </Button>
       </form>
-    </div>
+    </React.Fragment>
   );
 };
 

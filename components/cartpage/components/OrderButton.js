@@ -74,8 +74,8 @@ const OrderButton = ({ amount }) => {
   const [selectedBranch, setSelectedBranch] = useState({
     id: '',
     position: {
-      lat: '0',
-      lng: '0',
+      lat: 0,
+      lng: 0,
     },
   });
 
@@ -112,8 +112,6 @@ const OrderButton = ({ amount }) => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  console.log('distance', distance.text);
 
   return (
     <React.Fragment>
@@ -373,20 +371,14 @@ const OrderButton = ({ amount }) => {
                   </Typography>
                 </div>
                 <CheckoutWithCreditCard
-                  amount={
-                    distance.value
-                      ? calculateAmount(amount, distance.value * 0.02)
-                      : 0
-                  }
+                  amount={calculateAmount(amount, distance.value * 0.02)}
                   branchId={selectedBranch.id}
+                  handleClose={handleClose}
                 />
                 <CheckoutWithInternetBanking
-                  amount={
-                    distance.value
-                      ? calculateAmount(amount, distance.value * 0.02)
-                      : 0
-                  }
+                  amount={calculateAmount(amount, distance.value * 0.02)}
                   branchId={selectedBranch.id}
+                  handleClose={handleClose}
                 />
               </div>
             </AppBar>

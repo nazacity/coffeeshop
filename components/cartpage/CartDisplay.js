@@ -21,6 +21,7 @@ import Avatar from '@material-ui/core/Avatar';
 // Components
 import { SwipeableList } from '@sandstreamdev/react-swipeable-list';
 import CartItemList from './CartItemList';
+import CheckoutWithCreditCart from './components/CheckoutWithCreditCard';
 
 // Toast
 import { useToasts } from 'react-toast-notifications';

@@ -68,13 +68,7 @@ export const MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER = gql`
       branchId: $branchId
     ) {
       id
-      lineId
-      firstName
-      lastName
-      email
-      phone
-      pictureUrl
-      state
+      authorizeUri
     }
   }
 `;
