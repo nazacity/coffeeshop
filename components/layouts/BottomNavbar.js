@@ -145,7 +145,7 @@ const BottomNavbar = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Head>
         <link
           rel="stylesheet"
@@ -312,7 +312,7 @@ const BottomNavbar = () => {
           </Menu>
         </motion.div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

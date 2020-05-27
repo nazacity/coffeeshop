@@ -39,17 +39,17 @@ const socialMediaIcon = [
   {
     name: 'facbook',
     icon: 'fab fa-facebook-square',
-    link: '#',
+    link: 'https://www.facebook.com/',
   },
   {
     name: 'twitter',
     icon: 'fab fa-twitter-square',
-    link: '#',
+    link: 'https://twitter.com/',
   },
   {
     name: 'instagram',
     icon: 'fab fa-instagram-square',
-    link: '#',
+    link: 'https://www.instagram.com/',
   },
 ];
 
