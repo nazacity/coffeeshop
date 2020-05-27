@@ -95,17 +95,24 @@ const PaymentDialog = ({ open, setCheckoutLoading, handleClose, amount }) => {
   const { data, loading, error } = useQuery(QUERY_BRANCH, {
     onCompleted: (data) => {
       setSelectedBranch({
-        id: data?.branch[0].id,
-        position: data?.branch[0].position,
+        id: data.branch[0].id,
+        position: data.branch[0].position,
       });
-      setIndexBranch(data?.branch[0].position);
+      setIndexBranch(data.branch[0].id);
     },
   });
 
   const handleChange = (event) => {
+    let branchData = data.branch.find(
+      (branch) => branch.id === event.target.value
+    );
+
     setSelectedBranch({
-      id: event.target.name,
-      position: event.target.value,
+      id: branchData.id,
+      position: {
+        lat: +branchData.position.lat,
+        lng: +branchData.position.lng,
+      },
     });
     setIndexBranch(event.target.value);
   };
@@ -222,11 +229,7 @@ const PaymentDialog = ({ open, setCheckoutLoading, handleClose, amount }) => {
               label="สาขา"
             >
               {data?.branch.map((branch) => (
-                <MenuItem
-                  key={branch.id}
-                  value={branch.position}
-                  name={branch.id}
-                >
+                <MenuItem key={branch.id} value={branch.id}>
                   {branch.branch}
                 </MenuItem>
               ))}

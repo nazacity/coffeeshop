@@ -53,14 +53,7 @@ const CartDisplay = () => {
   const theme = useTheme();
 
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/styles/SwipeableList.css"
-        />
-      </Head>
+    <React.Fragment>
       <motion.div
         exit={{ opacity: 0 }}
         transition={{
@@ -154,7 +147,7 @@ const CartDisplay = () => {
           </div>
         )}
       </motion.div>
-    </>
+    </React.Fragment>
   );
 };
 

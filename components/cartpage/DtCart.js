@@ -126,14 +126,7 @@ const DtCart = () => {
   });
 
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/styles/SwipeableList.css"
-        />
-      </Head>
+    <React.Fragment>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -270,7 +263,7 @@ const DtCart = () => {
           </div>
         )}
       </motion.div>
-    </>
+    </React.Fragment>
   );
 };
 

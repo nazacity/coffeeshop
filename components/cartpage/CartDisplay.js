@@ -60,13 +60,6 @@ const CartDisplay = () => {
 
   return (
     <React.Fragment>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/styles/SwipeableList.css"
-        />
-      </Head>
       <motion.div
         exit={{ opacity: 0 }}
         transition={{

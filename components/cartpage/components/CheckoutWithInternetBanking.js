@@ -17,6 +17,7 @@ const CheckoutWithInternetBanking = ({
   branchId,
   handleClose,
   setCheckoutLoading,
+  center,
 }) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const carts = useSelector((state) => state.user.carts);
@@ -80,18 +81,16 @@ const CheckoutWithInternetBanking = ({
           });
         });
 
-        try {
-          createOrderItemFromOnlineOrder({
-            variables: {
-              amount: amount,
-              token: token,
-              return_uri: redirect_uri,
-              orderItem: orderItem,
-              branchId: branchId,
-              position: center,
-            },
-          });
-        } catch (error) {}
+        await createOrderItemFromOnlineOrder({
+          variables: {
+            amount: amount,
+            token: token,
+            return_uri: redirect_uri,
+            orderItem: orderItem,
+            branchId: branchId,
+            position: center,
+          },
+        });
       },
       onFormClosed: () => {},
     });
