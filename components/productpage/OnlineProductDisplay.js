@@ -29,7 +29,7 @@ const OnlineProductDisplay = () => {
     <>
       <div style={{ marginBottom: '100px' }}>
         {catalogs.map((catalog) => (
-          <motion.div
+          <div
             style={{ marginBottom: '2vh', marginTop: '2vh' }}
             key={catalog.name}
           >
@@ -41,7 +41,7 @@ const OnlineProductDisplay = () => {
                 <ProductMenuItem object={object} i={i} key={object.id} />
               ))}
             </MotionSlider>
-          </motion.div>
+          </div>
         ))}
       </div>
     </>

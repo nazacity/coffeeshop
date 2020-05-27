@@ -1,14 +1,23 @@
 import React from 'react';
 import Script from 'react-load-script';
+
+// MUI
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER } from '../../../apollo/mutation';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUserCarts } from '../../../redux/actions/userActions';
+import { deleteOnlineCartsState } from '../../../redux/localStore';
+
+// Toast
+import { useToasts } from 'react-toast-notifications';
 
 const useStyles = makeStyles((theme) => ({
   top: {
@@ -26,18 +35,38 @@ let OmiseCard;
 
 const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
+  const theme = useTheme();
   const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
+  const user = useSelector((state) => state.user);
+  const action = useDispatch();
+  const { addToast } = useToasts();
 
   const [createOrderItemFromOnlineOrder, { loading, error }] = useMutation(
     MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER,
     {
       onCompleted: (data) => {
         console.log(data.createOrderItemFromOnlineOrder);
-        if (data.createOrderItemFromOnlineOrder.authorizeUri) {
-          window.location.href =
-            data.createOrderItemFromOnlineOrder.authorizeUri;
-        }
+        action(clearUserCarts());
+        deleteOnlineCartsState();
+        const content = (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={user.pictureUrl}
+              alt={user.fisrtName}
+              style={{
+                marginRight: '1vh',
+                backgroundColor: '#fff',
+                boxShadow: theme.common.shadow.black,
+              }}
+            />
+            <Typography>คุณ {user.name} ขอบคุณค่ะ</Typography>
+          </div>
+        );
+        addToast(content, {
+          appearance: 'info',
+          autoDismiss: true,
+        });
       },
     }
   );
@@ -75,7 +104,8 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
           });
         });
         console.log(token);
-        createOrderItemFromOnlineOrder({
+
+        await createOrderItemFromOnlineOrder({
           variables: {
             amount: amount,
             token: token,

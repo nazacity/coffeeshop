@@ -57,7 +57,7 @@ const ProductMenuItem = ({ object, i }) => {
   return (
     <Card className={classes.cardRoot}>
       <CardActionArea>
-        <motion.div
+        <div
           style={{
             minHeight: '150px',
             height: '20vw',
@@ -69,28 +69,7 @@ const ProductMenuItem = ({ object, i }) => {
             backgroundRepeat: 'no-repeat',
             margin: 'auto',
           }}
-          initial={{
-            y: 60,
-            opacity: 0,
-          }}
-          animate={{
-            y: 0,
-            opacity: 1,
-          }}
-          exit={{
-            y: -60,
-            opacity: 0,
-            transition: {
-              duration: 1.2,
-              ease: 'easeInOut',
-            },
-          }}
-          transition={{
-            duration: 0.9,
-            ease: 'easeInOut',
-            delay: 0.4 * i,
-          }}
-        ></motion.div>
+        ></div>
       </CardActionArea>
       <motion.div
         style={{
@@ -137,28 +116,14 @@ const ProductMenuItem = ({ object, i }) => {
         </IconButton>
       </motion.div>
       <CardContent>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            transition: {
-              duration: 0.6,
-            },
-          }}
-          transition={{
-            duration: 1.2,
-            ease: 'easeIn',
-            delay: 0.2 * i + 0.8,
-          }}
-        >
+        <div>
           <Typography align="center" variant="body1" color="primary">
             {object.name}
           </Typography>
           <Typography align="center" variant="body1" color="primary">
             {object.price} บาท
           </Typography>
-        </motion.div>
+        </div>
       </CardContent>
     </Card>
   );

@@ -127,25 +127,7 @@ const MbPromote = ({ promotions }) => {
               <CardContent style={{ overflow: 'hidden' }}>
                 {user.state === 'guess' || user.state === 'client0' ? (
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <motion.div
-                      initial={{ x: '-30%' }}
-                      animate={{
-                        x: '0%',
-                        transition: {
-                          duration: 1,
-                          delay: 2,
-                          ease: 'easeOut',
-                        },
-                      }}
-                      exit={{
-                        x: '-30%',
-                        transition: {
-                          duration: 1,
-                          delay: 2,
-                          ease: 'easeIn',
-                        },
-                      }}
-                    >
+                    <div>
                       <Avatar
                         src={
                           user.state === 'guess'
@@ -155,7 +137,7 @@ const MbPromote = ({ promotions }) => {
                         alt="Register"
                         className={classes.userAvatar}
                       />
-                    </motion.div>
+                    </div>
                     <div
                       style={{
                         display: 'flex',
@@ -184,33 +166,13 @@ const MbPromote = ({ promotions }) => {
                   </div>
                 ) : (
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <motion.div
-                      initial={{ x: '-30%', opacity: 0 }}
-                      animate={{
-                        x: '0%',
-                        opacity: 1,
-                        transition: {
-                          duration: 1,
-                          delay: 2,
-                          ease: 'easeOut',
-                        },
-                      }}
-                      exit={{
-                        x: '-30%',
-                        opacity: 0,
-                        transition: {
-                          duration: 1,
-                          delay: 2,
-                          ease: 'easeIn',
-                        },
-                      }}
-                    >
+                    <div>
                       <Avatar
                         src={user.pictureUrl}
                         alt="user.name"
                         className={classes.userAvatar}
                       />
-                    </motion.div>
+                    </div>
                     <div
                       style={{
                         display: 'flex',
@@ -247,35 +209,14 @@ const MbPromote = ({ promotions }) => {
               </Typography>
               <div style={{ display: 'flex' }}>
                 {faces.map((face, i) => (
-                  <motion.div
-                    key={face}
-                    initial={{ x: '-30%', opacity: 0 }}
-                    animate={{
-                      x: '0%',
-                      opacity: 1,
-                      transition: {
-                        duration: 1,
-                        ease: 'easeOut',
-                        delay: 1.8 + i * 0.4,
-                      },
-                    }}
-                    exit={{
-                      x: '-30%',
-                      opacity: 0,
-                      tansition: {
-                        duration: 1,
-                        ease: 'easeOut',
-                      },
-                    }}
-                    className={classes.recentlyCustomer}
-                  >
+                  <div key={face} className={classes.recentlyCustomer}>
                     <IconButton>
                       <Avatar
                         src={face}
                         className={classes.recentlyCustomerAvatar}
                       />
                     </IconButton>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </CardContent>

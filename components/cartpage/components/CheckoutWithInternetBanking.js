@@ -8,7 +8,9 @@ import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER } from '../../../apollo/mutation';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUserCarts } from '../../../redux/actions/userActions';
+import { deleteOnlineCartsState } from '../../../redux/localStore';
 
 const useStyles = makeStyles((theme) => ({
   top: {
@@ -28,12 +30,15 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
+  const action = useDispatch();
 
   const [createOrderItemFromOnlineOrder, { loading, error }] = useMutation(
     MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER,
     {
       onCompleted: (data) => {
         console.log(data.createOrderItemFromOnlineOrder);
+        action(clearUserCarts());
+        deleteOnlineCartsState();
         if (data.createOrderItemFromOnlineOrder.authorizeUri) {
           window.location.href =
             data.createOrderItemFromOnlineOrder.authorizeUri;
@@ -82,16 +87,18 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
             quantity: item.quantity,
           });
         });
-        console.log(token);
-        createOrderItemFromOnlineOrder({
-          variables: {
-            amount: amount,
-            token: token,
-            return_uri: redirect_uri,
-            orderItem: orderItem,
-            branchId: branchId,
-          },
-        });
+
+        try {
+          createOrderItemFromOnlineOrder({
+            variables: {
+              amount: amount,
+              token: token,
+              return_uri: redirect_uri,
+              orderItem: orderItem,
+              branchId: branchId,
+            },
+          });
+        } catch (error) {}
       },
       onFormClosed: () => {},
     });

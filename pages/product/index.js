@@ -27,6 +27,9 @@ import Script from 'react-load-script';
 // loadState
 import { loadOnlineCartsState } from '../../redux/localStore';
 
+// Framer
+import { motion } from 'framer-motion';
+
 const ProductPage = ({ onlineProductCatalog, user }) => {
   const action = useDispatch();
   const [signinWithAccessToken, { loading, error }] = useMutation(
@@ -64,13 +67,17 @@ const ProductPage = ({ onlineProductCatalog, user }) => {
   };
 
   return (
-    <Container maxWidth={false}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Script
         url="https://static.line-scdn.net/liff/edge/2.1/sdk.js"
         onLoad={() => handleLiff()}
       />
       <OnlineProductDisplay />
-    </Container>
+    </motion.div>
   );
 };
 
