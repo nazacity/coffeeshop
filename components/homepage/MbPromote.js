@@ -11,12 +11,12 @@ import Link from '../../src/Link';
 import { motion } from 'framer-motion';
 
 // MUI
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
@@ -24,56 +24,13 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 
 // components
 import PromotionItemList from './components/PromotionItemList';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    fontFamily: 'Oswald',
-    fontSize: '1em',
-    backgroundColor: theme.palette.primary.main,
-    color: 'white',
-    padding: '10px',
-    borderRadius: '5px',
-    marginBottom: '0.2em',
-    width: '80%',
-  },
-  headerCard: {
-    maxWidth: 345,
-  },
-  recentlyCustomer: {
-    display: 'inline-block',
-    '&:not(:first-of-type)': {
-      marginLeft: '-8vw',
-    },
-  },
-  recentlyCustomerAvatar: {
-    border: '2px solid white',
-  },
-  userAvatar: {
-    minHeight: '80px',
-    minWidth: '80px',
-    maxWidth: '150px',
-    maxHeight: '150px',
-    width: '20vw',
-    height: '20vw',
-    boxShadow: theme.common.shadow.main,
-  },
-  cardRoot: {
-    boxShadow: theme.common.shadow.black,
-  },
-}));
-
-const faces = [
-  'http://i.pravatar.cc/300?img=1',
-  'http://i.pravatar.cc/300?img=2',
-  'http://i.pravatar.cc/300?img=3',
-  'http://i.pravatar.cc/300?img=4',
-];
-
-const MbPromote = ({ promotions }) => {
-  const classes = useStyles();
+const MbPromote = () => {
+  const theme = useTheme();
   const user = useSelector((state) => state.user);
   const matches600down = useMediaQuery('(max-width:600px)');
 
@@ -100,7 +57,11 @@ const MbPromote = ({ promotions }) => {
         style={{ padding: '0 3vw', marginBottom: '15vw' }}
       >
         <div>
-          <Card className={classes.cardRoot}>
+          <Card
+            style={{
+              boxShadow: theme.common.shadow.black,
+            }}
+          >
             <CardContent>
               <Typography
                 variant="h1"
@@ -108,6 +69,58 @@ const MbPromote = ({ promotions }) => {
               >
                 Katty Coffee
               </Typography>
+              <Divider style={{ margin: '1vh auto', width: '80%' }} />
+              <Card
+                style={{ display: 'flex', margin: '3vh auto', padding: '1vh' }}
+              >
+                <IconButton style={{ display: 'flex', alignItems: 'center' }}>
+                  <StorefrontIcon />
+                </IconButton>
+                <div style={{ margin: 'auto' }}>
+                  <Typography align="center">จ-ศ</Typography>
+                  <Typography>1000-2000</Typography>
+                </div>
+                <div style={{ margin: 'auto' }}>
+                  <Typography align="center">ส-อ</Typography>
+                  <Typography>1000-2000</Typography>
+                </div>
+                <div style={{ margin: 'auto' }}>
+                  <Typography align="center">หยุด</Typography>
+                  <Typography align="center">พ</Typography>
+                </div>
+              </Card>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  margin: '3vh auto',
+                }}
+              >
+                <Card>
+                  <CardActionArea style={{ width: 100, height: 100 }}>
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      image="./images/homepage/home1.jpg"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea style={{ width: 100, height: 100 }}>
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      image="./images/homepage/home2.jpg"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea style={{ width: 100, height: 100 }}>
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      image="./images/homepage/home3.jpg"
+                    />
+                  </CardActionArea>
+                </Card>
+              </div>
               <Divider style={{ margin: '1vh auto', width: '80%' }} />
               <Typography variant="body2" color="textSecondary" component="p">
                 ร้านกาแฟยอดนิยมที่มียอดขาย ทั้งออนไลน์ และออนไลน์ สตอร์
@@ -135,7 +148,15 @@ const MbPromote = ({ promotions }) => {
                             : user.pictureUrl
                         }
                         alt="Register"
-                        className={classes.userAvatar}
+                        style={{
+                          minHeight: '80px',
+                          minWidth: '80px',
+                          maxWidth: '150px',
+                          maxHeight: '150px',
+                          width: '20vw',
+                          height: '20vw',
+                          boxShadow: theme.common.shadow.main,
+                        }}
                       />
                     </div>
                     <div
@@ -170,7 +191,15 @@ const MbPromote = ({ promotions }) => {
                       <Avatar
                         src={user.pictureUrl}
                         alt="user.name"
-                        className={classes.userAvatar}
+                        style={{
+                          minHeight: '80px',
+                          minWidth: '80px',
+                          maxWidth: '150px',
+                          maxHeight: '150px',
+                          width: '20vw',
+                          height: '20vw',
+                          boxShadow: theme.common.shadow.main,
+                        }}
                       />
                     </div>
                     <div
@@ -203,27 +232,6 @@ const MbPromote = ({ promotions }) => {
               <Divider style={{ margin: '1vh auto', width: '80%' }} />
               <Typography
                 variant="h1"
-                style={{ fontSize: '20px', fontWeight: 600 }}
-              >
-                Recently customer
-              </Typography>
-              <div style={{ display: 'flex' }}>
-                {faces.map((face, i) => (
-                  <div key={face} className={classes.recentlyCustomer}>
-                    <IconButton>
-                      <Avatar
-                        src={face}
-                        className={classes.recentlyCustomerAvatar}
-                      />
-                    </IconButton>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-            <CardContent>
-              <Divider style={{ margin: '1vh auto', width: '80%' }} />
-              <Typography
-                variant="h1"
                 style={{ fontSize: '20px', fontWeight: 600, margin: '1vh 0' }}
               >
                 Promotion
@@ -234,11 +242,7 @@ const MbPromote = ({ promotions }) => {
                   gridTemplateColumns: matches600down ? '1fr' : '1fr 1fr',
                   gridGap: '1vw',
                 }}
-              >
-                {promotions.map((promotion) => (
-                  <PromotionItemList key={promotion.id} promotion={promotion} />
-                ))}
-              </div>
+              ></div>
             </CardContent>
           </Card>
         </div>

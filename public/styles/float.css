@@ -3,6 +3,10 @@
   z-index: 10;
 }
 
+a {
+  text-decoration: none;
+}
+
 .productitempicture {
   animation: floatproductitem 6s ease-in-out infinite;
 }

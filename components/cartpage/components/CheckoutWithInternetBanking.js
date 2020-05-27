@@ -88,6 +88,7 @@ const CheckoutWithInternetBanking = ({
               return_uri: redirect_uri,
               orderItem: orderItem,
               branchId: branchId,
+              position: center,
             },
           });
         } catch (error) {}

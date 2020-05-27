@@ -8,19 +8,23 @@ import Hidden from '@material-ui/core/Hidden';
 import DtSignIn from '../../components/signin/DtSignIn';
 import MbSignIn from '../../components/signin/MbSignIn';
 
-// Other
-import cookie from 'cookie';
+// Framer
+import { motion } from 'framer-motion';
 
 const SignInPages = () => {
   return (
-    <Container maxWidth={false}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Hidden smDown>
         <DtSignIn />
       </Hidden>
       <Hidden mdUp>
         <MbSignIn />
       </Hidden>
-    </Container>
+    </motion.div>
   );
 };
 

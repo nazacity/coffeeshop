@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getData, QUERY_PROMOTIONS, getUserByAccessToken } from '../apollo/db';
+import { getUserByAccessToken } from '../apollo/db';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -29,11 +29,18 @@ import Script from 'react-load-script';
 import queryString from 'query-string';
 import cookie from 'cookie';
 
-const HomePage = ({ promotions, user }) => {
+// loadState
+import { loadOnlineCartsState } from '../redux/localStore';
+
+const HomePage = ({ user }) => {
   const action = useDispatch();
 
   useEffect(() => {
-    action(setUser(user ? user : null));
+    let carts = loadOnlineCartsState();
+    if (carts === undefined) {
+      carts = [];
+    }
+    action(setUser(user ? { ...user, carts } : null));
   }, [user]);
 
   const [signinWithAccessToken, { loading, error }] = useMutation(
@@ -104,11 +111,11 @@ const HomePage = ({ promotions, user }) => {
       />
       <Container maxWidth={false} style={{ margin: 0, padding: 0 }}>
         <Hidden smDown>
-          <DtHero promotions={promotions} />
+          <DtHero />
         </Hidden>
         <Hidden mdUp>
           <MbHero />
-          <MbPromote promotions={promotions} />
+          <MbPromote />
         </Hidden>
       </Container>
     </React.Fragment>
@@ -116,20 +123,16 @@ const HomePage = ({ promotions, user }) => {
 };
 
 export const getServerSideProps = async ({ req, res }) => {
-  // const resultPromotions = await getData(QUERY_PROMOTIONS);
-  // let promotions = resultPromotions.data.promotion;
-  let promotions = [];
-
   const { headers } = req;
 
   const cookies = headers && cookie.parse(headers.cookie || '');
   const accessToken = cookies && cookies.accessToken;
   if (accessToken) {
     const user = await getUserByAccessToken(accessToken);
-    return { props: { promotions, user } };
+    return { props: { user } };
   }
 
-  return { props: { promotions, user: {} } };
+  return { props: { user: {} } };
 };
 
 export default HomePage;

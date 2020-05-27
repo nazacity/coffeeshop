@@ -18,8 +18,6 @@ let INITIAL_STATE = {
   email: '',
   phone: '',
   pictureUrl: '',
-  address: [],
-  products: [],
   carts: [],
   state: 'guess',
   createdAt: '',

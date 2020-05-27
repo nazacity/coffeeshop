@@ -25,6 +25,7 @@ const CheckoutWithCreditCard = ({
   branchId,
   handleClose,
   setCheckoutLoading,
+  center,
 }) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const theme = useTheme();
@@ -104,6 +105,7 @@ const CheckoutWithCreditCard = ({
             token: token,
             orderItem: orderItem,
             branchId: branchId,
+            position: center,
           },
         });
       },

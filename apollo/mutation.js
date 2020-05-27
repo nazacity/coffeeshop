@@ -11,6 +11,21 @@ export const MUTATION_SIGNINWITHACCESSTOKEN = gql`
       phone
       pictureUrl
       state
+      orders {
+        id
+        amount
+        createdAt
+        items {
+          id
+          onlineProduct {
+            id
+            name
+            pictureUrl
+            price
+          }
+          quantity
+        }
+      }
     }
   }
 `;
@@ -20,11 +35,13 @@ export const MUTATION_CREATE_ORDERITEM_FROM_STOREORDER = gql`
     $tableId: ID!
     $orderItem: [OrderItemInput]
     $branchId: ID!
+    $position: CoordsInput!
   ) {
     createOrderItemFromStoreOrder(
       tableId: $tableId
       orderItem: $orderItem
       branchId: $branchId
+      position: $position
     ) {
       id
       place {
@@ -59,6 +76,7 @@ export const MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER = gql`
     $return_uri: String
     $orderItem: [OrderItemInput]
     $branchId: ID!
+    $position: CoordsInput!
   ) {
     createOrderItemFromOnlineOrder(
       amount: $amount
@@ -66,6 +84,7 @@ export const MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER = gql`
       return_uri: $return_uri
       orderItem: $orderItem
       branchId: $branchId
+      position: $position
     ) {
       id
       authorizeUri

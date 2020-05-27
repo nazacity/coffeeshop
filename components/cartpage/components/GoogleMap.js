@@ -8,6 +8,19 @@ import {
 } from '@react-google-maps/api';
 import { geolocated } from 'react-geolocated';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const useStyles = makeStyles((theme) => ({
+  top: {
+    color: theme.palette.primary.dark,
+    position: 'absolute',
+  },
+  bottom: {
+    color: theme.palette.primary.light,
+    animationDuration: '550ms',
+  },
+}));
 
 const options = {
   streetViewControl: false,
@@ -36,6 +49,8 @@ const GoogleMapComponent = ({
   coords,
   branchPosition,
   setDistance,
+  setCenter,
+  center,
 }) => {
   const { isLoaded } = useLoadScript({
     id: 'script-loader',
@@ -44,13 +59,10 @@ const GoogleMapComponent = ({
     language: 'th',
     region: 'th',
   });
-
+  const classes = useStyles();
   const matches1024down = useMediaQuery('(max-width:1024px)');
+  const matches600down = useMediaQuery('(max-width:600px)');
 
-  const [center, setCenter] = useState({
-    lat: 100,
-    lng: 100,
-  });
   const [position, setPosition] = useState({
     lat: 100,
     lng: 100,
@@ -140,7 +152,33 @@ const GoogleMapComponent = ({
     );
   };
 
-  return isLoaded ? <div>{renderMap()}</div> : 'loading';
+  return isLoaded ? (
+    <div>{renderMap()}</div>
+  ) : (
+    <div
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+      }}
+    >
+      <CircularProgress
+        variant="determinate"
+        value={100}
+        className={classes.top}
+        size={matches600down ? 60 : 120}
+        thickness={4}
+      />
+      <CircularProgress
+        variant="indeterminate"
+        disableShrink
+        className={classes.bottom}
+        size={matches600down ? 60 : 120}
+        thickness={4}
+      />
+    </div>
+  );
 };
 
 export default geolocated({

@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 
 // MUI
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -51,6 +50,14 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  top: {
+    color: theme.palette.primary.dark,
+    position: 'absolute',
+  },
+  bottom: {
+    color: theme.palette.primary.light,
+    animationDuration: '550ms',
+  },
 }));
 
 const PaymentDialog = ({ open, setCheckoutLoading, handleClose, amount }) => {
@@ -62,6 +69,11 @@ const PaymentDialog = ({ open, setCheckoutLoading, handleClose, amount }) => {
   const [distance, setDistance] = useState({
     text: '0',
     value: 0,
+  });
+
+  const [center, setCenter] = useState({
+    lat: 100,
+    lng: 100,
   });
 
   const [selectedBranch, setSelectedBranch] = useState({
@@ -229,6 +241,8 @@ const PaymentDialog = ({ open, setCheckoutLoading, handleClose, amount }) => {
             <GoogleMapComponent
               branchPosition={selectedBranch.position}
               setDistance={setDistance}
+              center={center}
+              setCenter={setCenter}
             />
           </div>
           <AppBar
@@ -298,12 +312,14 @@ const PaymentDialog = ({ open, setCheckoutLoading, handleClose, amount }) => {
                 branchId={selectedBranch.id}
                 handleClose={handleClose}
                 setCheckoutLoading={setCheckoutLoading}
+                center={center}
               />
               <CheckoutWithInternetBanking
                 amount={calculateAmount(amount, distance.value * 0.02)}
                 branchId={selectedBranch.id}
                 handleClose={handleClose}
                 setCheckoutLoading={setCheckoutLoading}
+                center={center}
               />
             </div>
           </AppBar>

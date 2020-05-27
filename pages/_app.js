@@ -15,7 +15,6 @@ import store from '../redux/store';
 
 // Next
 import Head from 'next/head';
-import Router from 'next/router';
 import { useRouter } from 'next/router';
 
 // Mui
@@ -28,17 +27,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BottomNavbar from '../components/layouts/BottomNavbar';
 
 // Other
-import NProgress from 'nprogress';
 import TopNavbar from '../components/layouts/TopNavbar';
 
 // Toast
 import { ToastProvider } from 'react-toast-notifications';
-
-Router.events.on('routeChangeStart', (url) => {
-  NProgress.start();
-});
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
 
 const MyApp = ({ Component, pageProps, apollo }) => {
   useEffect(() => {
@@ -60,7 +52,6 @@ const MyApp = ({ Component, pageProps, apollo }) => {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
         <link rel="icon" href="./images/logo/logo.jpg" />
-        <link rel="stylesheet" type="text/css" href="/styles/nprogress.css" />
         <meta
           name="description"
           content="ระบบ full system e-commerce รองรับการยืนยันตัวตนด้วย Line
@@ -70,10 +61,7 @@ const MyApp = ({ Component, pageProps, apollo }) => {
               เว็บหลังบ้าน สำหรับจัดการสินค้า คลัง สรุปข้อมูล และอื่นๆ
               ทั้งยังมีระบบแจ้งเตือนลูกค้าด้วย LINE OA ให้ครบวงจร"
         />
-        <link
-          href="https://fonts.googleapis.com/css?family=Oswald|Paprika|Roboto&display=swap"
-          rel="stylesheet"
-        ></link>
+
         <html lang="ja" prefix="og: http://ogp.me/ns#" />
         <meta property="og:title" content="Line Ecommerce" />
         <meta property="og:type" content="`website`" />

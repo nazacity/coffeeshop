@@ -17,6 +17,7 @@ import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
@@ -24,6 +25,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 
 // components
 import PromotionItemList from './components/PromotionItemList';
@@ -71,7 +73,7 @@ const faces = [
   'http://i.pravatar.cc/300?img=4',
 ];
 
-const DtPromote = ({ promotions }) => {
+const DtPromote = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
   return (
@@ -106,6 +108,70 @@ const DtPromote = ({ promotions }) => {
                 Katty Coffee
               </Typography>
               <Divider style={{ margin: '1vh auto', width: '80%' }} />
+              <Card
+                style={{ display: 'flex', margin: '3vh auto', padding: '1vh' }}
+              >
+                <IconButton
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <StorefrontIcon style={{ fontSize: 50 }} />
+                </IconButton>
+                <div style={{ margin: 'auto' }}>
+                  <Typography style={{ fontSize: 20 }} align="center">
+                    จ-ศ
+                  </Typography>
+                  <Typography style={{ fontSize: 25 }}>1000-2000</Typography>
+                </div>
+                <div style={{ margin: 'auto' }}>
+                  <Typography style={{ fontSize: 20 }} align="center">
+                    ส-อ
+                  </Typography>
+                  <Typography style={{ fontSize: 25 }}>1000-2000</Typography>
+                </div>
+                <div style={{ margin: 'auto' }}>
+                  <Typography style={{ fontSize: 20 }} align="center">
+                    หยุด
+                  </Typography>
+                  <Typography style={{ fontSize: 25 }} align="center">
+                    พ
+                  </Typography>
+                </div>
+              </Card>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  margin: '3vh auto',
+                }}
+              >
+                <Card>
+                  <CardActionArea style={{ width: 200, height: 200 }}>
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      image="./images/homepage/home1.jpg"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea style={{ width: 200, height: 200 }}>
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      image="./images/homepage/home2.jpg"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea style={{ width: 200, height: 200 }}>
+                    <CardMedia
+                      style={{ width: '100%', height: '100%' }}
+                      image="./images/homepage/home3.jpg"
+                    />
+                  </CardActionArea>
+                </Card>
+              </div>
               <Typography variant="body2" color="textSecondary" component="p">
                 ร้านกาแฟยอดนิยมที่มียอดขาย ทั้งออนไลน์ และออนไลน์ สตอร์
                 ร้านแคทตี้ ตกแต่งร้านอย่างมีเอกลักษณ์เฉพาะตัว บรรยากาศเรียบง่าย
@@ -200,27 +266,6 @@ const DtPromote = ({ promotions }) => {
               <Divider style={{ margin: '1vh auto', width: '80%' }} />
               <Typography
                 variant="h1"
-                style={{ fontSize: '20px', fontWeight: 600 }}
-              >
-                Recently customer
-              </Typography>
-              <div style={{ display: 'flex' }}>
-                {faces.map((face, i) => (
-                  <div key={face} className={classes.recentlyCustomer}>
-                    <IconButton>
-                      <Avatar
-                        src={face}
-                        className={classes.recentlyCustomerAvatar}
-                      />
-                    </IconButton>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-            <CardContent>
-              <Divider style={{ margin: '1vh auto', width: '80%' }} />
-              <Typography
-                variant="h1"
                 style={{ fontSize: '20px', fontWeight: 600, margin: '1vh 0' }}
               >
                 Promotion
@@ -231,11 +276,7 @@ const DtPromote = ({ promotions }) => {
                   gridTemplateColumns: '1fr 1fr 1fr',
                   gridGap: '1vw',
                 }}
-              >
-                {promotions.map((promotion) => (
-                  <PromotionItemList key={promotion.id} promotion={promotion} />
-                ))}
-              </div>
+              ></div>
             </CardContent>
           </Card>
         </div>

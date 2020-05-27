@@ -50,6 +50,21 @@ export const QUERY_USER = {
       pictureUrl
       state
       createdAt
+      orders {
+        id
+        amount
+        createdAt
+        items {
+          id
+          onlineProduct {
+            id
+            name
+            pictureUrl
+            price
+          }
+          quantity
+        }
+      }
     }
   }
   `,
@@ -67,6 +82,21 @@ export const QUERY_USERS = {
       pictureUrl
       state
       createdAt
+      orders {
+        id
+        amount
+        createdAt
+        items {
+          id
+          onlineProduct {
+            id
+            name
+            pictureUrl
+            price
+          }
+          quantity
+        }
+      }
     }
   }
   `,

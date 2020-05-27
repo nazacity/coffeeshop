@@ -16,10 +16,17 @@ import MbUser from '../../components/userpage/MbUser';
 // Other
 import cookie from 'cookie';
 
+// loadState
+import { loadOnlineCartsState } from '../../redux/localStore';
+
 const UserPage = ({ user }) => {
   const action = useDispatch();
   useEffect(() => {
-    action(setUser(user ? user : null));
+    let carts = loadOnlineCartsState();
+    if (carts === undefined) {
+      carts = [];
+    }
+    action(setUser(user ? { ...user, carts } : null));
   }, [user]);
 
   return (
