@@ -47,8 +47,14 @@ const GoogleMapComponent = ({
 
   const matches1024down = useMediaQuery('(max-width:1024px)');
 
-  const [center, setCenter] = useState();
-  const [position, setPosition] = useState();
+  const [center, setCenter] = useState({
+    lat: 100,
+    lng: 100,
+  });
+  const [position, setPosition] = useState({
+    lat: 100,
+    lng: 100,
+  });
   const [move, setMove] = useState(false);
 
   useEffect(() => {
@@ -122,7 +128,9 @@ const GoogleMapComponent = ({
             }}
             callback={(response, status) => {
               if (move) {
-                setDistance(response.rows[0].elements[0].distance);
+                if (response?.rows[0]?.elements[0]?.distance) {
+                  setDistance(response.rows[0].elements[0].distance);
+                }
                 setMove(false);
               }
             }}

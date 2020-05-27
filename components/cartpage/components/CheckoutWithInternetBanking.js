@@ -1,8 +1,6 @@
 import React from 'react';
 import Script from 'react-load-script';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER } from '../../../apollo/mutation';
@@ -12,23 +10,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearUserCarts } from '../../../redux/actions/userActions';
 import { deleteOnlineCartsState } from '../../../redux/localStore';
 
-const useStyles = makeStyles((theme) => ({
-  top: {
-    color: theme.palette.primary.dark,
-  },
-  bottom: {
-    color: theme.palette.primary.light,
-    animationDuration: '550ms',
-    position: 'absolute',
-    left: 0,
-  },
-}));
-
 let OmiseCard;
 
-const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
+const CheckoutWithInternetBanking = ({
+  amount,
+  branchId,
+  handleClose,
+  setCheckoutLoading,
+}) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
-  const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
   const action = useDispatch();
 
@@ -39,6 +29,7 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
         console.log(data.createOrderItemFromOnlineOrder);
         action(clearUserCarts());
         deleteOnlineCartsState();
+        setCheckoutLoading(false);
         if (data.createOrderItemFromOnlineOrder.authorizeUri) {
           window.location.href =
             data.createOrderItemFromOnlineOrder.authorizeUri;
@@ -59,6 +50,7 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   };
 
   const internetBankingConfigure = () => {
+    setCheckoutLoading(true);
     OmiseCard.configure({
       defaultPaymentMethod: 'internet_banking',
       otherPaymentMethods: [

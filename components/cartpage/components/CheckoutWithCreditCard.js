@@ -3,8 +3,7 @@ import Script from 'react-load-script';
 
 // MUI
 import Button from '@material-ui/core/Button';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -19,24 +18,16 @@ import { deleteOnlineCartsState } from '../../../redux/localStore';
 // Toast
 import { useToasts } from 'react-toast-notifications';
 
-const useStyles = makeStyles((theme) => ({
-  top: {
-    color: theme.palette.primary.dark,
-  },
-  bottom: {
-    color: theme.palette.primary.light,
-    animationDuration: '550ms',
-    position: 'absolute',
-    left: 0,
-  },
-}));
-
 let OmiseCard;
 
-const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
+const CheckoutWithCreditCard = ({
+  amount,
+  branchId,
+  handleClose,
+  setCheckoutLoading,
+}) => {
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const theme = useTheme();
-  const classes = useStyles();
   const carts = useSelector((state) => state.user.carts);
   const user = useSelector((state) => state.user);
   const action = useDispatch();
@@ -47,6 +38,7 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
     {
       onCompleted: (data) => {
         console.log(data.createOrderItemFromOnlineOrder);
+        setCheckoutLoading(false);
         action(clearUserCarts());
         deleteOnlineCartsState();
         const content = (
@@ -92,6 +84,7 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   };
 
   const omiseCardHandler = () => {
+    setCheckoutLoading(true);
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
       amount,
@@ -157,4 +150,4 @@ const CheckoutWithInternetBanking = ({ amount, branchId, handleClose }) => {
   );
 };
 
-export default CheckoutWithInternetBanking;
+export default CheckoutWithCreditCard;
