@@ -43,7 +43,7 @@ export const QUERY_PLACE = gql`
         id
         adult
         children
-        orders {
+        items {
           id
           storeProduct {
             id

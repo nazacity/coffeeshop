@@ -35,13 +35,11 @@ export const MUTATION_CREATE_ORDERITEM_FROM_STOREORDER = gql`
     $tableId: ID!
     $orderItem: [OrderItemInput]
     $branchId: ID!
-    $position: CoordsInput!
   ) {
     createOrderItemFromStoreOrder(
       tableId: $tableId
       orderItem: $orderItem
       branchId: $branchId
-      position: $position
     ) {
       id
       place {
@@ -54,7 +52,7 @@ export const MUTATION_CREATE_ORDERITEM_FROM_STOREORDER = gql`
       }
       adult
       children
-      orders {
+      items {
         id
         storeProduct {
           id
@@ -63,7 +61,6 @@ export const MUTATION_CREATE_ORDERITEM_FROM_STOREORDER = gql`
           price
         }
         quantity
-        cost
       }
     }
   }

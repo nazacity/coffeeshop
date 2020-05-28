@@ -6,7 +6,7 @@ import { MUTATION_CREATE_ORDERITEM_FROM_STOREORDER } from '../../../apollo/mutat
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { clearUserCarts } from '../../../redux/actions/userActions';
+import { clearUserCarts, updateBill } from '../../../redux/actions/userActions';
 import { deleteStoreCartsState } from '../../../redux/localStore';
 
 // MUI
@@ -41,7 +41,9 @@ const OrderAndPayByCash = ({ amount }) => {
     MUTATION_CREATE_ORDERITEM_FROM_STOREORDER,
     {
       onCompleted: (data) => {
+        console.log(data.createOrderItemFromStoreOrder);
         action(clearUserCarts());
+        action(updateBill(data.createOrderItemFromStoreOrder));
         deleteStoreCartsState();
         const content = (
           <div style={{ display: 'flex', alignItems: 'center' }}>

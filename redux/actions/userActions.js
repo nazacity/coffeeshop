@@ -10,6 +10,7 @@ import {
   DELETE_STOREITEM_CART,
   ADD_ONLINEITEM_CART,
   DELETE_ONLINEITEM_CART,
+  UPDATE_BILL,
 } from '../types';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
@@ -115,5 +116,12 @@ export const deleteOnlineItemCart = (id) => (dispatch) => {
   dispatch({
     type: DELETE_ONLINEITEM_CART,
     payload: id,
+  });
+};
+
+export const updateBill = (bill) => (dispatch) => {
+  dispatch({
+    type: UPDATE_BILL,
+    payload: bill,
   });
 };

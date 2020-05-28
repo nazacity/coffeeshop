@@ -54,7 +54,7 @@ const MbSignIn = () => {
   const lineloginlink = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=${state}&scope=${scope}`;
 
   return (
-    <>
+    <React.Fragment>
       <div className={classes.signinborder}>
         <div
           style={{ marginTop: '10%', marginBottom: '30px' }}
@@ -68,7 +68,6 @@ const MbSignIn = () => {
         </div>
         <motion.div
           style={{ display: 'flex', justifyContent: 'center' }}
-          whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
           <a href={lineloginlink} style={{ textDecoration: 'none' }}>
@@ -83,7 +82,7 @@ const MbSignIn = () => {
           </a>
         </motion.div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

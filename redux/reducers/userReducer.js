@@ -8,6 +8,7 @@ import {
   DELETE_STOREITEM_CART,
   ADD_ONLINEITEM_CART,
   DELETE_ONLINEITEM_CART,
+  UPDATE_BILL,
 } from '../types';
 import { saveStoreCartsState, saveOnlineCartsState } from '../localStore';
 
@@ -80,6 +81,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       carts = state.carts.filter((cart) => cart.product.id !== action.payload);
       saveOnlineCartsState(carts);
       return { ...state, carts };
+    case UPDATE_BILL:
+      return { ...state, table: { ...state.table, bill: action.payload } };
     default:
       return state;
   }

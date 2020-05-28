@@ -73,7 +73,7 @@ const Bill = () => {
           <h3 style={{ margin: 'auto' }}>ราคา</h3>
         </div>
         <Divider style={{ width: '100%', margin: '20px auto' }} />
-        {bill?.orders.map((order, index) => (
+        {bill?.items.map((item, index) => (
           <motion.div
             style={{
               display: 'grid',
@@ -89,7 +89,7 @@ const Bill = () => {
               transition: {
                 duration: 1,
                 ease: 'easeIn',
-                delay: (bill.orders.length - index) * 0.2,
+                delay: (bill.items.length - index) * 0.2,
               },
             }}
             transition={{
@@ -97,23 +97,23 @@ const Bill = () => {
               ease: 'easeOut',
               delay: 0.2 * index,
             }}
-            key={`${order.storeProduct.id}${index}`}
+            key={`${item.storeProduct.id}${index}`}
           >
             <Avatar
-              src={order.storeProduct.pictureUrl}
-              alt={order.storeProduct.name}
+              src={item.storeProduct.pictureUrl}
+              alt={item.storeProduct.name}
               style={{ margin: 'auto' }}
             />
 
-            <p style={{ margin: 'auto' }}>{order.storeProduct.name}</p>
-            <p style={{ margin: 'auto' }}>{order.quantity}</p>
+            <p style={{ margin: 'auto' }}>{item.storeProduct.name}</p>
+            <p style={{ margin: 'auto' }}>{item.quantity}</p>
             <p style={{ margin: 'auto' }}>
-              {order.storeProduct.price * order.quantity}
+              {item.storeProduct.price * item.quantity}
             </p>
           </motion.div>
         ))}
       </div>
-      {bill?.orders.length > 0 && (
+      {bill?.items.length > 0 && (
         <div style={{ color: theme.palette.secondary.main }}>
           <div
             style={{
@@ -125,35 +125,7 @@ const Bill = () => {
             <h4 style={{ margin: 'auto' }}></h4>
             <h4 style={{ marginRight: 'auto' }}>รวม</h4>
             <h4 style={{ marginLeft: 'auto' }}>
-              {calculateAmount(bill?.orders) / 100}
-            </h4>
-            <h4 style={{ margin: 'auto' }}>บาท</h4>
-          </div>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr 1fr 1fr',
-              width: '100%',
-            }}
-          >
-            <h4 style={{ margin: 'auto' }}></h4>
-            <h4 style={{ marginRight: 'auto' }}>VAT 7%</h4>
-            <h4 style={{ marginLeft: 'auto' }}>
-              {((calculateAmount(bill?.orders) / 100) * 0.07).toFixed(2)}
-            </h4>
-            <h4 style={{ margin: 'auto' }}>บาท</h4>
-          </div>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr 1fr 1fr',
-              width: '100%',
-            }}
-          >
-            <h4 style={{ margin: 'auto' }}></h4>
-            <h4 style={{ marginRight: 'auto' }}>สุทธิ</h4>
-            <h4 style={{ marginLeft: 'auto' }}>
-              {((calculateAmount(bill?.orders) / 100) * 1.07).toFixed(2)}
+              {calculateAmount(bill?.items) / 100}
             </h4>
             <h4 style={{ margin: 'auto' }}>บาท</h4>
           </div>

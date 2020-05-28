@@ -61,11 +61,14 @@ const index = ({ storeProductCatalog }) => {
   const [state, setState] = useState('Open');
   const router = useRouter();
 
+  console.log(router.query.place);
+
   const { data, loading, error } = useQuery(QUERY_PLACE, {
     variables: {
       id: router.query.place,
     },
     onCompleted: (data) => {
+      console.log(data);
       setState(data.place.state);
       action(setUser({ table: data.place }));
     },
