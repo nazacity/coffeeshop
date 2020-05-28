@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 // Framer
 import { motion } from 'framer-motion';
 
-const Bill = () => {
+const BillDisplay = () => {
   const theme = useTheme();
   const bill = useSelector((state) => state.user.table.bill);
   const matches1024down = useMediaQuery('(max-width:1024px)');
@@ -135,4 +135,4 @@ const Bill = () => {
   );
 };
 
-export default Bill;
+export default BillDisplay;

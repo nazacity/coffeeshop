@@ -19,7 +19,7 @@ import { getData, QUERY_STOREPRODUCTCATALOG } from '../../apollo/db';
 // Components
 import Promotion from '../../components/store/Promotion';
 import Menu from '../../components/store';
-import Bill from '../../components/store/Bill';
+import BillDisplay from '../../components/store/components/BillDisplay';
 
 // loadState
 import { loadStoreCartsState } from '../../redux/localStore';
@@ -80,8 +80,8 @@ const index = ({ storeProductCatalog }) => {
         return <Menu />;
       } else if (state == 'Open') {
         return <Promotion />;
-      } else {
-        return <Bill />;
+      } else if (state == 'Wait') {
+        return <BillDisplay />;
       }
     }
   };
