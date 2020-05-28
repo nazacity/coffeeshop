@@ -27,7 +27,6 @@ const CheckoutWithInternetBanking = ({
     MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER,
     {
       onCompleted: (data) => {
-        console.log(data.createOrderItemFromOnlineOrder);
         action(clearUserCarts());
         deleteOnlineCartsState();
         setCheckoutLoading(false);

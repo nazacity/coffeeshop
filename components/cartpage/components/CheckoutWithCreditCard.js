@@ -38,7 +38,6 @@ const CheckoutWithCreditCard = ({
     MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER,
     {
       onCompleted: (data) => {
-        console.log(data.createOrderItemFromOnlineOrder);
         setCheckoutLoading(false);
         action(clearUserCarts());
         deleteOnlineCartsState();
@@ -97,7 +96,6 @@ const CheckoutWithCreditCard = ({
             quantity: item.quantity,
           });
         });
-        console.log(token);
 
         await createOrderItemFromOnlineOrder({
           variables: {

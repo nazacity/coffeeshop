@@ -123,7 +123,6 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data.firstName.toLowerCase());
     resiter({
       variables: {
         firstName: data.firstName.toLowerCase(),

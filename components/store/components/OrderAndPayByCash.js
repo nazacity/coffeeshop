@@ -41,7 +41,6 @@ const OrderAndPayByCash = ({ amount }) => {
     MUTATION_CREATE_ORDERITEM_FROM_STOREORDER,
     {
       onCompleted: (data) => {
-        console.log(data.createOrderItemFromStoreOrder);
         action(clearUserCarts());
         action(updateBill(data.createOrderItemFromStoreOrder));
         deleteStoreCartsState();
