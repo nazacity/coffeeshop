@@ -47,6 +47,7 @@ const OrderHistoryList = ({ order }) => {
               gridTemplateColumns: '1fr 2fr 1fr 1fr',
               width: '100%',
               color: theme.palette.secondary.main,
+              margin: '1vh auto',
             }}
             key={item.id}
           >

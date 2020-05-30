@@ -4,7 +4,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Redux
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // MUI
 import { useTheme } from '@material-ui/core/styles';
@@ -19,23 +19,17 @@ import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
 // Components
 import OrderHistoryList from './OrderHistoryList';
 
-const DtUserDetail = ({ user }) => {
+const DtUserDetail = () => {
   const theme = useTheme();
-  const classes = useStyles();
+  const user = useSelector((state) => state.user);
 
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
-        />
-      </Head>
+    <React.Fragment>
       <div style={{ maxWidth: '1280px', margin: 'auto', width: '80%' }}>
         <div
           style={{
@@ -112,7 +106,7 @@ const DtUserDetail = ({ user }) => {
             </div>
             <Divider style={{ width: '60%', margin: '20px auto' }} />
             <List>
-              {user.orders === [] ? (
+              {user.orders !== [] ? (
                 user.orders.map((order) => (
                   <OrderHistoryList key={order.id} order={order} />
                 ))
@@ -123,12 +117,8 @@ const DtUserDetail = ({ user }) => {
           </div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps)(DtUserDetail);
+export default DtUserDetail;

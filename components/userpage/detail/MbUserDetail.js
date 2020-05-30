@@ -112,7 +112,7 @@ const MbUserDetail = () => {
           </div>
           <Divider style={{ width: '60%', margin: '20px auto' }} />
           <List>
-            {user.orders === [] ? (
+            {user.orders !== [] ? (
               user.orders.map((order) => (
                 <OrderHistoryList key={order.id} order={order} />
               ))

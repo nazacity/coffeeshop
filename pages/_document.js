@@ -34,10 +34,6 @@ export default class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
           <link rel="mask-icon" href="/images/logo/logo.png" color="#5bbad5" />
           <link rel="shortcut icon" href="/images/logo/logo.png" />
-          <script
-            src="https://kit.fontawesome.com/20efa4bcb4.js"
-            crossOrigin="anonymous"
-          ></script>
         </Head>
         <body style={{ margin: 0 }}>
           <Main />

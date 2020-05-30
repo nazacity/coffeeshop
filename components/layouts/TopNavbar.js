@@ -10,7 +10,6 @@ import { motion } from 'framer-motion';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { setDrawerTopNavbar } from '../../redux/actions/layoutActions';
 import { userSignOut } from '../../redux/actions/userActions';
 
 // Mui
@@ -19,7 +18,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -32,9 +30,6 @@ import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import LocalCafeIcon from '@material-ui/icons/LocalCafe';
-
-// components
-import DrawerTopNavbar from './DrawerTopNavbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,7 +82,7 @@ const TopNavbar = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Head>
         <link
           rel="stylesheet"
@@ -106,15 +101,6 @@ const TopNavbar = () => {
         >
           <AppBar position="static" classes={{ root: classes.navbar }}>
             <Toolbar>
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="menu"
-                onClick={() => action(setDrawerTopNavbar())}
-              >
-                <MenuIcon />
-              </IconButton>
               <Link href="/" className={classes.title}>
                 <Typography variant="h6">Coffee Shop</Typography>
               </Link>
@@ -189,7 +175,6 @@ const TopNavbar = () => {
                 </IconButton>
               </div>
             </Toolbar>
-            <DrawerTopNavbar />
           </AppBar>
           <Menu
             id="simple-menu"
@@ -250,7 +235,7 @@ const TopNavbar = () => {
           </Menu>
         </motion.div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

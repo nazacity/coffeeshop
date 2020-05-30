@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
+import '../public/styles/nprogress.css';
 
 // Apollo
 import { ApolloProvider } from '@apollo/react-hooks';
 import apolloClient from '../apollo/apolloClient';
-import { QUERY_USER } from '../apollo/db';
 
 // Framer-motion
 import { AnimatePresence } from 'framer-motion';
@@ -16,6 +16,7 @@ import store from '../redux/store';
 // Next
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Router from 'next/router';
 
 // Mui
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -31,6 +32,15 @@ import TopNavbar from '../components/layouts/TopNavbar';
 
 // Toast
 import { ToastProvider } from 'react-toast-notifications';
+
+import NProgress from 'nprogress';
+
+Router.events.on('routeChangeStart', (url) => {
+  console.log(`Loading: ${url}`);
+  NProgress.start();
+});
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 const MyApp = ({ Component, pageProps, apollo }) => {
   useEffect(() => {
@@ -60,6 +70,11 @@ const MyApp = ({ Component, pageProps, apollo }) => {
               สั่ง สินค้า/อาหาร ระบบตะกร้า ชำระเงินด้วย PAYMENY GATEWAY
               เว็บหลังบ้าน สำหรับจัดการสินค้า คลัง สรุปข้อมูล และอื่นๆ
               ทั้งยังมีระบบแจ้งเตือนลูกค้าด้วย LINE OA ให้ครบวงจร"
+        />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
         />
 
         <html lang="ja" prefix="og: http://ogp.me/ns#" />
