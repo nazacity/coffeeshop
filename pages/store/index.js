@@ -30,6 +30,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Avatar, Typography } from '@material-ui/core';
 
+// Firebase
+import { db } from '../../firebase';
+
 const useStyles = makeStyles((theme) => ({
   top: {
     color: theme.palette.primary.dark,
@@ -72,13 +75,38 @@ const index = ({ storeProductCatalog }) => {
     },
   });
 
+  const [tableState, setTableState] = useState({ state: 'Open' });
+
+  const convert = async (values) => {
+    let orders = Object.entries(values);
+    let returnForm;
+    await orders.map((order) => {
+      returnForm = { key: order[0], ...order[1] };
+    });
+
+    return returnForm;
+  };
+
+  setTimeout(() => {
+    db.ref(`/tablestate/${data?.place.id}`).on('value', async (snapshot) => {
+      let convertForm = [];
+      if (snapshot.val()) {
+        convertForm = await convert(snapshot.val());
+      }
+
+      setTableState(convertForm);
+    });
+  }, 5000);
+
+  console.log(tableState.state);
+
   const checkState = () => {
     if (!loading) {
-      if (state == 'Close') {
+      if (tableState.state == 'Close') {
         return <Menu />;
-      } else if (state == 'Open') {
+      } else if (tableState.state == 'Open') {
         return <Promotion />;
-      } else if (state == 'Wait') {
+      } else if (tableState.state == 'Wait') {
         return <BillDisplay />;
       }
     }

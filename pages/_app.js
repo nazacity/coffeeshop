@@ -36,7 +36,6 @@ import { ToastProvider } from 'react-toast-notifications';
 import NProgress from 'nprogress';
 
 Router.events.on('routeChangeStart', (url) => {
-  console.log(`Loading: ${url}`);
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -76,6 +75,10 @@ const MyApp = ({ Component, pageProps, apollo }) => {
           type="text/css"
           href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
         />
+        <script
+          src="https://kit.fontawesome.com/20efa4bcb4.js"
+          crossorigin="anonymous"
+        ></script>
 
         <html lang="ja" prefix="og: http://ogp.me/ns#" />
         <meta property="og:title" content="Line Ecommerce" />
