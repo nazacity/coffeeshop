@@ -12,14 +12,15 @@ import { setUser } from '../../redux/actions/userActions';
 import { setStoreProductCatalogs } from '../../redux/actions/productActions';
 
 // Apollo
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { QUERY_PLACE } from '../../apollo/query';
+import { MUTATION_PLACEFROMID } from '../../apollo/mutation';
 import { getData, QUERY_STOREPRODUCTCATALOG } from '../../apollo/db';
 
 // Components
 import Promotion from '../../components/store/Promotion';
 import Menu from '../../components/store';
-import BillDisplay from '../../components/store/components/BillDisplay';
+import Bill from '../../components/store/Bill';
 
 // loadState
 import { loadStoreCartsState } from '../../redux/localStore';
@@ -62,7 +63,7 @@ const index = ({ storeProductCatalog }) => {
     );
     action(setStoreProductCatalogs(storeProductCatalog));
   }, []);
-  const [state, setState] = useState('Open');
+  const [shouldRefresh, setShouldRefresh] = useState(false);
   const router = useRouter();
 
   const { data, loading, error } = useQuery(QUERY_PLACE, {
@@ -70,44 +71,44 @@ const index = ({ storeProductCatalog }) => {
       id: router.query.place,
     },
     onCompleted: (data) => {
-      setState(data.place.state);
       action(setUser({ table: data.place }));
     },
   });
 
   const [tableState, setTableState] = useState({ state: 'Open' });
 
-  const convert = async (values) => {
-    let orders = Object.entries(values);
-    let returnForm;
-    await orders.map((order) => {
-      returnForm = { key: order[0], ...order[1] };
-    });
-
-    return returnForm;
-  };
-
-  setTimeout(() => {
+  setInterval(() => {
     db.ref(`/tablestate/${data?.place.id}`).on('value', async (snapshot) => {
-      let convertForm = [];
       if (snapshot.val()) {
-        convertForm = await convert(snapshot.val());
+        setTableState(snapshot.val());
       }
-
-      setTableState(convertForm);
     });
-  }, 5000);
+  }, 10000);
 
-  console.log(tableState.state);
+  const [placeFromId] = useMutation(MUTATION_PLACEFROMID, {
+    variables: {
+      id: router.query.place,
+    },
+    onCompleted: (data) => {
+      action(setUser({ table: data.placeFromId }));
+    },
+  });
 
   const checkState = () => {
     if (!loading) {
       if (tableState.state == 'Close') {
-        return <Menu />;
+        return <Menu placeFromId={placeFromId} />;
       } else if (tableState.state == 'Open') {
+        if (shouldRefresh) {
+          window.location.reload();
+        }
         return <Promotion />;
       } else if (tableState.state == 'Wait') {
-        return <BillDisplay />;
+        return (
+          <Bill setShouldRefresh={setShouldRefresh} placeFromId={placeFromId} />
+        );
+      } else {
+        return <Promotion />;
       }
     }
   };

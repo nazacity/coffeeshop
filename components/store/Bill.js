@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // MUI
 import Typography from '@material-ui/core/Typography';
@@ -6,14 +6,16 @@ import Typography from '@material-ui/core/Typography';
 // Redux
 import { useSelector } from 'react-redux';
 
-const Bill = () => {
+// Components
+import BillDisplay from './components/BillDisplay';
+
+const Bill = ({ setShouldRefresh, placeFromId }) => {
+  useEffect(() => {
+    setShouldRefresh(true);
+  }, []);
   return (
     <React.Fragment>
-      <div>
-        <Typography variant="h4" align="center">
-          รายการอาหาร
-        </Typography>
-      </div>
+      <BillDisplay placeFromId={placeFromId} />
     </React.Fragment>
   );
 };

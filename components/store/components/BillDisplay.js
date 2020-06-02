@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // MUI
 import { Typography, Avatar, Divider } from '@material-ui/core';
@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 // Framer
 import { motion } from 'framer-motion';
 
-const BillDisplay = () => {
+const BillDisplay = ({ placeFromId }) => {
   const theme = useTheme();
   const bill = useSelector((state) => state.user.table.bill);
   const matches1024down = useMediaQuery('(max-width:1024px)');
@@ -24,6 +24,10 @@ const BillDisplay = () => {
     );
     return amount * 100;
   };
+
+  useEffect(() => {
+    placeFromId();
+  }, []);
 
   return (
     <React.Fragment>

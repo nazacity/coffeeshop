@@ -88,3 +88,32 @@ export const MUTATION_CREATE_ORDERITEM_FROM_ONLINEORDER = gql`
     }
   }
 `;
+
+export const MUTATION_PLACEFROMID = gql`
+  mutation MUTATION_PLACEFROMID($id: ID!) {
+    placeFromId(id: $id) {
+      id
+      table
+      branch {
+        id
+        branch
+      }
+      state
+      bill {
+        id
+        adult
+        children
+        items {
+          id
+          storeProduct {
+            id
+            name
+            pictureUrl
+            price
+          }
+          quantity
+        }
+      }
+    }
+  }
+`;
