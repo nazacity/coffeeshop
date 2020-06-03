@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-// Next
-import Link from 'next/link';
-
 // Redux
 import { useSelector } from 'react-redux';
 

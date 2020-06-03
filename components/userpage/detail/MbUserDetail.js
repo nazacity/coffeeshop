@@ -1,8 +1,5 @@
 import React from 'react';
 
-// Next
-import Head from 'next/head';
-
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -30,13 +27,6 @@ const MbUserDetail = () => {
 
   return (
     <React.Fragment>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
-        />
-      </Head>
       <div
         style={{
           display: 'flex',
