@@ -63,10 +63,6 @@ const GoogleMapComponent = ({
   const matches1024down = useMediaQuery('(max-width:1024px)');
   const matches600down = useMediaQuery('(max-width:600px)');
 
-  const [position, setPosition] = useState({
-    lat: 100,
-    lng: 100,
-  });
   const [move, setMove] = useState(false);
 
   useEffect(() => {
@@ -74,10 +70,6 @@ const GoogleMapComponent = ({
       if (isGeolocationEnabled) {
         if (coords) {
           setCenter({
-            lat: coords.latitude,
-            lng: coords.longitude,
-          });
-          setPosition({
             lat: coords.latitude,
             lng: coords.longitude,
           });
@@ -111,9 +103,9 @@ const GoogleMapComponent = ({
         {
           <Marker
             draggable={true}
-            position={position}
+            position={center}
             onDragEnd={(e) => {
-              setPosition({
+              setCenter({
                 lat: e.latLng.lat(),
                 lng: e.latLng.lng(),
               });
@@ -134,7 +126,7 @@ const GoogleMapComponent = ({
               origins: [
                 { lat: +branchPosition?.lat, lng: +branchPosition?.lng },
               ],
-              destinations: [position],
+              destinations: [center],
               travelMode: 'DRIVING',
               region: 'th',
             }}
