@@ -32,7 +32,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Avatar, Typography } from '@material-ui/core';
 
 // Firebase
-import { db } from '../../firebase';
+import { db, firestore } from '../../firebase';
 
 const useStyles = makeStyles((theme) => ({
   top: {
@@ -63,7 +63,6 @@ const index = ({ storeProductCatalog }) => {
     );
     action(setStoreProductCatalogs(storeProductCatalog));
   }, []);
-  const [shouldRefresh, setShouldRefresh] = useState(false);
   const router = useRouter();
 
   const { data, loading, error } = useQuery(QUERY_PLACE, {
@@ -77,13 +76,30 @@ const index = ({ storeProductCatalog }) => {
 
   const [tableState, setTableState] = useState({ state: 'Open' });
 
-  setInterval(() => {
-    db.ref(`/tablestate/${data?.place.id}`).on('value', async (snapshot) => {
-      if (snapshot.val()) {
-        setTableState(snapshot.val());
-      }
+  useEffect(() => {
+    firestore
+      .collection('tablestate')
+      .doc(`${router.query.place}`)
+      .get()
+      .then((doc) => {
+        if (doc.data()) {
+          setTableState(doc.data());
+        }
+      });
+  }, [router.query]);
+
+  firestore
+    .collection('tablestate')
+    .where('id', '==', `${data?.place.id}`)
+    .onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'modified') {
+          setTableState(change.doc.data());
+        }
+      });
     });
-  }, 10000);
+
+  console.log(setTableState);
 
   const [placeFromId] = useMutation(MUTATION_PLACEFROMID, {
     variables: {
@@ -99,14 +115,9 @@ const index = ({ storeProductCatalog }) => {
       if (tableState.state == 'Close') {
         return <Menu placeFromId={placeFromId} />;
       } else if (tableState.state == 'Open') {
-        if (shouldRefresh) {
-          window.location.reload();
-        }
         return <Promotion />;
       } else if (tableState.state == 'Wait') {
-        return (
-          <Bill setShouldRefresh={setShouldRefresh} placeFromId={placeFromId} />
-        );
+        return <Bill placeFromId={placeFromId} />;
       } else {
         return <Promotion />;
       }

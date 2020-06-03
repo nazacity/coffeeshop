@@ -1,18 +1,9 @@
-import React, { useEffect } from 'react';
-
-// MUI
-import Typography from '@material-ui/core/Typography';
-
-// Redux
-import { useSelector } from 'react-redux';
+import React from 'react';
 
 // Components
 import BillDisplay from './components/BillDisplay';
 
-const Bill = ({ setShouldRefresh, placeFromId }) => {
-  useEffect(() => {
-    setShouldRefresh(true);
-  }, []);
+const Bill = ({ placeFromId }) => {
   return (
     <React.Fragment>
       <BillDisplay placeFromId={placeFromId} />
