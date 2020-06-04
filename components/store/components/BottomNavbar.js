@@ -1,10 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-
-// Framer-motion
-import { motion } from 'framer-motion';
+import React from 'react';
 
 // Next
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 // Redux
@@ -111,13 +107,7 @@ const BottomNavbar = () => {
 
   return (
     <React.Fragment>
-      <motion.div
-        initial={{ opacity: 0, y: '100%' }}
-        animate={{ opacity: 1, y: '0%' }}
-        transition={{
-          duration: 1.2,
-          ease: [0.43, 0.13, 0.23, 0.96],
-        }}
+      <div
         className={classes.root}
         onAnimationStart={checkRoute}
         style={{ zIndex: 2, width: '100vw' }}
@@ -140,7 +130,7 @@ const BottomNavbar = () => {
             />
           ))}
         </BottomNavigation>
-      </motion.div>
+      </div>
     </React.Fragment>
   );
 };

@@ -79,7 +79,6 @@ const MyApp = ({ Component, pageProps, apollo }) => {
           src="https://kit.fontawesome.com/20efa4bcb4.js"
           crossorigin="anonymous"
         ></script>
-
         <html lang="ja" prefix="og: http://ogp.me/ns#" />
         <meta property="og:title" content="Line Ecommerce" />
         <meta property="og:type" content="`website`" />

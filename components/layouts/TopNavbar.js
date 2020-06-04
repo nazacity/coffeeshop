@@ -2,11 +2,7 @@ import React from 'react';
 
 // Next
 import Link from '../../src/Link';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
-
-// Framer-motion
-import { motion } from 'framer-motion';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -83,22 +79,8 @@ const TopNavbar = () => {
 
   return (
     <React.Fragment>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
-        />
-      </Head>
       {user.state !== 'StoreClient' && (
-        <motion.div
-          initial={{ opacity: 0, y: '-100%' }}
-          animate={{ opacity: 1, y: '0%' }}
-          transition={{
-            duration: 2,
-            ease: [0.43, 0.13, 0.23, 0.96],
-          }}
-        >
+        <div>
           <AppBar position="static" classes={{ root: classes.navbar }}>
             <Toolbar>
               <Link href="/" className={classes.title}>
@@ -233,7 +215,7 @@ const TopNavbar = () => {
               </Typography>
             </MenuItem>
           </Menu>
-        </motion.div>
+        </div>
       )}
     </React.Fragment>
   );

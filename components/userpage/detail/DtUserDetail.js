@@ -1,8 +1,5 @@
 import React from 'react';
 
-// Next
-import Head from 'next/head';
-
 // Redux
 import { useSelector } from 'react-redux';
 
