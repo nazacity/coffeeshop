@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 // Next
 import Link from '../../src/Link';
@@ -120,7 +120,7 @@ const BottomNavbar = () => {
 
   const route = useRouter();
 
-  const checkRoute = () => {
+  useEffect(() => {
     menuOptions.forEach((menu) => {
       switch (route.pathname) {
         case `${menu.link}`:
@@ -138,16 +138,12 @@ const BottomNavbar = () => {
           break;
       }
     });
-  };
+  }, [menuIndex, window.location.pathname]);
 
   return (
     <React.Fragment>
       {user.state !== 'StoreClient' && (
-        <div
-          className={classes.root}
-          onAnimationStart={checkRoute}
-          style={{ zIndex: 2, width: '100vw' }}
-        >
+        <div className={classes.root} style={{ zIndex: 2, width: '100vw' }}>
           <BottomNavigation
             value={menuIndex}
             onChange={handleChange}

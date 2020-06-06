@@ -59,6 +59,63 @@ const ProductMenuItem = ({ object, i }) => {
       <CardActionArea>
         <div
           style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            padding: '2vh',
+            borderRadius: '5px 5px 0 0',
+            display: 'flex',
+          }}
+        >
+          <div style={{ flexGrow: 1 }}>
+            <Typography align="left" variant="body1" style={{ color: '#fff' }}>
+              {object.name}
+            </Typography>
+            <Typography align="left" variant="body1" style={{ color: '#fff' }}>
+              {object.price} บาท
+            </Typography>
+          </div>
+          <motion.div
+            style={{
+              position: 'relative',
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <IconButton
+              aria-label="add"
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                color: 'white',
+                width: '40px',
+                height: '40px',
+              }}
+              onClick={() => {
+                action(addStoreItemCart(object));
+                const content = (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Avatar
+                      src={object.pictureUrl}
+                      alt={object.name}
+                      style={{
+                        marginRight: '1vh',
+                        backgroundColor: '#fff',
+                        boxShadow: theme.common.shadow.black,
+                      }}
+                    />
+                    <Typography>เพิ่ม {object.name} เรียบร้อย</Typography>
+                  </div>
+                );
+                addToast(content, {
+                  appearance: 'success',
+                  autoDismiss: true,
+                });
+              }}
+            >
+              <AddIcon />
+            </IconButton>
+          </motion.div>
+        </div>
+        <div
+          style={{
             minHeight: '150px',
             height: '20vw',
             maxHeight: '300px',
@@ -71,60 +128,6 @@ const ProductMenuItem = ({ object, i }) => {
           }}
         ></div>
       </CardActionArea>
-      <motion.div
-        style={{
-          position: 'relative',
-        }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <IconButton
-          aria-label="add"
-          style={{
-            backgroundColor: theme.palette.primary.main,
-            color: 'white',
-            position: 'absolute',
-            right: 10,
-            top: -25,
-            border: '5px solid #fff',
-            width: '60px',
-            height: '60px',
-          }}
-          onClick={() => {
-            action(addStoreItemCart(object));
-            const content = (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar
-                  src={object.pictureUrl}
-                  alt={object.name}
-                  style={{
-                    marginRight: '1vh',
-                    backgroundColor: '#fff',
-                    boxShadow: theme.common.shadow.black,
-                  }}
-                />
-                <Typography>เพิ่ม {object.name} เรียบร้อย</Typography>
-              </div>
-            );
-            addToast(content, {
-              appearance: 'success',
-              autoDismiss: true,
-            });
-          }}
-        >
-          <AddIcon />
-        </IconButton>
-      </motion.div>
-      <CardContent>
-        <div>
-          <Typography align="center" variant="body1" color="primary">
-            {object.name}
-          </Typography>
-          <Typography align="center" variant="body1" color="primary">
-            {object.price} บาท
-          </Typography>
-        </div>
-      </CardContent>
     </Card>
   );
 };
