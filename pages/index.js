@@ -91,7 +91,7 @@ const HomePage = ({ user }) => {
 
   const handleLiff = async () => {
     let accessToken;
-    await liff.init({ liffId: '1654152621-wnWBO620' });
+    await liff.init({ liffId: '1654312839-2BOaM90o' });
     accessToken = await liff.getAccessToken();
     if (accessToken) {
       Cookies.set('accessToken', accessToken);
