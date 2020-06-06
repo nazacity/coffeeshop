@@ -26,9 +26,6 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 
-// components
-import PromotionItemList from './components/PromotionItemList';
-
 const MbPromote = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.user);
