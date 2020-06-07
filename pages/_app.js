@@ -70,11 +70,6 @@ const MyApp = ({ Component, pageProps, apollo }) => {
               เว็บหลังบ้าน สำหรับจัดการสินค้า คลัง สรุปข้อมูล และอื่นๆ
               ทั้งยังมีระบบแจ้งเตือนลูกค้าด้วย LINE OA ให้ครบวงจร"
         />
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
-        />
         <script
           src="https://kit.fontawesome.com/20efa4bcb4.js"
           crossorigin="anonymous"
