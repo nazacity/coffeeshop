@@ -53,7 +53,7 @@ const ProductPage = ({ onlineProductCatalog, user }) => {
 
   const handleLiff = async () => {
     let accessToken;
-    await liff.init({ liffId: '1654152621-VPO8YoR1' });
+    await liff.init({ liffId: '1654312839-2BOaM90o' });
     accessToken = await liff.getAccessToken();
     if (accessToken) {
       Cookies.set('accessToken', accessToken);
