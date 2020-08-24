@@ -55,22 +55,15 @@ const MyApp = ({ Component, pageProps, apollo, user }) => {
   return (
     <React.Fragment>
       <Head>
-        <title>Ecommerce with Line</title>
+        <title>UNIT SCHOOL</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <link rel="icon" href="./images/logo/logo.jpg" />
+        <link rel="icon" href="./images/logo/logo.png" />
         <link rel="stylesheet" type="text/css" href="/styles/nprogress.css" />
-        <meta
-          name="description"
-          content="ระบบ full system e-commerce รองรับการยืนยันตัวตนด้วย Line
-              เพื่อเพิ่มความสะดวกสบายให้กับผู้ใช้งาน ทั้ง Admin และ Client
-              ระบบออกแบบมาให้คล้ายกับ POS มีทั้งเว็บหน้าบ้าน สำหรับ โปรโมท โฆษณา
-              สั่ง สินค้า/อาหาร ระบบตะกร้า ชำระเงินด้วย PAYMENY GATEWAY
-              เว็บหลังบ้าน สำหรับจัดการสินค้า คลัง สรุปข้อมูล และอื่นๆ
-              ทั้งยังมีระบบแจ้งเตือนลูกค้าด้วย LINE OA ให้ครบวงจร"
-        />
+
+        <meta name="description" content="ระบบ UNIT SCHOOL" />
         <link
           href="https://fonts.googleapis.com/css?family=Oswald|Paprika|Roboto&display=swap"
           rel="stylesheet"
@@ -106,17 +99,11 @@ const QUERY_USER = {
       phone
       pictureUrl
       state
+      rank
+      position
+      serviceId
+      base
       createdAt
-      carts{
-        id
-        product{
-          id
-          name
-          pictureUrl
-          price
-        }
-        quantity
-      }
     }
   }
   `,

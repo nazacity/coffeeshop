@@ -115,27 +115,11 @@ const TopNavbar = () => {
               <MenuIcon />
             </IconButton>
             <Link href="/" className={classes.title}>
-              <Typography variant="h6">Coffee Shop</Typography>
+              <Typography variant="h6">
+                กองพันทหารสื่อสารที่ 12 UNIT SCHOOL
+              </Typography>
             </Link>
             <div>
-              <Link href="/product" style={{ marginRight: '2em' }}>
-                <IconButton>
-                  <LocalCafeIcon style={{ color: '#fff' }} />
-                </IconButton>
-              </Link>
-              {user?.state !== 'guess' && (
-                <Link href="/cart" style={{ marginRight: '2em' }}>
-                  <IconButton>
-                    <Badge
-                      badgeContent={cartQuantity(user.carts)}
-                      color="primary"
-                      classes={{ colorPrimary: classes.badge }}
-                    >
-                      <ShoppingCartIcon style={{ color: '#fff' }} />
-                    </Badge>
-                  </IconButton>
-                </Link>
-              )}
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -146,7 +130,7 @@ const TopNavbar = () => {
                     ? () => {
                         route.push('/signin');
                       }
-                    : user.state === 'client0' && userLoading === false
+                    : user.state === 'student0' && userLoading === false
                     ? () => {
                         route.push('/user');
                       }
@@ -208,22 +192,10 @@ const TopNavbar = () => {
                   fontSize="small"
                 />
               </ListItemIcon>
-              <Typography variant="inherit">USER INFOMATION</Typography>
+              <Typography variant="inherit">ข้อมูลผู้ใช้งาน</Typography>
             </Link>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem>
-            <ListItemIcon>
-              <Icon
-                className="fas fa-smile-wink"
-                color="primary"
-                fontSize="small"
-              />
-            </ListItemIcon>
-            <Typography variant="inherit" color="primary">
-              PROMOTION
-            </Typography>
-          </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
           <MenuItem
             onClick={() => {
@@ -239,7 +211,7 @@ const TopNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              SIGN OUT
+              ออกจากระบบ
             </Typography>
           </MenuItem>
         </Menu>

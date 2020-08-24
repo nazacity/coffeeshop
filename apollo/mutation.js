@@ -7,45 +7,47 @@ export const MUTATION_SIGNINWITHACCESSTOKEN = gql`
       lineId
       firstName
       lastName
+      rank
+      position
+      serviceId
+      base
       email
       phone
       pictureUrl
       state
-      carts {
-        id
-        product {
-          id
-          name
-          pictureUrl
-          price
-        }
-        quantity
-      }
     }
   }
 `;
 
-export const MUTATION_ADDTOCART = gql`
-  mutation MUTATION_ADDTOCART($id: ID!, $quantity: Float!) {
-    addToCart(id: $id, quantity: $quantity) {
+export const MUTATION_REGISTER = gql`
+  mutation MUTATION_REGISTER(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phone: String!
+    $state: String!
+    $rank: String!
+    $position: String!
+    $serviceId: String!
+    $base: String!
+  ) {
+    register(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      rank: $rank
+      position: $position
+      serviceId: $serviceId
+      base: $base
+      phone: $phone
+      state: $state
+    ) {
       id
-      product {
-        id
-        name
-        description
-        pictureUrl
-        catalog
-        price
-      }
-      quantity
-    }
-  }
-`;
-
-export const MUTATION_DELETECART = gql`
-  mutation MUTATION_DELETECART($id: ID!) {
-    deleteCart(id: $id) {
-      id
+      firstName
+      lastName
+      email
+      phone
+      state
     }
   }
 `;

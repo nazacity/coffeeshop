@@ -18,12 +18,15 @@ import Divider from '@material-ui/core/Divider';
 import PersonIcon from '@material-ui/icons/Person';
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-
-// Other
-import moment from 'moment';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   userlogo: {
@@ -31,60 +34,19 @@ const useStyles = makeStyles((theme) => ({
     height: '150px',
     width: '150px',
     border: '5px solid',
-    borderColor: theme.common.color.navColor,
+    boxShadow: '0px 0px 5px 4px rgba(255,214,255,1)',
   },
   root: {
     width: '100%',
     marginBottom: '100px',
     color: theme.palette.secondary.main,
   },
+  card: {
+    width: '80%',
+    margin: '20px auto',
+    color: theme.palette.secondary.main,
+  },
 }));
-
-const ORDER_HISTORY_DATA = [
-  {
-    id: '1',
-    createdAt: { _seconds: 1588226407, _nanoseconds: 510000000 },
-    orderList: [
-      {
-        price: 120,
-        name: 'อเมริกาโน่ร้อน',
-        pictureUrl: './images/product/drink/1.png',
-        quantity: 2,
-      },
-      {
-        price: 120,
-        name: 'เบอร์เกอร์เนื้อ',
-        pictureUrl: './images/product/food/1.png',
-        quantity: 2,
-      },
-      {
-        price: '130',
-        name: 'สเต็กปลา',
-        pictureUrl: './images/product/food/6.png',
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: '2',
-    createdAt: { _seconds: 1588526407, _nanoseconds: 510000000 },
-    orderList: [
-      {
-        price: 150,
-        name: 'แซนวิท',
-        pictureUrl: './images/product/food/4.png',
-        quantity: 2,
-      },
-      {
-        id: 6,
-        price: '130',
-        name: 'อิตลาเลียนโซดา บลูฮาวาย',
-        pictureUrl: './images/product/drink/6.png',
-        quantity: 2,
-      },
-    ],
-  },
-];
 
 const MbUserDetail = () => {
   const theme = useTheme();
@@ -121,10 +83,24 @@ const MbUserDetail = () => {
             <ListItemIcon>
               <PersonIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={`${user.firstName} ${user.lastName}`} />
+            <ListItemText
+              primary={`${user.rank} ${user.firstName} ${user.lastName}`}
+            />
             <IconButton>
               <Icon className="fas fa-pen" color="primary" />
             </IconButton>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <Icon className="fas fa-feather-alt" color="primary" />
+            </ListItemIcon>
+            <ListItemText primary={`${user.position}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <Icon className="fab fa-font-awesome" color="primary" />
+            </ListItemIcon>
+            <ListItemText primary={`${user.base}`} />
           </ListItem>
           <ListItem>
             <ListItemIcon>
@@ -140,81 +116,31 @@ const MbUserDetail = () => {
           </ListItem>
         </List>
         <Divider />
-        <List component="nav" aria-label="address">
-          <ListItem>
-            <ListItemIcon>
-              <LocationOnIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Address" />
-            <IconButton>
-              <Icon className="fa fa-plus-circle" color="primary" />
-            </IconButton>
-          </ListItem>
-          <ListItem>
-            <ListItemIcon></ListItemIcon>
-            <ListItemText primary="26/89 อาคารพนมสิริวัน ถนนพหลโยธิน บางเขน กรุงเทพ 10210" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon></ListItemIcon>
-            <ListItemText primary="20/19 คอนโดแสนสิริ ทองหล่อ กรุงเทพ 10210" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List component="nav" aria-label="address">
-          <ListItem>
-            <ListItemIcon>
-              <Icon className="fas fa-list-ul" color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Order History" />
-          </ListItem>
-        </List>
-        <div style={{ padding: '0 10px' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr 1fr 1fr',
-              width: '100%',
-            }}
-          >
-            <h3 style={{ margin: 'auto' }}></h3>
-            <h3 style={{ margin: 'auto' }}>รายการ</h3>
-            <h3 style={{ margin: 'auto' }}>จำนวน</h3>
-            <h3 style={{ margin: 'auto' }}>ราคา</h3>
-          </div>
-          <Divider style={{ width: '60%', margin: '20px auto' }} />
-          {ORDER_HISTORY_DATA.map((orderHistory) => (
-            <div key={orderHistory.id}>
-              <div style={{ margin: 'auto' }}>
-                {moment
-                  .unix(orderHistory.createdAt._seconds)
-                  .format('DD/MM/YYYY')}
-              </div>
-              {orderHistory.orderList.map((order) => (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 2fr 1fr 1fr',
-                    width: '100%',
-                    color: theme.palette.secondary.main,
-                  }}
-                  key={order.name}
-                >
-                  <Avatar
-                    alt={order.name}
-                    src={order.pictureUrl}
-                    style={{ margin: 'auto' }}
-                  />
-                  <p style={{ marginRight: '1rem' }}>{order.name}</p>
-                  <p style={{ margin: 'auto' }}>{order.quantity}</p>
-                  <p style={{ margin: 'auto' }}>
-                    {order.price * order.quantity}
-                  </p>
-                </div>
-              ))}
-              <Divider style={{ width: '60%', margin: '20px auto' }} />
-            </div>
-          ))}
-        </div>
+        <Card className={classes.card}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image="/static/images/cards/contemplative-reptile.jpg"
+              title="Contemplative Reptile"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                หลักสูตรที่สำเร็จ
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                รายละเอียดหลักสูตร
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="small" color="primary">
+              ผลการศึกษา
+            </Button>
+            <Button size="small" color="primary">
+              รายละเอียดเพิ่มเติม
+            </Button>
+          </CardActions>
+        </Card>
       </div>
     </>
   );

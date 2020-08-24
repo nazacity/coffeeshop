@@ -32,26 +32,6 @@ import { MUTATION_SIGNINWITHACCESSTOKEN } from '../apollo/mutation';
 const HomePage = () => {
   const user = useSelector((state) => state.user);
   const action = useDispatch();
-  const promoteObject = [
-    {
-      id: 1,
-      imageUrl: './images/homepage/home1.jpg',
-      title: 'พื้นที่',
-      subtitle: 'บรรยากาศสวยงาม',
-    },
-    {
-      id: 2,
-      imageUrl: './images/homepage/home2.jpg',
-      title: 'เมนู',
-      subtitle: 'อาหารเลิศรส',
-    },
-    {
-      id: 3,
-      imageUrl: './images/homepage/home3.jpg',
-      title: 'กาแฟ',
-      subtitle: 'เครื่องดื่มกาแฟที่ไม่เหมือนใคร',
-    },
-  ];
 
   const [signinWithAccessToken, { loading, error }] = useMutation(
     MUTATION_SIGNINWITHACCESSTOKEN,
@@ -66,16 +46,18 @@ const HomePage = () => {
   const router = useRouter();
   useEffect(() => {
     if (router.query.code) {
+      const lineRequest = {
+        grant_type: 'authorization_code',
+        code: router.query.code,
+        redirect_uri: process.env.LINE_REDIRECT_URI,
+        client_id: process.env.LINE_CLIENT_KEY,
+        client_secret: process.env.LINE_SECRET_KEY,
+      };
+      // console.log(lineRequest);
       axios
         .post(
           'https://api.line.me/oauth2/v2.1/token',
-          queryString.stringify({
-            grant_type: 'authorization_code',
-            code: router.query.code,
-            redirect_uri: process.env.LINE_REDIRECT_URI,
-            client_id: process.env.LINE_CLIENT_KEY,
-            client_secret: process.env.LINE_SECRET_KEY,
-          }),
+          queryString.stringify(lineRequest),
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
@@ -99,7 +81,7 @@ const HomePage = () => {
 
   const handleLiff = async () => {
     let accessToken;
-    await liff.init({ liffId: '1654152621-wnWBO620' });
+    await liff.init({ liffId: '1654172824-29xJ3bP8' });
     accessToken = await liff.getAccessToken();
     if (accessToken) {
       Cookies.set('accessToken', accessToken);
@@ -112,24 +94,21 @@ const HomePage = () => {
     }
   };
   return (
-    <React.Fragment>
+    <>
       <Script
         url="https://static.line-scdn.net/liff/edge/2.1/sdk.js"
         onLoad={() => handleLiff()}
       />
       <Container maxWidth={false} style={{ margin: 0, padding: 0 }}>
         <Hidden smDown>
-          <div style={{ position: 'relative', height: '50vh' }}>
-            <DtHero />
-          </div>
-          <DtPromote promoteObject={promoteObject} />
+          <DtHero />
         </Hidden>
         <Hidden mdUp>
           <MbHero />
-          <MbPromote promoteObject={promoteObject} />
+          <MbPromote />
         </Hidden>
       </Container>
-    </React.Fragment>
+    </>
   );
 };
 

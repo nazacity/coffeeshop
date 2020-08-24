@@ -8,7 +8,7 @@ import { setMenuIndex } from '../../../redux/actions/layoutActions';
 
 // Apollo
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { MUTATION_REGISTER } from '../../../apollo/mutation';
 
 // Next
 import Head from 'next/head';
@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
     width: '150px',
     height: '150px',
     margin: 'auto',
-    border: '10px solid #764d24',
+    boxShadow: '0px 0px 5px 4px rgba(255,214,255,1)',
+    paddingTop: '10px',
   },
   top: {
     color: theme.palette.primary.dark,
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     width: '80px',
     height: '80px',
     margin: 'auto',
-    border: '5px solid #764d24',
+    boxShadow: '0px 0px 5px 4px rgba(255,214,255,1)',
   },
 }));
 
@@ -73,32 +74,11 @@ const defaultValues = {
   lastName: '',
   email: '',
   phone: '',
+  rank: '',
+  serviceId: '',
+  base: '',
+  position: '',
 };
-
-const MUTATION_REGISTER = gql`
-  mutation MUTATION_REGISTER(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $phone: String!
-    $state: String!
-  ) {
-    register(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      phone: $phone
-      state: $state
-    ) {
-      id
-      firstName
-      lastName
-      email
-      phone
-      state
-    }
-  }
-`;
 
 const MbRegister = ({ setUser, user, setMenuIndex }) => {
   const theme = useTheme();
@@ -123,14 +103,17 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data.firstName.toLowerCase());
     resiter({
       variables: {
         firstName: data.firstName.toLowerCase(),
         lastName: data.lastName.toLowerCase(),
+        serviceId: data.serviceId,
+        rank: data.rank,
+        base: data.base,
+        position: data.position,
         email: data.email.toLowerCase(),
         phone: data.phone,
-        state: 'client1',
+        state: 'student1',
       },
     });
   };
@@ -150,7 +133,7 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
       >
         <Avatar
           alt="line logo"
-          src="./images/logo/logo.jpg"
+          src="./images/logo/logo.png"
           className={classes.logo}
         />
       </motion.div>
@@ -176,10 +159,27 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             as={TextField}
+            name="rank"
+            control={control}
+            defaultValue=""
+            label="ยศ"
+            variant="outlined"
+            rules={{
+              required: 'กรุณาใส่ยศ',
+            }}
+            error={errors.rank && true}
+            helperText={errors.rank?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
             name="firstName"
             control={control}
             defaultValue=""
-            label="FIRST NAME"
+            label="ชื่อ"
             variant="outlined"
             rules={{
               required: 'First Name is required',
@@ -196,7 +196,7 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
             name="lastName"
             control={control}
             defaultValue=""
-            label="LAST NAME"
+            label="สกุล"
             variant="outlined"
             rules={{
               required: 'Last Name is required',
@@ -210,10 +210,35 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
           />
           <Controller
             as={TextField}
+            name="serviceId"
+            control={control}
+            defaultValue=""
+            label="หมายเลขข้าราชการ"
+            variant="outlined"
+            rules={{
+              required: 'กรุณาใส่หมายเลขข้าราชการ',
+              minLength: {
+                value: 10,
+                message: 'กรุณาใส่หมายเลขข้าราชการให้ครบ 10 หลัก',
+              },
+              maxLength: {
+                value: 10,
+                message: 'กรุณาใส่หมายเลขข้าราชการให้ครบ 10 หลัก',
+              },
+            }}
+            error={errors.serviceId && true}
+            helperText={errors.serviceId?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
             name="email"
             control={control}
             defaultValue=""
-            label="EMAIL"
+            label="อีเมลล์"
             variant="outlined"
             rules={{
               required: 'Email is required',
@@ -234,7 +259,7 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
             name="phone"
             control={control}
             defaultValue=""
-            label="PHONE NUMBER"
+            label="เบอร์โทร"
             variant="outlined"
             rules={{
               required: 'Phone Number is required',
@@ -249,6 +274,40 @@ const MbRegister = ({ setUser, user, setMenuIndex }) => {
             }}
             error={errors.phone && true}
             helperText={errors.phone?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
+            name="position"
+            control={control}
+            defaultValue=""
+            label="ตำแหน่ง"
+            variant="outlined"
+            rules={{
+              required: 'กรุณาใส่ตำแหน่ง',
+            }}
+            error={errors.position && true}
+            helperText={errors.position?.message}
+            fullWidth
+            size="small"
+            classes={{ root: classes.TextFieldRoot }}
+            disabled={loading}
+          />
+          <Controller
+            as={TextField}
+            name="base"
+            control={control}
+            defaultValue=""
+            label="สังกัด"
+            variant="outlined"
+            rules={{
+              required: 'กรุณาใส่สังกัด',
+            }}
+            error={errors.base && true}
+            helperText={errors.base?.message}
             fullWidth
             size="small"
             classes={{ root: classes.TextFieldRoot }}

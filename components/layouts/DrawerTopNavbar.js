@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 // Next
 import Link from '../../src/Link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 // Redux
 import {
@@ -11,21 +12,18 @@ import {
 } from '../../redux/actions/layoutActions';
 import { useSelector, useDispatch } from 'react-redux';
 
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
-import LocalCafeIcon from '@material-ui/icons/LocalCafe';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,16 +68,10 @@ const DrawerTopNavbar = () => {
       icon: <HomeIcon />,
     },
     {
-      name: 'Product',
-      link: '/product',
+      name: 'Lesson',
+      link: '/lesson',
       selectedIndex: 1,
-      icon: <LocalCafeIcon />,
-    },
-    {
-      name: 'Cart',
-      link: '/cart',
-      selectedIndex: 2,
-      icon: <ShoppingCartIcon />,
+      icon: <Icon className="fas fa-school" />,
     },
     {
       name: userLoading
@@ -90,7 +82,7 @@ const DrawerTopNavbar = () => {
           : 'REGISTER'
         : 'Sign In',
       link: userLoading ? '' : user?.state !== 'guess' ? '/user' : '/signin',
-      selectedIndex: 3,
+      selectedIndex: 2,
       icon: userLoading ? (
         <div style={{ position: 'relative' }}>
           <CircularProgress
@@ -130,11 +122,8 @@ const DrawerTopNavbar = () => {
             action(setMenuIndex(menu.selectedIndex));
           }
           break;
-        case `/product/[productId]`:
-          action(setMenuIndex(1));
-          break;
         case `/signin`:
-          action(setMenuIndex(3));
+          action(setMenuIndex(2));
           break;
         default:
           break;
@@ -143,31 +132,40 @@ const DrawerTopNavbar = () => {
   }, [menuIndex, window.location.pathname]);
 
   return (
-    <Drawer
-      anchor="top"
-      open={drawerTopNavbarOpen}
-      onClose={() => action(setDrawerTopNavbar())}
-    >
-      <List>
-        {menuOptions.map((menu, index) => (
-          <ListItem
-            button
-            key={menu.name}
-            component={Link}
-            href={menu.link}
-            selected={menuIndex === menu.selectedIndex}
-            onClick={() => {
-              action(setDrawerTopNavbar());
-              action(setMenuIndex(index));
-            }}
-          >
-            <ListItemIcon>{menu.icon}</ListItemIcon>
-            <ListItemText primary={menu.name} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-    </Drawer>
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
+        />
+      </Head>
+      <Drawer
+        anchor="top"
+        open={drawerTopNavbarOpen}
+        onClose={() => action(setDrawerTopNavbar())}
+      >
+        <List>
+          {menuOptions.map((menu, index) => (
+            <ListItem
+              button
+              key={menu.name}
+              component={Link}
+              href={menu.link}
+              selected={menuIndex === menu.selectedIndex}
+              onClick={() => {
+                action(setDrawerTopNavbar());
+                action(setMenuIndex(index));
+              }}
+            >
+              <ListItemIcon>{menu.icon}</ListItemIcon>
+              <ListItemText primary={menu.name} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Drawer>
+    </>
   );
 };
 

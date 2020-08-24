@@ -39,10 +39,11 @@ const useStyles = makeStyles((theme) => ({
     margin: '10px auto',
   },
   logo: {
-    width: '300px',
-    height: '300px',
+    width: '150px',
+    height: '150px',
     margin: 'auto',
-    border: '10px solid #764d24',
+    boxShadow: '0px 0px 5px 4px rgba(255,214,255,1)',
+    paddingTop: '10px',
   },
   top: {
     color: theme.palette.primary.dark,
@@ -150,7 +151,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
       >
         <Avatar
           alt="line logo"
-          src="./images/logo/logo.jpg"
+          src="./images/logo/logo.png"
           className={classes.logo}
         />
       </motion.div>

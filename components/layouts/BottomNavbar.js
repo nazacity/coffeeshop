@@ -18,8 +18,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
-import LocalCafeIcon from '@material-ui/icons/LocalCafe';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -29,18 +27,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'fixed',
     width: '100%',
     bottom: 0,
+    boxShadow: '-1px -5px 5px 1px rgba(255,214,255,0.5)',
   },
   bottomnavroot: {
     padding: '6px 0px 8px',
     color: theme.common.color.white,
-    boxShadow: '0px 0px 5px 3px rgba(169,120,67,0.5);',
   },
   bottomnavbox: {
     backgroundColor: theme.common.color.navColor,
@@ -71,11 +68,6 @@ const BottomNavbar = () => {
   const action = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const cartQuantity = (carts) => {
-    const quantity = carts.reduce((sum, cart) => sum + cart.quantity, 0);
-    return quantity;
-  };
-
   const userIcon = useRef();
 
   const handleUserNavbarClick = () => {
@@ -97,24 +89,10 @@ const BottomNavbar = () => {
       icon: <HomeIcon />,
     },
     {
-      name: 'Product',
-      link: '/product',
+      name: 'Lesson',
+      link: '/lesson',
       selectedIndex: 1,
-      icon: <LocalCafeIcon />,
-    },
-    {
-      name: 'Cart',
-      link: '/cart',
-      selectedIndex: 2,
-      icon: (
-        <Badge
-          badgeContent={cartQuantity(user.carts)}
-          color="primary"
-          classes={{ colorPrimary: classes.badge }}
-        >
-          <ShoppingCartIcon />
-        </Badge>
-      ),
+      icon: <Icon className="fas fa-school" />,
     },
   ];
 
@@ -132,11 +110,8 @@ const BottomNavbar = () => {
             action(setMenuIndex(menu.selectedIndex));
           }
           break;
-        case `/product/[productId]`:
-          action(setMenuIndex(1));
-          break;
         case `/signin`:
-          action(setMenuIndex(3));
+          action(setMenuIndex(2));
           break;
         default:
           break;
@@ -194,7 +169,7 @@ const BottomNavbar = () => {
                   : 'REGISTER'
                 : 'Sign In'
             }
-            value={3}
+            value={2}
             icon={
               userLoading ? (
                 <div style={{ position: 'relative' }}>
@@ -224,7 +199,7 @@ const BottomNavbar = () => {
                       ? () => {
                           route.push('/signin');
                         }
-                      : user.state === 'client0' && userLoading === false
+                      : user.state === 'student0' && userLoading === false
                       ? () => {
                           route.push('/user');
                         }
@@ -244,7 +219,7 @@ const BottomNavbar = () => {
                 ? () => {
                     route.push('/signin');
                   }
-                : user.state === 'client0' && userLoading === false
+                : user.state === 'student0' && userLoading === false
                 ? () => {
                     route.push('/user');
                   }
@@ -275,21 +250,8 @@ const BottomNavbar = () => {
                   fontSize="small"
                 />
               </ListItemIcon>
-              <Typography variant="inherit">USER INFOMATION</Typography>
+              <Typography variant="inherit">ข้อมูลผู้ใช้งาน</Typography>
             </Link>
-          </MenuItem>
-          <Divider style={{ width: '60%', margin: '00px auto' }} />
-          <MenuItem>
-            <ListItemIcon>
-              <Icon
-                className="fas fa-smile-wink"
-                color="primary"
-                fontSize="small"
-              />
-            </ListItemIcon>
-            <Typography variant="inherit" color="primary">
-              PROMOTION
-            </Typography>
           </MenuItem>
           <Divider style={{ width: '60%', margin: '00px auto' }} />
           <MenuItem
@@ -306,7 +268,7 @@ const BottomNavbar = () => {
               />
             </ListItemIcon>
             <Typography variant="inherit" color="primary">
-              SIGN OUT
+              ออกจากระบบ
             </Typography>
           </MenuItem>
         </Menu>

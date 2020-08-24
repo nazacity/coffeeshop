@@ -12,9 +12,10 @@ let INITIAL_STATE = {
   email: '',
   phone: '',
   pictureUrl: '',
-  address: [],
-  products: [],
-  carts: [],
+  rank: '',
+  posotion: '',
+  base: '',
+  serviceId: '',
   state: 'guess',
   createdAt: '',
 };
@@ -41,8 +42,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       let carts = state.carts.filter(
         (cartItem) => cartItem.id !== action.payload
       );
-      console.log('reducer id run', action.payload);
-      console.log('reducer run', carts);
       return { ...state, carts };
     default:
       return state;

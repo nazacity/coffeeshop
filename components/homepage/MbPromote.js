@@ -1,17 +1,32 @@
 import React from 'react';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Next
 import Head from 'next/head';
+import Link from '../../src/Link';
 
 // Framer-motion
 import { motion } from 'framer-motion';
 
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import PersonIcon from '@material-ui/icons/Person';
+import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -24,146 +39,160 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '0.2em',
     width: '80%',
   },
+  card: {
+    width: '80%',
+    margin: '20px auto',
+    color: theme.palette.secondary.main,
+    padding: '20px',
+  },
+  userlogo: {
+    margin: 'auto 10px',
+    height: '80px',
+    width: '80px',
+    boxShadow: '0px 0px 5px 4px rgba(255,214,255,1)',
+  },
 }));
 
-const MbPromote = ({ promoteObject }) => {
+const MbPromote = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
-  const matchesSMup = useMediaQuery(theme.breakpoints.up('sm'));
+  const user = useSelector((state) => state.user);
   return (
-    <>
+    <React.Fragment>
       <Head>
-        <link rel="stylesheet" type="text/css" href="/styles/cardpromote.css" />
         <script
           src="https://kit.fontawesome.com/20efa4bcb4.js"
           crossorigin="anonymous"
         ></script>
       </Head>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginTop: matchesXS ? 0 : '2em',
-        }}
-      >
-        <div>
-          <motion.img
-            src="./images/homepage/home1.png"
-            alt="coffee cafe"
-            height="120px"
-            initial={{ opacity: 0, x: '-40%' }}
-            animate={{ opacity: 1, x: '0%' }}
-            exit={{
-              opacity: 0,
-              x: '-40%',
-              transition: {
-                duration: 1.2,
-                ease: 'easeInOut',
-              },
-            }}
-            transition={{
-              duration: 1.2,
-              ease: 'easeInOut',
-              delay: 1.8,
-            }}
-          />
-        </div>
-        <motion.div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '0 20px',
-          }}
-          initial={{ opacity: 0, y: '20%' }}
-          animate={{ opacity: 1, y: '0%' }}
-          exit={{
-            opacity: 0,
-            y: '20%',
-            transition: {
-              duration: 1.2,
-              ease: 'easeInOut',
-            },
-          }}
-          transition={{
-            duration: 1.2,
-            ease: 'easeInOut',
-            delay: 1.8,
-          }}
-        >
-          <Typography variant="h3" align="center" className={classes.title}>
-            Coffee Cafe
-          </Typography>
-          <Typography variant="body1" className={classes.content}>
-            ระบบจำลอง full system e-commerce รองรับการยืนยันตัวตนด้วย Line
-            เพื่อเพิ่มความสะดวกสบายให้กับผู้ใช้งาน ทั้ง Admin และ Client
-            ระบบออกแบบมาให้คล้ายกับ POS มีทั้งเว็บ FRONT สำหรับ โปรโมท โฆษณา
-            สั่ง สินค้า/อาหาร ระบบตะกร้า ชำระเงินด้วย PAYMENT GATEWAY เว็บ ADMIN
-            สำหรับจัดการสินค้า คลัง สรุปข้อมูล และอื่นๆ
-            ทั้งยังมีระบบแจ้งเตือนลูกค้าด้วย LINE OA ให้ครบวงจร
-          </Typography>
-          <Typography variant="body1" className={classes.content}>
-            ใช้เทคโนโลยีการเขียน WEB APP สมัยใหม่ NEXTJS REDUX GRAPHQL
-            ให้ประสบการณ์ความรวดเร็วของการใช้งาน ฝากระบบบน FIREBASE ระบบเดียว
-            บริการ SERVERLESS จาก GOOGLE ทั้ง HOSTING และ DATABASE จึงมั่นใจใน
-            ความปลอดภัย และสเถียรของระบบ เหมาะกับธุรกิจขนาดเล็ก-กลาง
-            ที่ไม่ต้องการวุ่นวายกับระบบ SERVER ของตัวเอง
-            เพราะมีค่าใช้จ่ายที่ถูกกว่าในการติดตั้ง และดูแล SERVER ของตัวเอง
-            ทั้งยังสามารถ SCALE ระบบเพิ่มขึ้นได้
-          </Typography>
-          <Typography variant="body1" className={classes.content}>
-            รายละเอียดเพิ่มเติม 0881493995 (ตั้ว) หรือเยี่ยมชม MY RESUME
-          </Typography>
-          <a href="https://myresume-c62b3.firebaseapp.com/">
-            <Button variant="contained" color="primary">
-              MY RESUME
-            </Button>
-          </a>
-        </motion.div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          width: '100%',
-          marginTop: '1em',
-          marginBottom: '100px',
-        }}
-      >
-        {promoteObject?.map((object) => (
-          <motion.div
-            key={object.id}
-            className="box"
-            style={{
-              marginTop: '2em',
-              width: matchesSMup ? '200px' : '100px',
-              height: matchesSMup ? '200px' : '100px',
-            }}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{
-              scale: 0.8,
-              opacity: 0,
-              transition: {
-                duration: 0.8,
-                ease: 'easeInOut',
-              },
-            }}
-            transition={{
-              duration: 1.2,
-              ease: 'easeInOut',
-              delay: 1.4,
-            }}
-          >
-            <div className="imgBx">
-              <img src={object.imageUrl} />
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </>
+      <Card className={classes.card}>
+        <CardActionArea>
+          <div style={{ display: 'flex', margin: '20px auto' }}>
+            <Avatar
+              alt="user logo"
+              src={user.pictureUrl}
+              className={classes.userlogo}
+            />
+            {user.state === 'guess' ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  color="primary"
+                  style={{ fontSize: '20px', marginBottom: '20px' }}
+                >
+                  กรุณาเข้าสู่ระบบ และ ลงทะเบียน
+                </Typography>
+                <Button
+                  component={Link}
+                  href="/signin"
+                  variant="outlined"
+                  color="primary"
+                >
+                  เข้าสู่ระบบ
+                </Button>
+              </div>
+            ) : user.state === 'student0' ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  color="primary"
+                  style={{ fontSize: '20px', marginBottom: '20px' }}
+                >
+                  ลงทะเบียน
+                </Typography>
+                <Button
+                  component={Link}
+                  href="/user"
+                  variant="outlined"
+                  color="primary"
+                >
+                  ลงทะเบียน
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <List component="nav" aria-label="man detail">
+                  <ListItem>
+                    <ListItemIcon>
+                      <PersonIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={`${user.rank} ${user.firstName} ${user.lastName}`}
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <Icon className="fas fa-feather-alt" color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary={`${user.position}`} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <Icon className="fab fa-font-awesome" color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary={`${user.base}`} />
+                  </ListItem>
+                </List>
+              </div>
+            )}
+          </div>
+        </CardActionArea>
+        <Divider style={{ margin: 'auto', width: '80%' }} />
+        {user.state === 'guess' || user.state === 'student0' ? null : (
+          <div>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                หลักสูตรที่สำเร็จ
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                รายละเอียดหลักสูตร
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                ผลการศึกษา
+              </Button>
+              <Button size="small" color="primary">
+                รายละเอียดเพิ่มเติม
+              </Button>
+            </CardActions>
+            <Divider style={{ margin: 'auto', width: '80%' }} />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                หลักสูตรที่สำเร็จ
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                รายละเอียดหลักสูตร
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                ผลการศึกษา
+              </Button>
+              <Button size="small" color="primary">
+                รายละเอียดเพิ่มเติม
+              </Button>
+            </CardActions>
+          </div>
+        )}
+      </Card>
+      <div style={{ marginBottom: 100 }} />
+    </React.Fragment>
   );
 };
 

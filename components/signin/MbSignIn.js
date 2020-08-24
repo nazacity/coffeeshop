@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     width: '150px',
     height: '150px',
     margin: 'auto',
-    border: '5px solid #764d24',
+    boxShadow: '0px 0px 5px 4px rgba(255,214,255,1)',
+    paddingTop: '10px',
   },
   loginbutton: {
     backgroundColor: '#00C300',
@@ -38,12 +39,11 @@ const useStyles = makeStyles((theme) => ({
 const MbSignIn = () => {
   const classes = useStyles();
 
-  // const client_id = '1654159386';
-  // const redirect = 'http%3A%2F%2Flocalhost%3A3000';
   const client_id = process.env.LINE_CLIENT_KEY;
+  console.log(process.env.LINE_CLIENT_KEY);
   const redirect = process.env.LINE_REDIRECT_LINK;
   const scope = 'openid%20profile%20email';
-  const state = 'coffeecafe';
+  const state = 'unitschool';
   const lineloginlink = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=${state}&scope=${scope}`;
 
   return (
@@ -61,7 +61,7 @@ const MbSignIn = () => {
       >
         <Avatar
           alt="line logo"
-          src="./images/logo/logo.jpg"
+          src="./images/logo/logo.png"
           className={classes.logo}
         />
       </motion.div>
@@ -79,7 +79,7 @@ const MbSignIn = () => {
               alt="linebutton"
               style={{ width: '30px', height: '30px', marginRight: '10px' }}
             />
-            <span style={{ color: '#fff' }}>Log in with LINE</span>
+            <span style={{ color: '#fff' }}>เข้าสู่ระบบด้วย LINE</span>
           </Button>
         </a>
       </motion.div>
@@ -89,11 +89,7 @@ const MbSignIn = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.6, ease: 'easeInOut' }}
         style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}
-      >
-        <Typography variant="body1" className={classes.loginsubdetail}>
-          Please Sign In with LINE
-        </Typography>
-      </motion.div>
+      ></motion.div>
     </>
   );
 };

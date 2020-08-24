@@ -21,7 +21,7 @@ const DtUser = ({ user }) => {
         ease: 'easeInOut',
       }}
     >
-      {user?.state === 'client0' ? <DtRegister /> : <DtUserDetail />}
+      {user?.state === 'student0' ? <DtRegister /> : <DtUserDetail />}
     </motion.div>
   );
 };

@@ -5,13 +5,16 @@ import { red } from '@material-ui/core/colors';
 const theme = createMuiTheme({
   common: {
     color: {
-      navColor: '#a97743',
+      navColor: '#9575cd',
       white: '#fff',
     },
   },
+  layer: {
+    maxWidth: '1000px',
+  },
   palette: {
     primary: {
-      main: '#764d24',
+      main: '#6a1b9a',
     },
     secondary: {
       main: '#2b715d',
