@@ -37,6 +37,7 @@ const HomePage = () => {
     MUTATION_SIGNINWITHACCESSTOKEN,
     {
       onCompleted: (data) => {
+        console.log(data.signinWithAccessToken);
         action(setUser(data.signinWithAccessToken));
         action(setUserLoading(false));
       },
@@ -53,7 +54,7 @@ const HomePage = () => {
         client_id: process.env.LINE_CLIENT_KEY,
         client_secret: process.env.LINE_SECRET_KEY,
       };
-      // console.log(lineRequest);
+
       axios
         .post(
           'https://api.line.me/oauth2/v2.1/token',
@@ -81,7 +82,7 @@ const HomePage = () => {
 
   const handleLiff = async () => {
     let accessToken;
-    await liff.init({ liffId: '1654172824-29xJ3bP8' });
+    await liff.init({ liffId: '1656219076-xl6Q9p2v' });
     accessToken = await liff.getAccessToken();
     if (accessToken) {
       Cookies.set('accessToken', accessToken);

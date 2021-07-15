@@ -14,6 +14,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // MUI
 import Typography from '@material-ui/core/Typography';
@@ -21,7 +22,6 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
   },
@@ -38,20 +38,26 @@ const Battalion2 = () => {
     src:
       'https://firebasestorage.googleapis.com/v0/b/unitschool-3de31.appspot.com/o/%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%A2.%E0%B8%A7%E0%B8%A8%E0%B8%82.%2F%E0%B8%97%E0%B8%A4%E0%B8%A9%E0%B8%8E%E0%B8%B5%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B8%20%E0%B8%95%E0%B8%AD%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%881.mp4?alt=media',
   });
+  const matches900down = useMediaQuery('(max-width:900px)');
 
   const handleClick = () => {
     setOpen(!open);
   };
   return (
     <React.Fragment>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ padding: '2vh', margin: '1vh auto', flex: 0.7 }}>
+      <div
+        style={{
+          display: matches900down ? undefined : 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <div style={{ margin: '1vh auto 0px', flex: 0.7 }}>
           <Typography variant="h5" align="center">
             {video.title}
           </Typography>
           <Player playsInline src={video.src} />
         </div>
-        <div style={{ flex: 0.3 }}>
+        <div style={{ flex: 0.3, margin: '0px auto' }}>
           <List
             component="nav"
             aria-labelledby="nested-list-subheader"
