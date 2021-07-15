@@ -1,13 +1,9 @@
 import React from 'react';
 
-// Next
-import Head from 'next/head';
-
 // Redux
 import { useSelector } from 'react-redux';
 
 // MUI
-import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
@@ -50,18 +46,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MbUserDetail = () => {
   const theme = useTheme();
-  const classes = useStyles();
   const user = useSelector((state) => state.user);
 
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
-        />
-      </Head>
+    <React.Fragment>
       <div
         style={{
           display: 'flex',
@@ -73,10 +61,22 @@ const MbUserDetail = () => {
         <Avatar
           alt="user logo"
           src={user?.pictureUrl}
-          className={classes.userlogo}
+          style={{
+            margin: 'auto 10px',
+            height: '150px',
+            width: '150px',
+            border: '5px solid',
+            borderColor: theme.common.color.navColor,
+          }}
         />
       </div>
-      <div className={classes.root}>
+      <div
+        style={{
+          width: '100%',
+          marginBottom: '100px',
+          color: theme.palette.secondary.main,
+        }}
+      >
         <Divider />
         <List component="nav" aria-label="man detail">
           <ListItem>
@@ -142,7 +142,7 @@ const MbUserDetail = () => {
           </CardActions>
         </Card>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

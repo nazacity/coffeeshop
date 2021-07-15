@@ -11,9 +11,29 @@ export default class MyDocument extends Document {
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
+            href="https://fonts.googleapis.com/css?family=Oswald|Paprika|Roboto&display=swap"
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          ></link>
+          <link
+            rel="apple-touch-icon"
+            sizes="256x256"
+            href="/icons/icon_256x256.png"
           />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/icons/icon_96x96.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/icons/icon_96x96.png"
+          />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="mask-icon" href="/images/logo/logo.png" color="#5bbad5" />
+          <link rel="shortcut icon" href="/images/logo/logo.png" />
         </Head>
         <body style={{ margin: 0 }}>
           <Main />

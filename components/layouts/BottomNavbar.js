@@ -1,11 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-
-// Framer-motion
-import { motion } from 'framer-motion';
+import React, { useRef, useEffect } from 'react';
 
 // Next
 import Link from '../../src/Link';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 // Redux
@@ -33,7 +29,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     width: '100%',
     bottom: 0,
+<<<<<<< HEAD
     boxShadow: '-1px -5px 5px 1px rgba(255,214,255,0.5)',
+=======
+    boxShadow: theme.common.shadow.main,
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
   },
   bottomnavroot: {
     padding: '6px 0px 8px',
@@ -83,16 +83,37 @@ const BottomNavbar = () => {
   };
   const menuOptions = [
     {
-      name: 'Home',
+      name: 'หน้าแรก',
       link: '/',
       selectedIndex: 0,
       icon: <HomeIcon />,
     },
     {
+<<<<<<< HEAD
       name: 'Lesson',
       link: '/lesson',
       selectedIndex: 1,
       icon: <Icon className="fas fa-school" />,
+=======
+      name: 'สินค้า',
+      link: '/product',
+      selectedIndex: 1,
+      icon: <LocalCafeIcon />,
+    },
+    {
+      name: 'ตะกร้า',
+      link: '/cart',
+      selectedIndex: 2,
+      icon: (
+        <Badge
+          badgeContent={cartQuantity(user.carts)}
+          color="primary"
+          classes={{ colorPrimary: classes.badge }}
+        >
+          <ShoppingCartIcon />
+        </Badge>
+      ),
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
     },
   ];
 
@@ -102,7 +123,7 @@ const BottomNavbar = () => {
 
   const route = useRouter();
 
-  const checkRoute = () => {
+  useEffect(() => {
     menuOptions.forEach((menu) => {
       switch (route.pathname) {
         case `${menu.link}`:
@@ -117,46 +138,101 @@ const BottomNavbar = () => {
           break;
       }
     });
-  };
+  }, [menuIndex, window.location.pathname]);
 
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
-        />
-      </Head>
-      <motion.div
-        initial={{ opacity: 0, y: '100%' }}
-        animate={{ opacity: 1, y: '0%' }}
-        transition={{
-          duration: 1.2,
-          ease: [0.43, 0.13, 0.23, 0.96],
-        }}
-        className={classes.root}
-        onAnimationStart={checkRoute}
-        style={{ zIndex: 2, width: '100vw' }}
-      >
-        <BottomNavigation
-          value={menuIndex}
-          onChange={handleChange}
-          className={classes.bottomnavbox}
-        >
-          {menuOptions.map((menu) => (
+    <React.Fragment>
+      {user.state !== 'StoreClient' && (
+        <div className={classes.root} style={{ zIndex: 2, width: '100vw' }}>
+          <BottomNavigation
+            value={menuIndex}
+            onChange={handleChange}
+            className={classes.bottomnavbox}
+          >
+            {menuOptions.map((menu) => (
+              <BottomNavigationAction
+                component={Link}
+                href={menu.link}
+                key={menu.name}
+                label={menu.name}
+                value={menu.selectedIndex}
+                icon={menu.icon}
+                classes={{
+                  root: classes.bottomnavroot,
+                  selected: classes.selected,
+                }}
+              />
+            ))}
             <BottomNavigationAction
-              component={Link}
-              href={menu.link}
-              key={menu.name}
-              label={menu.name}
-              value={menu.selectedIndex}
-              icon={menu.icon}
+              label={
+                userLoading
+                  ? 'loading'
+                  : user?.state !== 'guess'
+                  ? user?.firstName !== ''
+                    ? user.firstName.toUpperCase()
+                    : 'ลงทะเบียน'
+                  : 'ลงชื่อเข้าใช้'
+              }
+              value={3}
+              icon={
+                userLoading ? (
+                  <div style={{ position: 'relative' }}>
+                    <CircularProgress
+                      variant="determinate"
+                      value={100}
+                      className={classes.top}
+                      size={24}
+                      thickness={4}
+                    />
+                    <CircularProgress
+                      variant="indeterminate"
+                      disableShrink
+                      className={classes.bottom}
+                      size={24}
+                      thickness={4}
+                    />
+                  </div>
+                ) : user.state !== 'guess' ? (
+                  <Avatar
+                    alt="line logo"
+                    src={user.pictureUrl}
+                    className={classes.userlogo}
+                    ref={userIcon}
+                    onClick={
+                      user.state === 'guess' && userLoading === false
+                        ? () => {
+                            route.push('/signin');
+                          }
+                        : user.state === 'client0' && userLoading === false
+                        ? () => {
+                            route.push('/user');
+                          }
+                        : handleMenu
+                    }
+                  />
+                ) : (
+                  <AccountCircleIcon />
+                )
+              }
               classes={{
                 root: classes.bottomnavroot,
                 selected: classes.selected,
               }}
+              onClick={
+                user.state === 'guess' && userLoading === false
+                  ? () => {
+                      route.push('/signin');
+                    }
+                  : user.state === 'client0' && userLoading === false
+                  ? () => {
+                      route.push('/user');
+                    }
+                  : userLoading === true
+                  ? () => {}
+                  : handleUserNavbarClick
+              }
             />
+<<<<<<< HEAD
           ))}
 
           <BottomNavigationAction
@@ -243,13 +319,61 @@ const BottomNavbar = () => {
             style={{ width: '40%', minWidth: '250px', maxWidth: '400px' }}
           >
             <Link href="/user" onClick={handleClose}>
+=======
+          </BottomNavigation>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            elevation={2}
+            style={{ top: '10px' }}
+            transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            <MenuItem
+              style={{ width: '40%', minWidth: '250px', maxWidth: '400px' }}
+            >
+              <Link href="/user" onClick={handleClose}>
+                <ListItemIcon>
+                  <Icon
+                    className="fas fa-user"
+                    color="primary"
+                    fontSize="small"
+                  />
+                </ListItemIcon>
+                <Typography variant="inherit">ข้อมูลผู้ใช้</Typography>
+              </Link>
+            </MenuItem>
+            <Divider style={{ width: '60%', margin: '00px auto' }} />
+            <MenuItem>
               <ListItemIcon>
                 <Icon
-                  className="fas fa-user"
+                  className="fas fa-smile-wink"
                   color="primary"
                   fontSize="small"
                 />
               </ListItemIcon>
+              <Typography variant="inherit" color="primary">
+                โปรโมชั่น
+              </Typography>
+            </MenuItem>
+            <Divider style={{ width: '60%', margin: '00px auto' }} />
+            <MenuItem
+              onClick={() => {
+                action(userSignOut());
+                handleClose();
+              }}
+            >
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
+              <ListItemIcon>
+                <Icon
+                  className="fas fa-sign-out-alt"
+                  color="primary"
+                  fontSize="small"
+                />
+              </ListItemIcon>
+<<<<<<< HEAD
               <Typography variant="inherit">ข้อมูลผู้ใช้งาน</Typography>
             </Link>
           </MenuItem>
@@ -274,6 +398,16 @@ const BottomNavbar = () => {
         </Menu>
       </motion.div>
     </>
+=======
+              <Typography variant="inherit" color="primary">
+                ลงชื่อออก
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </div>
+      )}
+    </React.Fragment>
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
   );
 };
 

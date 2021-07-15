@@ -1,14 +1,23 @@
-import { SET_PRODUCTS } from '../types';
+import { SET_STOREPRODUCTCATALOGS, SET_ONLINEPRODUCTCATALOGS } from '../types';
 
-let INITIAL_STATE = [];
-
+let INITIAL_STATE = {
+  storeProductCatalogs: [],
+  onlineProductCatalogs: [],
+};
 const productReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SET_PRODUCTS:
+    // StoreProduct
+    case SET_STOREPRODUCTCATALOGS:
       if (action.payload === null) {
         return state;
       }
-      return [...action.payload];
+      return { ...state, storeProductCatalogs: action.payload };
+    // OnlineProduct
+    case SET_ONLINEPRODUCTCATALOGS:
+      if (action.payload === null) {
+        return state;
+      }
+      return { ...state, onlineProductCatalogs: action.payload };
     default:
       return state;
   }

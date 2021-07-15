@@ -1,5 +1,6 @@
 import {
   SET_NAVBARINDEX,
+  SET_STORENAVBARINDEX,
   SET_DRAWERTOPNAVBAR,
   SET_USERLOADING,
 } from '../types';
@@ -7,6 +8,7 @@ import {
 const INITIAL_STATE = {
   drawerTopNavbarOpen: false,
   menuIndex: 0,
+  storeMenuIndex: 0,
   userLoading: false,
 };
 
@@ -16,6 +18,11 @@ const navbarReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         menuIndex: action.payload,
+      };
+    case SET_STORENAVBARINDEX:
+      return {
+        ...state,
+        storeMenuIndex: action.payload,
       };
     case SET_DRAWERTOPNAVBAR:
       return {

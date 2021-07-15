@@ -57,11 +57,11 @@ const DtPromote = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.user);
   return (
-    <>
+    <React.Fragment>
       <Head>
         <script
           src="https://kit.fontawesome.com/20efa4bcb4.js"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
       </Head>
       <Card className={classes.card}>

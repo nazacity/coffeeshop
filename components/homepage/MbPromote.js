@@ -62,7 +62,7 @@ const MbPromote = () => {
       <Head>
         <script
           src="https://kit.fontawesome.com/20efa4bcb4.js"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
       </Head>
       <Card className={classes.card}>

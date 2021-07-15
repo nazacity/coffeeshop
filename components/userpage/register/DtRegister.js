@@ -103,7 +103,10 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
   });
 
   const onSubmit = (data) => {
+<<<<<<< HEAD
     console.log(data);
+=======
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
     resiter({
       variables: {
         firstName: data.firstName.toLowerCase(),
@@ -154,7 +157,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
             className={classes.title}
             style={{ letterSpacing: '5px', margin: 'auto' }}
           >
-            REGISTER
+            ลงทะเบียน
           </Typography>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -183,7 +186,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
             label="ชื่อ"
             variant="outlined"
             rules={{
-              required: 'First Name is required',
+              required: 'กรุณากรอกชื่อ',
             }}
             error={errors.firstName && true}
             helperText={errors.firstName?.message}
@@ -197,10 +200,14 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
             name="lastName"
             control={control}
             defaultValue=""
+<<<<<<< HEAD
             label="สกุล"
+=======
+            label="นามสกุล"
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
             variant="outlined"
             rules={{
-              required: 'Last Name is required',
+              required: 'กรุณากรอกนามสกุล',
             }}
             error={errors.lastName && true}
             helperText={errors.lastName?.message}
@@ -239,13 +246,17 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
             name="email"
             control={control}
             defaultValue=""
+<<<<<<< HEAD
             label="อีเมลล์"
+=======
+            label="อีเมล"
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
             variant="outlined"
             rules={{
-              required: 'Email is required',
+              required: 'กรุณากรอกอีเมล',
               pattern: {
                 value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                message: 'Please fill valid email',
+                message: 'กรุณากรอกอีเมลที่ถูกต้อง',
               },
             }}
             error={errors.email && true}
@@ -260,17 +271,21 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
             name="phone"
             control={control}
             defaultValue=""
+<<<<<<< HEAD
             label="เบอร์โทร"
+=======
+            label="เบอร์โทรศัพท์"
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
             variant="outlined"
             rules={{
-              required: 'Phone Number is required',
+              required: 'กรุณากรอกเบอร์โทรศัพท์',
               minLength: {
                 value: 10,
-                message: 'Please fill valid phone number',
+                message: 'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',
               },
               maxLength: {
                 value: 10,
-                message: 'Please fill valid phone number',
+                message: 'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',
               },
             }}
             error={errors.phone && true}
@@ -330,7 +345,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
               disabled={loading}
               classes={{ root: classes.buttonRoot, disabled: classes.disabled }}
             >
-              Confirm
+              ลงทะเบียน
               {loading && (
                 <div style={{ position: 'absolute', display: 'flex' }}>
                   <CircularProgress
@@ -358,7 +373,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
               variant="outlined"
               color="primary"
             >
-              Cancel
+              ยกเลิก
             </Button>
           </div>
         </form>
@@ -404,7 +419,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
               />
               <div style={{ margin: '50px auto', overflow: 'hidden' }}>
                 <Typography variant="h5" align="center" color="primary">
-                  THANK YOU FOR REGISTER
+                  ขอบคุณที่ลงทะเบียนค่ะ
                 </Typography>
               </div>
               <Button
@@ -413,7 +428,7 @@ const DtRegister = ({ setUser, user, setMenuIndex }) => {
                 color="primary"
                 onClick={handleDialogClose}
               >
-                RETURN
+                กลับสู่หน้าแรก
               </Button>
             </DialogActions>
           </motion.div>

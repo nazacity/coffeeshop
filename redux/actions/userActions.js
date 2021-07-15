@@ -5,6 +5,12 @@ import {
   SET_NAVBARINDEX,
   SET_USER_CART,
   DELETE_USER_CART,
+  CLEAR_USER_CARTS,
+  ADD_STOREITEM_CART,
+  DELETE_STOREITEM_CART,
+  ADD_ONLINEITEM_CART,
+  DELETE_ONLINEITEM_CART,
+  UPDATE_BILL,
 } from '../types';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
@@ -65,9 +71,57 @@ export const updateUserCart = (newCart) => (dispatch) => {
 };
 
 export const deleteUserCart = (cartItemId) => (dispatch) => {
-  console.log('redux action run', cartItemId);
   dispatch({
     type: DELETE_USER_CART,
     payload: cartItemId,
+  });
+};
+
+export const clearUserCarts = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_USER_CARTS,
+  });
+};
+
+export const addStoreItemCart = (item) => (dispatch) => {
+  let AddItem = {
+    product: item,
+    quantity: 1,
+  };
+  dispatch({
+    type: ADD_STOREITEM_CART,
+    payload: AddItem,
+  });
+};
+
+export const deleteStoreItemCart = (id) => (dispatch) => {
+  dispatch({
+    type: DELETE_STOREITEM_CART,
+    payload: id,
+  });
+};
+
+export const addOnlineItemCart = (item) => (dispatch) => {
+  let AddItem = {
+    product: item,
+    quantity: 1,
+  };
+  dispatch({
+    type: ADD_ONLINEITEM_CART,
+    payload: AddItem,
+  });
+};
+
+export const deleteOnlineItemCart = (id) => (dispatch) => {
+  dispatch({
+    type: DELETE_ONLINEITEM_CART,
+    payload: id,
+  });
+};
+
+export const updateBill = (bill) => (dispatch) => {
+  dispatch({
+    type: UPDATE_BILL,
+    payload: bill,
   });
 };

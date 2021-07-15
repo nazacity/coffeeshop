@@ -11,7 +11,10 @@ import { motion } from 'framer-motion';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+<<<<<<< HEAD
 import Typography from '@material-ui/core/Typography';
+=======
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -36,6 +39,10 @@ const MbHero = () => {
     <>
       <Head>
         <link rel="stylesheet" type="text/css" href="/styles/float.css" />
+        <script
+          src="https://kit.fontawesome.com/20efa4bcb4.js"
+          crossOrigin="anonymous"
+        ></script>
       </Head>
       <motion.div
         initial={{ opacity: 0 }}

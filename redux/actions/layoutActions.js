@@ -1,5 +1,6 @@
 import {
   SET_NAVBARINDEX,
+  SET_STORENAVBARINDEX,
   SET_DRAWERTOPNAVBAR,
   SET_USERLOADING,
 } from '../types';
@@ -7,6 +8,13 @@ import {
 export const setMenuIndex = (activeIndex) => (dispatch) => {
   dispatch({
     type: SET_NAVBARINDEX,
+    payload: activeIndex,
+  });
+};
+
+export const setStoreMenuIndex = (activeIndex) => (dispatch) => {
+  dispatch({
+    type: SET_STORENAVBARINDEX,
     payload: activeIndex,
   });
 };

@@ -1,13 +1,9 @@
 import React from 'react';
 
-// Next
-import Head from 'next/head';
-
 // Redux
 import { useSelector } from 'react-redux';
 
 // MUI
-import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
@@ -85,7 +81,13 @@ const DtUserDetail = () => {
           <Avatar
             alt="user logo"
             src={user?.pictureUrl}
-            className={classes.userlogo}
+            style={{
+              margin: 'auto 10px',
+              height: '150px',
+              width: '150px',
+              border: '5px solid',
+              borderColor: theme.common.color.navColor,
+            }}
           />
         </div>
         <div className={classes.root}>
@@ -155,7 +157,7 @@ const DtUserDetail = () => {
           </Card>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

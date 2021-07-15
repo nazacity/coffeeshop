@@ -26,8 +26,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const socialMediaIcon = [
+  {
+    name: 'facbook',
+    icon: 'fab fa-facebook-square',
+    link: 'https://www.facebook.com/',
+  },
+  {
+    name: 'twitter',
+    icon: 'fab fa-twitter-square',
+    link: 'https://twitter.com/',
+  },
+  {
+    name: 'instagram',
+    icon: 'fab fa-instagram-square',
+    link: 'https://www.instagram.com/',
+  },
+];
+
 const MbHero = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <>

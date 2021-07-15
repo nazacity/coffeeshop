@@ -3,7 +3,14 @@ import {
   SET_USER_SIGNOUT,
   SET_USER_CART,
   DELETE_USER_CART,
+  CLEAR_USER_CARTS,
+  ADD_STOREITEM_CART,
+  DELETE_STOREITEM_CART,
+  ADD_ONLINEITEM_CART,
+  DELETE_ONLINEITEM_CART,
+  UPDATE_BILL,
 } from '../types';
+import { saveStoreCartsState, saveOnlineCartsState } from '../localStore';
 
 let INITIAL_STATE = {
   id: 'guess',
@@ -12,15 +19,21 @@ let INITIAL_STATE = {
   email: '',
   phone: '',
   pictureUrl: '',
+<<<<<<< HEAD
   rank: '',
   posotion: '',
   base: '',
   serviceId: '',
+=======
+  carts: [],
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
   state: 'guess',
   createdAt: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
+  let index;
+  let carts;
   switch (action.type) {
     case SET_USER:
       if (action.payload === null) {
@@ -39,10 +52,47 @@ const userReducer = (state = INITIAL_STATE, action) => {
       }
       return { ...state, carts: [...state.carts, action.payload] };
     case DELETE_USER_CART:
-      let carts = state.carts.filter(
-        (cartItem) => cartItem.id !== action.payload
-      );
+      carts = state.carts.filter((cartItem) => cartItem.id !== action.payload);
       return { ...state, carts };
+    case CLEAR_USER_CARTS:
+      return { ...state, carts: [] };
+    case ADD_STOREITEM_CART:
+      index = state.carts.findIndex(
+        (cart) => cart.product.id === action.payload.product.id
+      );
+<<<<<<< HEAD
+=======
+      if (index > -1) {
+        carts = state.carts;
+        carts[index].quantity += 1;
+        saveStoreCartsState(carts);
+        return { ...state, carts };
+      }
+      saveStoreCartsState([...state.carts, action.payload]);
+      return { ...state, carts: [...state.carts, action.payload] };
+    case DELETE_STOREITEM_CART:
+      carts = state.carts.filter((cart) => cart.product.id !== action.payload);
+      saveStoreCartsState(carts);
+      return { ...state, carts };
+    case ADD_ONLINEITEM_CART:
+      index = state.carts.findIndex(
+        (cart) => cart.product.id === action.payload.product.id
+      );
+      if (index > -1) {
+        carts = state.carts;
+        carts[index].quantity += 1;
+        saveOnlineCartsState(carts);
+        return { ...state, carts };
+      }
+      saveOnlineCartsState([...state.carts, action.payload]);
+      return { ...state, carts: [...state.carts, action.payload] };
+    case DELETE_ONLINEITEM_CART:
+      carts = state.carts.filter((cart) => cart.product.id !== action.payload);
+      saveOnlineCartsState(carts);
+>>>>>>> 37c893abbc5e15ee31a9e383d21402e36944409a
+      return { ...state, carts };
+    case UPDATE_BILL:
+      return { ...state, table: { ...state.table, bill: action.payload } };
     default:
       return state;
   }
